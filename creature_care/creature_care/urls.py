@@ -19,4 +19,8 @@ from django.urls import include,path
 urlpatterns = [
     path('climate/',include('climate.urls')),
     path('admin/', admin.site.urls),
+    path('users/', include('users.urls')),
+    # below is urls that come with authentication system
+    path('users/', include('django.contrib.auth.urls')),
+
 ]
