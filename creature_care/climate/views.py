@@ -13,6 +13,7 @@ from django.contrib.auth import authenticate, login,logout
 
 def kitty(request):
     #return HttpResponse("Hello, world. You're at the kitty.")
+    #will pass a dict of various DB info gotten from the user - can this be handled in html?
     return render(request, 'cat.html')
 
 def articles(request):

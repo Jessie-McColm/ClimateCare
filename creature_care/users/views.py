@@ -29,3 +29,24 @@ def login_user(request):
 
 
     return render(request, 'authenticate/login.html', {})
+
+
+def create_user(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        #try to see if there are any users in the DB with the same username
+        #if no duplicates:
+        #check if passwrod is good enough/long enough
+        user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+
+        #check if successful
+        #if success:
+            #return redirect('login_user')
+        #else if failure
+            #return render(request, 'whatever name is', {some data about error}) (do this for password and username failures too)
+    else:
+        return render(request,'I dont know what to call this')
+
+            
