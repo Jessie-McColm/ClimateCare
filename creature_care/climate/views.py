@@ -12,7 +12,8 @@ from django.contrib.auth import authenticate, login,logout
 
 
 def kitty(request):
-    return HttpResponse("Hello, world. You're at the kitty.")
+    #return HttpResponse("Hello, world. You're at the kitty.")
+    return render(request, 'cat.html')
 
 def articles(request):
     
@@ -29,14 +30,5 @@ def articles(request):
     return HttpResponse("article page")
 
 
-#def my_view(request):
-#username = request.POST['username']
-#password = request.POST['password']
-#user = authenticate(request, username=username, password=password)
-#if user is not None:
-#login(request, user)
-# Redirect to a success page
-#else:
-# Return an 'invalid login' error message.
-#logout(request)
+
 
