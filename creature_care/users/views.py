@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from climate.models import Profile,Creature
 
 
 # Create your views here.
@@ -40,7 +41,9 @@ def create_user(request):
         #if no duplicates:
         #check if passwrod is good enough/long enough
         user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
-
+    
+       # b = Blog(name='Beatles Blog', tagline='All the latest Beatles news.')
+        #b.save()
         #check if successful
         #if success:
             #return redirect('login_user')
