@@ -18,6 +18,7 @@ body{
     position:relative;
     top:150px;
     left:50px;
+    z-index:-1
 }
 
 .face{
@@ -117,6 +118,7 @@ body{
     width: 40px;
     border-radius: 50%;
     position: relative;
+    z-index: 2;
 }
 
 .eye-l{
@@ -142,6 +144,19 @@ body{
     animation: blink 5s infinite;
 }
 
+.tear {
+    position:relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+    background-color: rgba(152, 192, 207, 0.7);
+    transform: rotate(-45deg);
+    bottom: 122px;
+    left: 40px;
+    z-index: 1;
+    animation: tear-drop 5s infinite;
+}
+
 .eyeshine{
     background-color: #eaeaea;
     height: 20px;
@@ -162,6 +177,21 @@ body{
     top: 15px;
     left: 18px;
     animation: eyeshine-rotate 1s infinite;
+}
+
+@keyframes tear-drop {
+    5% {
+        transform: translateY(0px) rotate(-45deg);
+    }
+    20% {
+        transform: translateY(50px) rotate(-45deg);
+        opacity: 0;
+    }
+    80% {
+        transform: translateY(-10px) rotate(-45deg);
+        opacity: 0;       
+    }
+    
 }
 
 @keyframes eyeshine-rotate {
@@ -272,4 +302,90 @@ body{
     bottom: 20px;
     left: 25px;
     z-index: -1;
+}
+
+.litter{
+    position:relative;
+    top:110px;
+    left:180px;
+}
+
+.box-top-line{
+    position: relative;
+    border-top: 3px solid rgba(255, 80, 80, 0.7);
+    width: 99px;
+    left: 10px;
+}
+
+.box{
+    position: relative;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 20px solid rgba(255, 80, 8, 0.7);
+    width: 85px;
+    left: 12px;
+}
+
+.box-bottom{
+    position: relative;
+    border-top: 1.5px solid rgba(255, 80, 8, 0.7);
+    top: 0.5px;
+    width: 83px;
+    left: 18px;
+}
+
+.box-bottom-l, .box-bottom-r{
+    position: relative;
+    border-top: 3.5px solid rgba(255, 80, 8, 0.7);
+    width: 37px;
+}
+
+.box-bottom-l{
+    left: 18px;
+    border-radius: 0 0 35% 60%;
+    border-left: 2px solid transparent;
+    top: 0.5px;
+}
+
+.box-bottom-r{
+    left: 62px;
+    border-radius: 0 0 60% 30%;
+    border-right: 2px solid transparent;
+    bottom:2px;
+}
+
+.poop{
+    position: relative;
+    z-index: -1;
+    bottom: 57px;
+    left: 35px;
+}
+
+.poop-1{
+    border-radius: 100% 100% 50% 50%;
+    background-color: #62362d;
+    width: 30px;
+    height: 12px;
+    left: 10px;
+    top: 12px;
+    transform: rotate(-35deg);
+    position: relative;
+}
+
+.poop-2{
+    border-radius: 100% 100% 50% 50%;
+    background-color: #62362d;
+    width: 40px;
+    height: 15px;
+    left: 5px;
+    top: 5px;
+    position: relative;
+}
+
+.poop-3{
+    border-radius: 100% 100% 50% 50%;
+    background-color: #62362d;
+    width: 50px;
+    height: 20px;
+    position: relative;
 }
