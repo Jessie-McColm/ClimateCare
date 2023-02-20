@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -24,8 +25,9 @@ def kitty(request):
         info['watered']=False
         info['cleaned']=False
         userID=request.session['userID']
-        userProf=Profile.objects.get(user=userID)
-        catData=Creature.objects.get(creature_id=userProf.creature_id)
+        userObj = User.objects.get(user = userID)
+        userProf=Profile.objects.get(user = userObj)
+        catData=userProf.creature
         info['colour']=catData.colour
         info['name']=catData.name
         if request.method == "POST":
@@ -34,15 +36,15 @@ def kitty(request):
              if water_or_litter=="water":
                  pass
         '''
-         perform some calculations to see if in range of a fountain
-         if success
+        perform some calculations to see if in range of a fountain
+        if success
              catData.last_thirst_refill=currentTime  (is this how you edit?)
              catData.save() ?
              can we play a little animation?
              info['watered']=True?
         '''
-            if water_or_litter=="litter":
-                pass
+        if water_or_litter=="litter":
+            pass
             '''
          perform some calculations to see if in range of a bin
          if success
@@ -56,9 +58,9 @@ def kitty(request):
         water_time_difference= currentTime-catData.last_thirst_refill
         litter_time_difference= currentTime-catData.last_litter_refill
         food_time_difference= currentTime-catData.last_food_refill
-        water_time_difference_seconds = waterTimeDifference.total_seconds()
-        litter_time_difference_seconds= litterTimeDifference.total_seconds()
-        food_time_difference_seconds=foodTimeDifference.total_seconds()
+        water_time_difference_seconds = water_time_difference.total_seconds()
+        litter_time_difference_seconds= litter_time_difference.total_seconds()
+        food_time_difference_seconds=food_time_difference.total_seconds()
         if water_time_difference_seconds > threeDays:
             info['thirsty']=True
         else:
@@ -73,25 +75,24 @@ def kitty(request):
             info['hungry']=True
         else:
             info['hungry']=False
-
-        
-            
-        
-        
-        
-        
-        
         return render(request, 'cat.html',info)
     return HttpResponse("user not authenticated page")
 
-
-
-        
-
-
 def articles(request):
-    
+    #meowmeow = User.objects.create_user('bg', 'lennon@thebeatles.com', 'meowmeowmeow')
+    #kitty = Creature()
+    #profile = Profile(user=meowmeow, creature=kitty)
+    #kitty.save()
+    #profile.save()
+    #test_username = meowmeow.username
+    userObj = User.objects.get(username = "poor little meow meow")
+    userProf=Profile.objects.get(user = userObj)
+    catData=userProf.creature
+    colour = catData.colour
+    name = catData.name
 
+    #Laurie and jessie added these commands for testing the databases
+        
     #if request.user.is_authenticated:
     # Do something for authenticated users.
     #userID=request.session['userID']
@@ -101,8 +102,5 @@ def articles(request):
     #else:
     # Do something for anonymous users.
     
-    return HttpResponse("article page")
-
-
-
+    return HttpResponse(name)
 
