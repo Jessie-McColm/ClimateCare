@@ -10,12 +10,19 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login,logout
 from .models import Profile,Creature
 import datetime
+
+from django.contrib.auth.decorators import login_required
+
 #Create your views here.
 
-
+# this decorator means if not logged in sends back to login page
+# might want to change in future 
+@login_required(login_url='loginPage')
 def kitty(request):
-    #return HttpResponse("Hello, world. You're at the kitty.")
+    return HttpResponse("Hello, world. You're at the kitty.")
     #will pass a dict of various DB info gotten from the user - can this be handled in html?
+
+    """
     if request.user.is_authenticated:
         #calculating the time difference to determine how stinky/thirsty/ etc the kitty is
         #better to calculate each time we send page cause changes depending on current time
@@ -143,8 +150,9 @@ def kitty(request):
         return render(request, 'cat.html',info)
     
         #return HttpResponse("user not authenticated page")
+    """
 
-
+@login_required(login_url='loginPage')
 def articles(request):
     #meowmeow = User.objects.create_user('bg', 'lennon@thebeatles.com', 'meowmeowmeow')
     #kitty = Creature()
