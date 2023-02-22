@@ -13,7 +13,24 @@ class UserModelTests(TestCase):
 
     def test_create_user(self):
         #i guess test if various DB functions work?
-        self.assertIs(False, False)
+        testUser = User.objects.create_user('testUser', 'test@test.com', 'testPass')
+        check= User.objects.get(username = "testUser")
+        self.assertIs(True,check==testUser)
+        testUser.delete()
+
+    def test_create_profile(self):
+        testUser = User.objects.create_user('testUser', 'test@test.com', 'testPass')
+        testKitty = Creature()
+        testProfile = Profile(user=testUser, creature=testKitty)
+        testKitty.save()
+        testProfile.save()
+        userObj = User.objects.get(username = "testUser")
+        userProf=Profile.objects.get(user = userObj)
+        self.assertIs(True,userProf==testProfile)
+        self.assertIs(True,testKitty==userProf.creature)
+        testProfile.delete()
+        testKitty.delete()
+        testUser.delete()
 
 
 class KittyIndexTests(TestCase):
@@ -22,3 +39,22 @@ class KittyIndexTests(TestCase):
     def test_unauthorised_user(self):
         #i guess test if various DB functions work?
         self.assertIs(False, False)
+
+    def test_authorised_user(self):
+        #test if a given user returns a page with the correct data
+        self.assertIs(False, False)
+
+    def test_post_articles(self):
+        #test if valid response if given when a post request is sent to get articles/feed the kitty
+        self.assertIs(False, False)
+
+    def test_post_water(self):
+        #test if valid response if given when a post request is sent to water the kitty
+        self.assertIs(False, False)
+
+    def test_post_clean(self):
+        #test if valid response if given when a post request is sent to clean the kitty
+        self.assertIs(False, False)
+
+
+
