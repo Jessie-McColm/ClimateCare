@@ -10,6 +10,10 @@
     <!-- placeholder favicon -->
     <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'recycling_bin.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'tupperware.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'waterbottle.css' %}">
+
     <style>
         body {
             background-color: #649756;
@@ -40,47 +44,97 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="cat">
-            <div class="face">
-                <div class="inner-l"></div>
-                <div class="inner-r"></div>
-                <div class="eye-l">
-                    <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-                </div>
-                <div class="eye-r">
-                    <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-                </div>
-                <div class="nose">
-                    <div class="l1"></div>
-                    <div class="l2"></div>
-                </div>
+<div class="container-1">
+    <div class="cat">
+        <div class="face">
+            <div class="inner-l"></div>
+            <div class="inner-r"></div>
+            <div class="eye-l">
+                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
             </div>
-            <div class="body">
-                <div class="paw-l"></div>
-                <div class="paw-r"></div>
-                <div class="tail"></div>
+            <div class="eye-r">
+                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
             </div>
-            <div class="shadow"></div>
+            <div class="nose">
+                <div class="l1"></div>
+                <div class="l2"></div>
+            </div>
+            <div class="tear"></div>
+        </div>
+        <div class="body">
+            <div class="paw-l"></div>
+            <div class="paw-r"></div>
+            <div class="tail"></div>
+        </div>
+        <div class="shadow"></div>
+    </div>
+    <div class = "litter">
+        <div class="litter-box-top-line"></div>
+        <div class="litter-box"></div>
+        <div class="litter-box-bottom"></div>
+        <div class="litter-box-bottom-l"></div>
+        <div class="litter-box-bottom-r"></div>
+        <div class="poop">
+            <div class="poop-1"></div>
+            <div class="poop-2"></div>
+            <div class="poop-3"></div>
         </div>
     </div>
+</div>
 
     <div class="fixed-bottom">
         <div class="row">
-            <div class="col-4 text-center">
-                <button type="button" class="btn btn-dark">
-                    Tupperware
-                </button>
+            <div class="col-4">
+                <div class="d-inline-block">
+                    <a href="">
+                        <div class="container-2">
+                            <div class ="tupperware">
+                                <div class="tup-cap"></div>
+                                <div class="tup-box-top-line"></div>
+                                <div class="tup-box"></div>
+                                <div class="tup-box-bottom"></div>
+                                <div class="tup-box-bottom-l"></div>
+                                <div class="tup-box-bottom-r"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <div class="col-4 text-center">
-                <button type="button" class="btn btn-dark">
-                    Water Bottle
-                </button>
+            <div class="col-4">
+                <div class="d-inline-block">
+                    <a href="">
+                        <div class="container-3">
+                            <div class="waterbottle">
+                                <div class="bottle-cap">
+                                    <div class = "cap-shine"></div>
+                                    <div class = "cap-shine-2"></div>
+                                    <div class ="cap-shadow"></div>
+                                </div>
+                            <div class="bottle-top"></div>
+                            <div class="bottle-bottom"></div>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <div class="col-4 text-center">
-                <button type="button" class="btn btn-dark">
-                    Recycling
-                </button>
+            <div class="col-4">
+                <div class="d-inline-block">
+                    <a href="">
+                        <div class="container-4">
+                            <div class ="recycling-bin">
+                                <div class="cap-top"></div>
+                                <div class="cap">
+                                    <div class="hole"></div>
+                                </div>
+                                <div class="box-top-line"></div>
+                                <div class="box">
+                                    <span class="recycling-symbol">&#9851;</span>
+                                </div>
+                                <div class="box-bottom-l"></div>
+                                <div class="box-bottom-r"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
         <br>

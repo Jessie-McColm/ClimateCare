@@ -1,12 +1,7 @@
-body{
-    padding: 0;
-    margin: 0;
-}
-.container{
-    zoom: 0.5;
-    transform: scale(0.5);
+.container-2{
+    zoom: 0.7;
     height:500px;
-    width: 350px;
+    width: 200px;
     background-color: #649756;
     position: absolute;
     margin: auto;
@@ -19,11 +14,11 @@ body{
 
 .tupperware{
     position:relative;
-    top:200px;
-    left:60px;
+    top: 50px;
+    left:20px;
 }
 
-.cap{
+.tup-cap{
     position: relative;
     background: rgb(255, 66, 66);
     width: 240px;
@@ -33,45 +28,45 @@ body{
     bottom: 2px;
 }
 
-.box-top-line{
+.tup-box-top-line{
     position: relative;
     border-top: 3px solid rgba(182, 202, 206, 0.7);
     width: 235px;
     left: -2px;
 }
 
-.box{
+.tup-box{
     position: relative;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     border-top: 60px solid rgba(182, 202, 206, 0.7);
-    width: 190px;
+    width: 230px;
 }
 
-.box-bottom{
+.tup-box-bottom{
     position: relative;
     border-top: 3px solid rgba(182, 202, 206, 0.7);
-    top: 1px;
-    width: 185px;
-    left: 22.5px;
+    top: 2px;
+    width: 188px;
+    left: 21px;
 }
 
-.box-bottom-l, .box-bottom-r{
+.tup-box-bottom-l, .tup-box-bottom-r{
     position: relative;
     border-top: 7px solid rgba(182, 202, 206, 0.7);
-    width: 83px;
+    width: 90px;
 }
 
-.box-bottom-l{
-    left: 22.5px;
+.tup-box-bottom-l{
+    left: 21px;
     border-radius: 0 0 30% 60%;
     border-left: 5px solid transparent;
-    top: 0.5px;
+    top: 2px;
 }
 
-.box-bottom-r{
-    left: 119.5px;
+.tup-box-bottom-r{
+    left: 118px;
     border-radius: 0 0 60% 30%;
     border-right: 5px solid transparent;
-    bottom: 6px;
+    bottom: 4px;
 }

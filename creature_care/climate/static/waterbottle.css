@@ -1,12 +1,7 @@
-body{
-    padding: 0;
-    margin: 0;
-}
-.container{
-    zoom: 0.5;
-    transform: scale(0.5);
-    height:500px;
-    width: 350px;
+.container-3{
+    zoom: 0.4;
+    height:1000px;
+    width: 200px;
     background-color: #649756;
     position: absolute;
     margin: auto;
@@ -18,8 +13,6 @@ body{
 }
 .waterbottle{
     position:relative;
-    top:50px;
-    left:100px;
 }
 
 .bottle-cap{
