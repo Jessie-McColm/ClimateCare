@@ -17,15 +17,15 @@ def login_user(request):
         password = request.POST.get('password')
         
         # error here as need to look into the users we have and these argguments etc
-        #user = authenticate(request, username, password)
+        user = authenticate(request, username, password)
         
-        #if user is not None:
-            #login(request, user)
-            # return succes page
-            #return redirect('climate')
-        #else:
-            #messages.success(request, ("There was an error logging in. Please try again"))
-            #return redirect('login')
+        if user is not None:
+            login(request, user)
+            request.session['username'] = user.username
+            return redirect('climate')
+        else:
+            messages.success(request, ("There was an error logging in. Please try again"))
+            return redirect('login')
 
 
 
@@ -35,9 +35,11 @@ def login_user(request):
 def create_user(request):
     if request.method == "POST":
         username = request.POST.get('username')
+        email = request.POST.get('password')
         password = request.POST.get('password')
 
         #try to see if there are any users in the DB with the same username
+        
         #if no duplicates:
         #check if passwrod is good enough/long enough
         user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
