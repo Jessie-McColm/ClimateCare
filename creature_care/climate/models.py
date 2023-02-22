@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 from django.contrib.auth.models import User
 from django.utils import timezone
 
@@ -16,11 +17,11 @@ class Creature(models.Model):
     name = models.CharField(default="Creature", max_length=50)
     colour = models.CharField(default="black", max_length=16, null=False)  #colour names should be converted to hex values at some point
     thirst = models.IntegerField(default=0)  #django does not support min/max values for ints, so min/max values must be enforced elsewhere
-    last_thirst_refill = models.DateTimeField(default=timezone.now())
+    last_thirst_refill = models.DateTimeField(default=now)
     litter = models.IntegerField(default=0)
-    last_litter_refill = models.DateTimeField(default=timezone.now())
+    last_litter_refill = models.DateTimeField(default=now)
     food = models.IntegerField(default=0)
-    last_food_refill = models.DateTimeField(default=timezone.now())
+    last_food_refill = models.DateTimeField(default=now)
 
 '''
 This class contains part of the information associated with each user of the system in place. Each Profile
@@ -70,3 +71,13 @@ class Advice(models.Model):
     advice_id = models.AutoField(primary_key=True)
     content = models.CharField(max_length=500)
     source = models.CharField(max_length=250)
+
+class LocationBin(models.Model):
+    location_id = models.IntegerField(primary_key=True, unique=True)
+    longitude = models.FloatField(null=False)
+    latitude = models.FloatField(null=False)
+
+class LocationFountain(models.Model):
+    location_id = models.IntegerField(primary_key=True, unique=True)
+    longitude = models.FloatField(null=False)
+    latitude = models.FloatField(null=False)
