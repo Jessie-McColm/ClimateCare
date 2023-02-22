@@ -138,9 +138,12 @@ def kitty(request):
             info['hungry']=True
         else:
             info['hungry']=False
+        
+        
         return render(request, 'cat.html',info)
     
         #return HttpResponse("user not authenticated page")
+
 
 def articles(request):
     #meowmeow = User.objects.create_user('bg', 'lennon@thebeatles.com', 'meowmeowmeow')
@@ -168,3 +171,6 @@ def articles(request):
     
     return HttpResponse(name)
 
+
+def page_not_found_view(request, exception):
+    return render(request, 'notFound.html', status=404)
