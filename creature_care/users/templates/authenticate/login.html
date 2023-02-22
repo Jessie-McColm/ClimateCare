@@ -1,32 +1,37 @@
 <!-- tutorial has line to extend base.html from like climate - to do with token and style of page -->
+{% extends "base.html" %}
+
+{% block head %}
+    <style>
+        #login {
+            margin-left: 25%;
+            margin-top: 2.5%;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Login{% endblock %}
+
+{% block navbar %}{% endblock %}
 
 {%block content %}
-
-    <!-- Looks disgusting - will need some styling on this one!! also ignore email etc fields -->
-
-    <h1>Login</h1>
-    <br/><br/>
-
-    <form action="" method =POST>
+<!-- Looks disgusting - will need some styling on this one!! also ignore email etc fields -->
+    <div id="login" class="col-6">
+        <h1>Login</h1>
+        <br>
+        <form action="" method=POST>
         {% csrf_token %}
-
         <form>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Username</label>
-              <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
             </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" name="password">
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password">
             </div>
-            
-
-        <input type="submit"
-        value="Submit"
-        class = "btn btn-secondary">
-
-
-    </form>
-
-    <br/><br/>
+            <br>
+            <input type="submit" value="Submit" class="btn btn-dark">
+        </form>
+    </div>
 {% endblock %}

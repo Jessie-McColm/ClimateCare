@@ -1,36 +1,89 @@
+{% extends "base.html" %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Cat</title>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
-    </head>
-    <body>
-        <div class="container">
-            <div class="cat">
-                <div class="face">
-                    <div class="inner-l"></div>
-                    <div class="inner-r"></div>
-                    <div class="eye-l">
-                        <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-                    </div>
-                    <div class="eye-r">
-                        <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-                    </div>
-                    <div class="nose">
-                        <div class="l1"></div>
-                        <div class="l2"></div>
-                    </div>
+
+{% block title %}
+    Cat
+{% endblock %}
+
+{% block head %}
+    <!-- placeholder favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
+    <style>
+        body {
+            background-color: #649756;
+        }
+        div.row {
+            height: 25%;
+        }
+    </style>
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <span class="navbar-brand">ClimateCare</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'kitty' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'articles' %}">Articles</a>
+                </li>    
+            </ul>
+        </div>  
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="cat">
+            <div class="face">
+                <div class="inner-l"></div>
+                <div class="inner-r"></div>
+                <div class="eye-l">
+                    <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
                 </div>
-                <div class="body">
-                    <div class="paw-l"></div>
-                    <div class="paw-r"></div>
-                    <div class="tail"></div>
+                <div class="eye-r">
+                    <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
                 </div>
-                <div class="shadow"></div>
+                <div class="nose">
+                    <div class="l1"></div>
+                    <div class="l2"></div>
+                </div>
+            </div>
+            <div class="body">
+                <div class="paw-l"></div>
+                <div class="paw-r"></div>
+                <div class="tail"></div>
+            </div>
+            <div class="shadow"></div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom">
+        <div class="row">
+            <div class="col-4 text-center">
+                <button type="button" class="btn btn-dark">
+                    Tupperware
+                </button>
+            </div>
+            <div class="col-4 text-center">
+                <button type="button" class="btn btn-dark">
+                    Water Bottle
+                </button>
+            </div>
+            <div class="col-4 text-center">
+                <button type="button" class="btn btn-dark">
+                    Recycling
+                </button>
             </div>
         </div>
-    </body>
-</html>
+        <br>
+    </div>
+
+{% endblock %}
