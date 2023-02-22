@@ -1,0 +1,99 @@
+body{
+    padding: 0;
+    margin: 0;
+}
+.container{
+    zoom: 0.5;
+    transform: scale(0.5);
+    height:500px;
+    width: 350px;
+    background-color: #649756;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.recycling-bin{
+    position:relative;
+    top:70px;
+    left:57px;
+}
+
+.cap-top{
+    position: relative;
+    background: rgb(255, 66, 66);
+    height: 7px;
+    width: 181px;
+    left: 20px;
+    top: 22px;
+    border-radius: 60% 60% 0 0;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+}
+
+.cap{
+    position: relative;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 40px solid rgb(255, 66, 66);
+    width: 190px;
+}
+
+.hole {
+    position: relative;
+    top: 50%;
+    left: 32%;
+    height: 20px;
+    width: 70px;
+    border-radius: 50% 50% 50% 50%;
+    top: 25px;
+    background-color: rgb(91, 45, 45);
+}
+
+.box-top-line{
+    position: relative;
+    border-top: 4px solid #33292b;
+    width: 235px;
+    left: -2px;
+}
+
+.box{
+    position: relative;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 300px solid #33292b;
+    width: 190px;
+}
+
+.box-bottom-l, .box-bottom-r{
+    position: relative;
+    background: #33292b;
+    height: 7px;
+    width: 40px;
+}
+
+.box-bottom-l{
+    left: 20px;
+    border-radius: 0 0 30% 60%;
+    border-left: 5px solid transparent;
+}
+
+.box-bottom-r{
+    left: 165px;
+    border-radius: 0 0 60% 30%;
+    border-right: 5px solid transparent;
+    bottom: 7px;
+}
+
+.recycling-symbol{
+    position: absolute;
+    display: block;  
+    font-size: 80px;
+    color:#71d954;
+    bottom: 130px;
+    left: 60px;
+}

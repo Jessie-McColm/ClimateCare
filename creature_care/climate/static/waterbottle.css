@@ -1,0 +1,80 @@
+body{
+    padding: 0;
+    margin: 0;
+}
+.container{
+    zoom: 0.5;
+    transform: scale(0.5);
+    height:500px;
+    width: 350px;
+    background-color: #649756;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+.waterbottle{
+    position:relative;
+    top:50px;
+    left:100px;
+}
+
+.bottle-cap{
+    background-color: #959595;
+    height: 60px;
+    width: 90px;
+    border-radius: 40% 40% 15% 15%;
+    left: 25px;
+    top: 15px;
+    position:relative;
+}
+
+.cap-shine{
+    background-color: #cfcfcf;
+    height: 60px;
+    width: 20px;
+    left: 15px;
+    border-radius: 40% 0 0 0;
+    position:relative;
+}
+
+.cap-shine-2{
+    background-color: #cfcfcf;
+    height: 60px;
+    width: 10px;
+    left: 45px;
+    bottom: 60px;
+    position:relative;
+}
+
+.cap-shadow{
+    background-color: #272727;
+    height: 5px;
+    width: 82px;
+    left: 4px;
+    bottom: 65px;
+    position:relative;
+}
+
+.bottle-top{
+    background-color: #33292b;
+    height: 55px;
+    width: 80px;
+    border-radius: 0 0 -90% -15%;
+    left: 30px;
+    top: 10px;
+    position:relative;
+    z-index: -1;
+}
+
+.bottle-bottom{
+    background-color: #33292b;
+    height: 300px;
+    width: 140px;
+    border-radius: 45% 45% 15% 15%;
+    bottom: 20px;
+    position: relative;
+}
