@@ -11,7 +11,18 @@
         {% csrf_token %}
         {{form.as_p}}
 
-        <input type="submit" name="Create User"> 
+        <input type="submit" name="Create User" class="btn btn-dark"> 
 
     </form>
+
+    <div>
+        <br>
+        <h2>Back to login</h2>
+        <br>
+        <a href="{% url 'loginPage' %}">
+          <button type="button" class="btn btn-dark">
+              Login
+          </button>
+        </a>
+    </div>
 {% endblock %}

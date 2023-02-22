@@ -15,7 +15,6 @@
 {% block navbar %}{% endblock %}
 
 {%block content %}
-<!-- Looks disgusting - will need some styling on this one!! also ignore email etc fields -->
     <div id="login" class="col-6">
         <h1>Login</h1>
         <br>
@@ -33,5 +32,17 @@
             <br>
             <input type="submit" value="Submit" class="btn btn-dark">
         </form>
-    </div>
+
+        <div>
+          <br>
+          <h2>Or register</h2>
+          <br>
+          <a href="{% url 'registerPage' %}">
+            <button type="button" class="btn btn-dark">
+                Register
+            </button>
+          </a>
+      </div>
+
+    </div> 
 {% endblock %}
