@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -21,42 +22,77 @@ def kitty(request):
         threeDays=259200
         currentTime = datetime.datetime.now()
         info={}
+        info['watered']=False
+        info['cleaned']=False
         userID=request.session['userID']
-        userProf=Profile.objects.get(user=userID)
-        catData=Creature.objects.get(creature_id=userProf.creature_id)
+        userObj = User.objects.get(user = userID)
+        userProf=Profile.objects.get(user = userObj)
+        catData=userProf.creature
         info['colour']=catData.colour
         info['name']=catData.name
-        waterTimeDifference= currentTime-catData.last_thirst_refill
-        litterTimeDifference= currentTime-catData.last_litter_refill
-        foodTimeDifference= currentTime-catData.last_food_refill
-        waterTimeDifferenceSeconds = waterTimeDifference.total_seconds()
-        litterTimeDifferenceSeconds= litterTimeDifference.total_seconds()
-        foodTimeDifferenceSeconds=foodTimeDifference.total_seconds()
-        if waterTimeDifferenceSeconds > threeDays:
+        if request.method == "POST":
+             coordinates = request.POST.get('coordinates')
+             water_or_litter = request.POST.get('water_or_litter')
+             if water_or_litter=="water":
+                 pass
+        '''
+        perform some calculations to see if in range of a fountain
+        if success
+             catData.last_thirst_refill=currentTime  (is this how you edit?)
+             catData.save() ?
+             can we play a little animation?
+             info['watered']=True?
+        '''
+        if water_or_litter=="litter":
+            pass
+            '''
+         perform some calculations to see if in range of a bin
+         if success
+             catData.last_litter_refill=currentTime  (is this how you edit?)
+             catData.save() ?
+             can we play a little animation?
+             info['cleaned']=True?
+        '''
+
+            '''similar for articles except dont need any coordinate data?'''
+        water_time_difference= currentTime-catData.last_thirst_refill
+        litter_time_difference= currentTime-catData.last_litter_refill
+        food_time_difference= currentTime-catData.last_food_refill
+        water_time_difference_seconds = water_time_difference.total_seconds()
+        litter_time_difference_seconds= litter_time_difference.total_seconds()
+        food_time_difference_seconds=food_time_difference.total_seconds()
+        if water_time_difference_seconds > threeDays:
             info['thirsty']=True
         else:
             info['thirsty']=False
 
-        if litterTimeDifferenceSeconds > threeDays:
+        if litter_time_difference_seconds > threeDays:
             info['stinky']=True
         else:
             info['stinky']=False
 
-        if foodTimeDifferenceSeconds > threeDays:
+        if food_time_difference_seconds > threeDays:
             info['hungry']=True
         else:
             info['hungry']=False
-            
-        
-        
-        
-        
-        
-    return render(request, 'cat.html',info)
+        return render(request, 'cat.html',info)
+    return HttpResponse("user not authenticated page")
 
 def articles(request):
-    
+    #meowmeow = User.objects.create_user('bg', 'lennon@thebeatles.com', 'meowmeowmeow')
+    #kitty = Creature()
+    #profile = Profile(user=meowmeow, creature=kitty)
+    #kitty.save()
+    #profile.save()
+    #test_username = meowmeow.username
+    userObj = User.objects.get(username = "poor little meow meow")
+    userProf=Profile.objects.get(user = userObj)
+    catData=userProf.creature
+    colour = catData.colour
+    name = catData.name
 
+    #Laurie and jessie added these commands for testing the databases
+        
     #if request.user.is_authenticated:
     # Do something for authenticated users.
     #userID=request.session['userID']
@@ -66,8 +102,5 @@ def articles(request):
     #else:
     # Do something for anonymous users.
     
-    return HttpResponse("article page")
-
-
-
+    return HttpResponse(name)
 
