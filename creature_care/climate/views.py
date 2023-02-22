@@ -36,29 +36,29 @@ def kitty(request):
              coordinates = request.POST.get('coordinates')
              task = request.POST.get('task')
              if task=="water":
-             '''
-             perform some calculations to see if in range of a fountain
-             if success'''
-                 catData.last_thirst_refill=currentTime  (is this how you edit?)
-                 catData.save() ?
-                 can we play a little animation?
-                 info['task']='water'?
+                 '''
+                 perform some calculations to see if in range of a fountain
+                 if success'''
+                 catData.last_thirst_refill=currentTime  #(is this how you edit?)
+                 catData.save() 
+                 #can we play a little animation?
+                 info['task']='water'
             
-            if task=="litter":
+             if task=="litter":
                
-             '''
-             perform some calculations to see if in range of a bin
-             if success'''
+                 '''
+                 perform some calculations to see if in range of a bin
+                 if success'''
                  catData.last_litter_refill=currentTime  
                  catData.save() 
                  #can we play a little animation?
                  info['task']='clean'
              
-            if task == "feed":
-               catData.last_food_refill=currentTime  #(is this how you edit?)
+             if task == "feed":
+                catData.last_food_refill=currentTime  #(is this how you edit?)
                 catData.save() 
                 #can we play a little animation?
-                info['task']='clean'
+                info['task']='feed'
             
 
         
@@ -83,7 +83,64 @@ def kitty(request):
         else:
             info['hungry']=False
         return render(request, 'cat.html',info)
-    return HttpResponse("user not authenticated page")
+    
+    else:
+        threeDays=259200
+        currentTime = datetime.datetime.now()
+        info={}
+        info['watered']=False
+        info['cleaned']=False
+        userID="poor little meow meow"
+        userObj = User.objects.get(user = userID)
+        userProf=Profile.objects.get(user = userObj)
+        catData=userProf.creature
+        info['colour']=catData.colour
+        info['name']=catData.name
+        info['task']="none"
+        if request.method == "POST":
+             #set null coordinates for feeding
+             coordinates = request.POST.get('coordinates')
+             task = request.POST.get('task')
+             if task=="water":
+                 catData.last_thirst_refill=currentTime  #(is this how you edit?)
+                 catData.save() 
+                 info['task']='water'
+            
+             if task=="litter":
+                 catData.last_litter_refill=currentTime  
+                 catData.save() 
+                 info['task']='clean'
+             
+             if task == "feed":
+                catData.last_food_refill=currentTime  #(is this how you edit?)
+                catData.save() 
+                info['task']='feed'
+            
+
+        
+        water_time_difference= currentTime-catData.last_thirst_refill
+        litter_time_difference= currentTime-catData.last_litter_refill
+        food_time_difference= currentTime-catData.last_food_refill
+        water_time_difference_seconds = water_time_difference.total_seconds()
+        litter_time_difference_seconds= litter_time_difference.total_seconds()
+        food_time_difference_seconds=food_time_difference.total_seconds()
+        if water_time_difference_seconds > threeDays:
+            info['thirsty']=True
+        else:
+            info['thirsty']=False
+
+        if litter_time_difference_seconds > threeDays:
+            info['stinky']=True
+        else:
+            info['stinky']=False
+
+        if food_time_difference_seconds > threeDays:
+            info['hungry']=True
+        else:
+            info['hungry']=False
+        return render(request, 'cat.html',info)
+    
+        #return HttpResponse("user not authenticated page")
 
 def articles(request):
     #meowmeow = User.objects.create_user('bg', 'lennon@thebeatles.com', 'meowmeowmeow')
