@@ -23,6 +23,17 @@ def kitty(request):
    # return render(request, 'cat.html')
     #will pass a dict of various DB info gotten from the user - can this be handled in html?
 
+    #-----------------
+    #Gets the info you need (in this block for now for clarity)
+    username = request.user.get_username()
+   
+    # can also use this: User.objects.get(username = username) 
+    user_obj =  request.user
+
+    user_prof=Profile.objects.get(user = user_obj)
+    cat_data= user_prof.creature
+    
+    #-----------------
     
     #calculating the time difference to determine how stinky/thirsty/ etc the kitty is
     #better to calculate each time we send page cause changes depending on current time
@@ -31,13 +42,11 @@ def kitty(request):
     info={}
     info['watered']=False
     info['cleaned']=False
-    #userID=request.session['username']
-    userObj = User.objects.get(username = "poor little meow meow")
-    userProf=Profile.objects.get(user = userObj)
-    catData=userProf.creature
-    info['colour']=catData.colour
-    info['name']=catData.name
+
+    info['colour'] = cat_data.colour
+    info['name'] = cat_data.name
     info['task']="none"
+
     if request.method == "POST":
             #set null coordinates for feeding
             coordinates = request.POST.get('coordinates')
@@ -46,8 +55,8 @@ def kitty(request):
                 '''
                 perform some calculations to see if in range of a fountain
                 if success'''
-                catData.last_thirst_refill=currentTime  #(is this how you edit?)
-                catData.save() 
+                cat_data.last_thirst_refill=currentTime  #(is this how you edit?)
+                cat_data.save() 
                 #can we play a little animation?
                 info['task']='water'
         
@@ -56,23 +65,26 @@ def kitty(request):
                 '''
                 perform some calculations to see if in range of a bin
                 if success'''
-                catData.last_litter_refill=currentTime  
-                catData.save() 
+                cat_data.last_litter_refill=currentTime  
+                cat_data.save() 
                 #can we play a little animation?
                 info['task']='clean'
             
             if task == "feed":
-                catData.last_food_refill=currentTime  #(is this how you edit?)
-                catData.save() 
+                cat_data.last_food_refill=currentTime  #(is this how you edit?)
+                cat_data.save() 
                 #can we play a little animation?
                 info['task']='feed'
         
-    water_time_difference= currentTime-catData.last_thirst_refill
-    litter_time_difference= currentTime-catData.last_litter_refill
-    food_time_difference= currentTime-catData.last_food_refill
+
+    
+    water_time_difference= currentTime-cat_data.last_thirst_refill
+    litter_time_difference= currentTime-cat_data.last_litter_refill
+    food_time_difference= currentTime-cat_data.last_food_refill
     water_time_difference_seconds = water_time_difference.total_seconds()
     litter_time_difference_seconds= litter_time_difference.total_seconds()
     food_time_difference_seconds=food_time_difference.total_seconds()
+
     if water_time_difference_seconds > threeDays:
         info['thirsty']=True
     else:
@@ -89,19 +101,24 @@ def kitty(request):
         info['hungry']=False
     return render(request, 'cat.html',info)
 
+
 @login_required(login_url='loginPage')
 def articles(request):
-    #meowmeow = User.objects.create_user('bg', 'lennon@thebeatles.com', 'meowmeowmeow')
-    #kitty = Creature()
-    #profile = Profile(user=meowmeow, creature=kitty)
-    #kitty.save()
-    #profile.save()
-    #test_username = meowmeow.username
-    userObj = User.objects.get(username = "poor little meow meow")
-    userProf=Profile.objects.get(user = userObj)
-    catData=userProf.creature
-    colour = catData.colour
-    name = catData.name
+
+    #-----------------
+    #Gets the info you need (in this block for now for clarity)
+    username = request.user.get_username()
+   
+    # can also use this: User.objects.get(username = username) 
+    user_obj =  request.user
+
+    user_prof=Profile.objects.get(user = user_obj)
+    cat_data= user_prof.creature
+    
+    #-----------------
+    
+    colour = cat_data.colour
+    name = cat_data.name
 
     #Laurie and jessie added these commands for testing the databases
         
@@ -123,3 +140,18 @@ def retrieveAdvice():
     #pick a random value to select some advice from the model
     #return data
     return 0
+
+"""
+Expects tuple of user location (lattitude, longitude)
+Also takes loction of object we want to check its in range of (lattitude, longitude)
+
+"""
+def calculate_distance(user_loc, object_loc):
+    user_lat = user_loc[0]
+    user_long = user_loc[1]
+
+    obj_lat = object_loc[0]
+    obj_long = user_loc[1]
+
+
+
