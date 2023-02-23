@@ -21,19 +21,19 @@ from django.contrib.auth.decorators import login_required
 def kitty(request):
     
     
-    return render(request, 'cat.html')
+   # return render(request, 'cat.html')
     #will pass a dict of various DB info gotten from the user - can this be handled in html?
 
-    """
+    
     #calculating the time difference to determine how stinky/thirsty/ etc the kitty is
     #better to calculate each time we send page cause changes depending on current time
     threeDays=259200
-    currentTime = datetime.datetime.now()
+    currentTime = timezone.now()
     info={}
     info['watered']=False
     info['cleaned']=False
-    userID=request.session['username']
-    userObj = User.objects.get(user = userID)
+    #userID=request.session['username']
+    userObj = User.objects.get(username = "poor little meow meow")
     userProf=Profile.objects.get(user = userObj)
     catData=userProf.creature
     info['colour']=catData.colour
@@ -63,10 +63,10 @@ def kitty(request):
                 info['task']='clean'
             
             if task == "feed":
-            catData.last_food_refill=currentTime  #(is this how you edit?)
-            catData.save() 
-            #can we play a little animation?
-            info['task']='feed'
+                catData.last_food_refill=currentTime  #(is this how you edit?)
+                catData.save() 
+                #can we play a little animation?
+                info['task']='feed'
         
 
     
@@ -91,9 +91,6 @@ def kitty(request):
     else:
         info['hungry']=False
     return render(request, 'cat.html',info)
-    
-    
-    """
 
 @login_required(login_url='loginPage')
 def articles(request):

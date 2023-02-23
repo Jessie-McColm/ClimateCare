@@ -32,6 +32,15 @@ def register_user(request):
                 user = form.cleaned_data.get('username')
                 messages.success(request, "Account was created for " + user)
 
+                # -------------------
+                # creates a creature and a profile for the user 
+                user_obj = User.objects.get(username = user)
+                user_creature = Creature()
+                profile = Profile(user=user_obj, creature=user_creature)
+                user_creature.save()
+                profile.save()
+                # ------------------
+
                 return redirect('loginPage')
 
         context = {'form':form}
