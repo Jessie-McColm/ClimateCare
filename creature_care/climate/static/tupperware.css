@@ -1,5 +1,5 @@
 .container-2{
-    zoom: 0.7;
+    transform: scale(0.4);
     height:500px;
     width: 200px;
     background-color: #649756;
@@ -10,6 +10,7 @@
     left: 0;
     right: 0;
     z-index: -1;
+    float:left;
 }
 
 .tupperware{

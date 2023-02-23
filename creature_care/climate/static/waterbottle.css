@@ -1,7 +1,7 @@
 .container-3{
-    zoom: 0.4;
+    transform: scale(0.4);
     height:1000px;
-    width: 200px;
+    width: 150px;
     background-color: #649756;
     position: absolute;
     margin: auto;
