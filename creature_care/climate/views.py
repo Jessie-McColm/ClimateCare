@@ -20,7 +20,6 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='loginPage')
 def kitty(request):
     
-    
    # return render(request, 'cat.html')
     #will pass a dict of various DB info gotten from the user - can this be handled in html?
 
@@ -68,8 +67,6 @@ def kitty(request):
                 #can we play a little animation?
                 info['task']='feed'
         
-
-    
     water_time_difference= currentTime-catData.last_thirst_refill
     litter_time_difference= currentTime-catData.last_litter_refill
     food_time_difference= currentTime-catData.last_food_refill
@@ -119,6 +116,10 @@ def articles(request):
     
     return HttpResponse(name)
 
-
 def page_not_found_view(request, exception):
     return render(request, 'notFound.html', status=404)
+
+def retrieveAdvice():
+    #pick a random value to select some advice from the model
+    #return data
+    return 0
