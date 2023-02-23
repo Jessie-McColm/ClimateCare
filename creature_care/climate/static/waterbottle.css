@@ -1,8 +1,8 @@
 .container-3{
-    transform: scale(0.4);
+    transform: scale(0.3);
     height:1000px;
     width: 150px;
-    background-color: #649756;
+    background-color: transparent;
     position: absolute;
     margin: auto;
     top: 0;
