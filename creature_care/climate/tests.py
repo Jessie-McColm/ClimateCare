@@ -1,5 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.auth.models import User
+from climate.models import Creature, Profile
+
 # Create your tests here.
 
 def create_user(user_data,kitty_data,profile_data):
