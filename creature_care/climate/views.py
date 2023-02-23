@@ -8,8 +8,8 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login,logout
-from .models import Profile,Creature
-import datetime
+from .models import Profile,Creature,Advice
+import random
 
 from django.contrib.auth.decorators import login_required
 
@@ -119,7 +119,21 @@ def articles(request):
 def page_not_found_view(request, exception):
     return render(request, 'notFound.html', status=404)
 
+'''
+This function retrieves a random piece of advice available in the Advice database.
+
+Output is a list of data, the first item being "link" or "message". This determines
+whether the user will be simply given a link to click or message to read. The second
+item is either 1) the link or 2) the content. The third item is always the source of
+the information.
+'''
 def retrieveAdvice():
-    #pick a random value to select some advice from the model
-    #return data
-    return 0
+    random_population = list(Advice.objects.all())
+    advice_object = random.choice(random_population) 
+    content = advice_object.content
+    link = advice_object.link
+    source = advice_object.source
+    if (content == ""):
+        return ["link", link, source]
+    else:
+        return ["message", content, source]

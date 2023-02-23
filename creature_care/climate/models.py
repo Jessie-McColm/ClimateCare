@@ -69,14 +69,21 @@ knowledge base is adjusted by game masters or developers and randomly broadcast 
 '''
 class Advice(models.Model):
     advice_id = models.AutoField(primary_key=True)
-    content = models.CharField(max_length=500)
-    source = models.CharField(max_length=250)
+    link = models.CharField(max_length=500, default="")
+    content = models.CharField(max_length=500, default="")
+    source = models.CharField(max_length=250, default="")
 
+'''
+This class stores location information of a specific "bin" or otherwise entity
+'''
 class LocationBin(models.Model):
     location_id = models.IntegerField(primary_key=True, unique=True)
     longitude = models.FloatField(null=False)
     latitude = models.FloatField(null=False)
 
+'''
+This class stores location information of a specific "water fountain" or otherwise entity
+'''
 class LocationFountain(models.Model):
     location_id = models.IntegerField(primary_key=True, unique=True)
     longitude = models.FloatField(null=False)
