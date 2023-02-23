@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="pushing migration files because they weren't pushed with my previous commit for some reason&#10;&#10;- nevan">
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="pair programming sesh. made a start on tests for users, not finished yet (jessie had a lecture)&#10;&#10;- jessie and nevan">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/users/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/users/tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -78,7 +77,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677089752977</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="pair programming sesh. made a start on tests for users, not finished yet (jessie had a lecture)&#10;&#10;- jessie and nevan">
+      <created>1677161961483</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1677161961483</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -95,6 +101,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="created LocationBin and LocationFountain models, and migrated them to the database&#10;&#10;- nevan" />
     <MESSAGE value="pushing migration files because they weren't pushed with my previous commit for some reason&#10;&#10;- nevan" />
-    <option name="LAST_COMMIT_MESSAGE" value="pushing migration files because they weren't pushed with my previous commit for some reason&#10;&#10;- nevan" />
+    <MESSAGE value="pair programming sesh. made a start on tests for users, not finished yet (jessie had a lecture)&#10;&#10;- jessie and nevan" />
+    <option name="LAST_COMMIT_MESSAGE" value="pair programming sesh. made a start on tests for users, not finished yet (jessie had a lecture)&#10;&#10;- jessie and nevan" />
   </component>
 </project>
