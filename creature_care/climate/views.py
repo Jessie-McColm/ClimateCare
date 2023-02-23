@@ -120,15 +120,15 @@ def articles(request):
     colour = cat_data.colour
     name = cat_data.name
 
-    #Laurie and jessie added these commands for testing the databases
+    # Laurie and jessie added these commands for testing the databases
         
-    #if request.user.is_authenticated:
+    # if request.user.is_authenticated:
     # Do something for authenticated users.
-    #userID=request.session['userID']
-    #can then make a DB request to get needed info? - actually may need extra
-    #security - can someone just set an arbitrary session variable?
+    # userID=request.session['userID']
+    # can then make a DB request to get needed info? - actually may need extra
+    # security - can someone just set an arbitrary session variable?
     
-    #else:
+    # else:
     # Do something for anonymous users.
     
     return HttpResponse(name)

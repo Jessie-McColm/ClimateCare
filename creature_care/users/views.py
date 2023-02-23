@@ -48,7 +48,6 @@ def register_user(request):
 
 
 def login_user(request):
-
     # if user already loggged in, redirect to the home kitty page
     if request.user.is_authenticated:
         return redirect('kitty')
@@ -61,19 +60,20 @@ def login_user(request):
             #username = request.POST['username'] changed to below
             username = request.POST.get('username')
             password = request.POST.get('password')
-            
             # error here as need to look into the users we have and these argguments etc
             user = authenticate(request, username=username, password=password)
             
             if user is not None:
                 login(request, user)
                 return redirect('kitty')
+
                 
                 #request.session['username'] = user.username
                 #return redirect('climate')
             
             else:
                 # will display this message in html
+
                 messages.info(request, "Username OR password is incorrect")
                 #messages.success(request, ("There was an error logging in. Please try again"))
                 return redirect('loginPage')
