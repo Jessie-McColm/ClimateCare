@@ -6,6 +6,8 @@ from django.test import Client
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
 
+from .views import within_distance
+
 # Create your tests here.
 
 
@@ -219,3 +221,11 @@ class KittyIndexTests(TestCase):
 
 
 
+class GeoLocationTests(TestCase):
+    
+    def test_within_dist(self):
+        loc1=(28.426846,77.088834)
+        loc2=(28.394231,77.050308)
+
+        self.assertFalse(within_distance(loc1, loc2, 10))
+        self.assertTrue(within_distance(loc1, loc2, 6000))
