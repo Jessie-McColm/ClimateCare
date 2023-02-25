@@ -113,21 +113,31 @@ def articles(request):
 
     #-----------------
     #Gets the info you need (in this block for now for clarity)
-    username = request.user.get_username()
+    #username = request.user.get_username()
    
     # can also use this: User.objects.get(username = username) 
-    user_obj =  request.user
+    #user_obj =  request.user
 
-    user_prof=Profile.objects.get(user = user_obj)
-    cat_data= user_prof.creature
+    #user_prof=Profile.objects.get(user = user_obj)
+    #cat_data= user_prof.creature
     
     #-----------------
     
-    colour = cat_data.colour
-    name = cat_data.name
+    #colour = cat_data.colour
+    #name = cat_data.name
 
-    # Laurie and jessie added these commands for testing the databases
-        
+    # Laurie and jessie added the above commands for testing the databases
+
+    #Laurie: these lines were used to generate some simple example articles 
+    # new_advice1 = Advice(link="https://example.com", source="example")
+    # new_advice2 = Advice(content="example advice", source ="example2")
+    # new_advice3 = Advice(content="second example advice", source ="example3")
+    # new_advice4 = Advice(content="third example advice", source ="example4")
+    # new_advice1.save()
+    # new_advice2.save()
+    # new_advice3.save()
+    # new_advice4.save()
+
     # if request.user.is_authenticated:
     # Do something for authenticated users.
     # userID=request.session['userID']
@@ -137,7 +147,7 @@ def articles(request):
     # else:
     # Do something for anonymous users.
     
-    return HttpResponse(name)
+    return HttpResponse()
 
 def page_not_found_view(request, exception):
     return render(request, 'notFound.html', status=404)
