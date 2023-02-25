@@ -13,6 +13,10 @@ import random
 
 from django.contrib.auth.decorators import login_required
 
+# requires import!!!!
+import haversine as hs
+from haversine import Unit
+
 #Create your views here.
 
 # this decorator means if not logged in sends back to login page
@@ -99,6 +103,8 @@ def kitty(request):
         info['hungry']=True
     else:
         info['hungry']=False
+
+
     return render(request, 'cat.html',info)
 
 
@@ -120,15 +126,15 @@ def articles(request):
     colour = cat_data.colour
     name = cat_data.name
 
-    #Laurie and jessie added these commands for testing the databases
+    # Laurie and jessie added these commands for testing the databases
         
-    #if request.user.is_authenticated:
+    # if request.user.is_authenticated:
     # Do something for authenticated users.
-    #userID=request.session['userID']
-    #can then make a DB request to get needed info? - actually may need extra
-    #security - can someone just set an arbitrary session variable?
+    # userID=request.session['userID']
+    # can then make a DB request to get needed info? - actually may need extra
+    # security - can someone just set an arbitrary session variable?
     
-    #else:
+    # else:
     # Do something for anonymous users.
     
     return HttpResponse(name)
@@ -156,13 +162,28 @@ def retrieveAdvice():
         return ["message", content, source]
 
 """
-Expects tuple of user location (lattitude, longitude)
-Also takes loction of object we want to check its in range of (lattitude, longitude)
+Calculates haversine distance (not euclidean) and returns if within distance
+
+Args:
+    user_loc: tuple of user location (lattitude, longitude)
+    object_loc: tuple of object location (lattitude, longitude)
+    m_dist: maximum desired distance between objects
+
+Returns:
+    Boolean whether in range of not
 
 """
-def calculate_distance(user_loc, object_loc):
-    user_lat = user_loc[0]
-    user_long = user_loc[1]
+def within_distance(user_loc, object_loc, m_dist):
 
-    obj_lat = object_loc[0]
-    obj_long = user_loc[1]
+    # using haversine distance not eulcidean
+    
+    #To calculate distance in meters 
+    o_dist = hs.haversine(user_loc,object_loc, unit=Unit.METERS)
+
+    if o_dist <= m_dist:
+        in_range = True
+    else:
+        in_range = False
+    
+    return in_range
+
