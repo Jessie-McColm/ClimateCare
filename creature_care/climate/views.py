@@ -154,7 +154,7 @@ def retrieveAdvice():
         return ["link", link, source]
     else:
         return ["message", content, source]
-    
+
 """
 Expects tuple of user location (lattitude, longitude)
 Also takes loction of object we want to check its in range of (lattitude, longitude)
