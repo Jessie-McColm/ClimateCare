@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-ly3*6ir0+)i^!qidm$mer(^tf$vxa8#e2al!%sg31wg($dh5t(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#for now add this so wehn set debug to false we get the 404 page
-ALLOWED_HOSTS = ['127.0.0.1','localhost']
+# for now add this so when set debug to false we get the 404 page
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.2.2']
 
 
 # Application definition
