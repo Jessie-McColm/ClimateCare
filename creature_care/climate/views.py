@@ -17,8 +17,13 @@ from django.contrib.auth.decorators import login_required
 import haversine as hs
 from haversine import Unit
 
-#Create your views here.
+'''
+The main page of the project, accessed using /kitty/. Displays the creature and shows its current state,
+while providing functionality to feed/water/clean it. Uses geolocation functionality to verify whether a
+user is within a sensible distance from a fountain/bin
 
+request = the POST sent from the website containing the user query 
+'''
 # this decorator means if not logged in sends back to login page
 # might want to change in future 
 @login_required(login_url='loginPage')
