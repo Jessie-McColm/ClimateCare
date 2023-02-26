@@ -17,6 +17,7 @@ def register_user(request):
     # if user already loggged in, redirect to the home kitty page
     if request.user.is_authenticated:
         return redirect('kitty')
+    # this is a test thing
 
     else:
         form = CreateUserForm()
