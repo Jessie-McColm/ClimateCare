@@ -67,7 +67,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a href="">
+                    <a id = "tupperware" href="">
                         <div class="container-2">
                             <div class ="tupperware">
                                 <div class="tup-cap"></div>
@@ -83,7 +83,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a href="">
+                    <a id = "waterbottle" href="">
                         <div class="container-3">
                             <div class="waterbottle">
                                 <div class="bottle-cap">
@@ -100,7 +100,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a href="">
+                    <a id = "recycling" href="">
                         <div class="container-4">
                             <div class ="recycling-bin">
                                 <div class="cap-top"></div>
@@ -121,5 +121,48 @@
         </div>
         <br>
     </div>
+
+    <script>
+        function geoLocate(task) {
+           
+            function success(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                var coordinates = new Array(2);
+                coordinates = (latitude, longitude);
+                sendPostRequest(coordinates, task);
+            }
+            
+            function error() {
+                alert("unable to retrieve your location");
+            }
+            
+            if (!navigator.geolocation) {
+                alert("Geolocation is not supported by your browser");
+            } else {
+            const options = {
+            enableHighAccuracy: true,
+            maximumAge: 30000,
+            timeout: 27000
+            };
+                navigator.geolocation.getCurrentPosition(success, error, options);
+                return success();
+            }
+        }
+
+        function sendPostRequest(coordinates, task) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onload = function() {
+
+            };
+            xhttp.open('POST', '', true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("coordinates=" + coordinates);
+            xhttp.send("task=" + task);
+        }
+        
+        document.querySelector('#waterbottle').addEventListener('click', geoLocate('water'));
+        document.querySelector('#recycling').addEventListener('click', geoLocate('litter'));
+    </script>
 
 {% endblock %}

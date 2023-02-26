@@ -53,12 +53,13 @@ def kitty(request):
 
     if request.method == "POST":
             #set null coordinates for feeding
-            coordinates = request.POST.get('coordinates')
             task = request.POST.get('task')
             if task=="water":
                 '''
                 perform some calculations to see if in range of a fountain
                 if success'''
+                coordinates = request.POST.get('coordinates')
+                print(coordinates, task)
                 cat_data.last_thirst_refill=currentTime  #(is this how you edit?)
                 cat_data.save() 
                 #can we play a little animation?
@@ -69,6 +70,8 @@ def kitty(request):
                 '''
                 perform some calculations to see if in range of a bin
                 if success'''
+                coordinates = request.POST.get('coordinates')
+                print(coordinates, task)
                 cat_data.last_litter_refill=currentTime  
                 cat_data.save() 
                 #can we play a little animation?
