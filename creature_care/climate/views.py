@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login,logout
-from .models import Profile,Creature,Advice
+from .models import Profile,Creature,Advice,LocationBin,LocationFountain
 import random
 
 from django.contrib.auth.decorators import login_required
@@ -50,32 +50,45 @@ def kitty(request):
     info['colour'] = cat_data.colour
     info['name'] = cat_data.name
     info['task']="none"
-
+    coordinates = request.POST.get('coordinates')
     if request.method == "POST":
             #set null coordinates for feeding
             task = request.POST.get('task')
             if task=="water":
-                '''
-                perform some calculations to see if in range of a fountain
-                if success'''
-                coordinates = request.POST.get('coordinates')
-                print(coordinates, task)
-                cat_data.last_thirst_refill=currentTime  #(is this how you edit?)
-                cat_data.save() 
-                #can we play a little animation?
-                info['task']='water'
-        
+                total_fountains = len(list(LocationFountain.objects.all())) #gets the number of fountains possible
+                location_counter = 0 #counter used to iterate through LocationFountain.objects.all()
+                success = False #boolean to confirm a location has been found
+                while ((success == False) and (location_counter != total_fountains - 1)): #iterates through
+                    #every single location, checking if the user is within distance
+                    current_fountain = list(LocationFountain.objects.all())[location_counter]
+                    success = within_distance((coordinates[0], coordinates[1]), (current_fountain.latitude, current_fountain.longitude), 100)
+                    location_counter = location_counter + 1
+                if (success == True): #if a valid location is found, this condition is chosen
+                    print(coordinates, task)
+                    cat_data.last_thirst_refill=currentTime  #(is this how you edit?)
+                    cat_data.save()
+                    #can we play a little animation?
+                    info['task']='water'
+                else: #if no valid location is found, this condition is chosen
+                    #error display maybe?
+                    print("not within distance")
             if task=="litter":
-            
-                '''
-                perform some calculations to see if in range of a bin
-                if success'''
-                coordinates = request.POST.get('coordinates')
-                print(coordinates, task)
-                cat_data.last_litter_refill=currentTime  
-                cat_data.save() 
-                #can we play a little animation?
-                info['task']='clean'
+                total_bins = len(list(LocationBin.objects.all())) #gets the number of bins possible
+                location_counter = 0
+                success = False 
+                while ((success == False) and (location_counter != total_bins - 1)):
+                    current_bin = list(LocationBin.objects.all())[location_counter]
+                    success = within_distance((coordinates[0], coordinates[1]), (current_bin.latitude, current_bin.longitude), 200)
+                    location_counter = location_counter + 1
+                if (success == True): #if a valid location is found, this condition is chosen
+                    print(coordinates, task)
+                    cat_data.last_litter_refill=currentTime  
+                    cat_data.save() 
+                    #can we play a little animation?
+                    info['task']='clean'
+                else: #if no valid location is found, this condition is chosen
+                    #error display maybe?
+                    print("not within distance")
             
             if task == "feed":
                 cat_data.last_food_refill=currentTime  #(is this how you edit?)
