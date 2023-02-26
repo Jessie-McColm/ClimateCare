@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login,logout
 from .models import Profile,Creature,Advice,LocationBin,LocationFountain
 import random
+import re
 
 from django.contrib.auth.decorators import login_required
 
@@ -55,10 +56,15 @@ def kitty(request):
     info['colour'] = cat_data.colour
     info['name'] = cat_data.name
     info['task']="none"
-    coordinates = request.POST.get('coordinates')
+
     if request.method == "POST":
             #set null coordinates for feeding
             task = request.POST.get('task')
+            coordinates_string = request.POST.get('coordinates')
+
+            # will need testing
+            coordinates = string_coord_convert(coordinates_string)
+
             if task=="water":
                 total_fountains = len(list(LocationFountain.objects.all())) #gets the number of fountains possible
                 location_counter = 0 #counter used to iterate through LocationFountain.objects.all()
@@ -219,4 +225,14 @@ def within_distance(user_loc, object_loc, m_dist):
         in_range = False
     
     return in_range
+
+def string_coord_convert(coord_string):
+
+    # sort out grouping as shouldnt have to do below with tuple
+    # remove plus symbol if there is one
+    no_plus = coord_string.replace('+','')
+    y = re.findall(r"((\-?|\+?)?\d+(\.\d+)?)", coord_string)
+    coordinates = [y[0][0],y[1][0]]
+    out = tuple([float(value) for value in coordinates])
+    return out
 
