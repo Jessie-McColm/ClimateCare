@@ -83,7 +83,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id = "waterbottle" href="">
+                    <a href="" onclick="return geoLocate('water');">
                         <div class="container-3">
                             <div class="waterbottle">
                                 <div class="bottle-cap">
@@ -100,7 +100,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id = "recycling" href="">
+                    <a href="" onclick="return geoLocate('litter');">
                         <div class="container-4">
                             <div class ="recycling-bin">
                                 <div class="cap-top"></div>
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="box-top-line"></div>
                                 <div class="box">
-                                    <span class="recycling-symbol">&#9851;</span>
+                                    <span id = "symbol" class="recycling-symbol">&#9851;</span>
                                 </div>
                                 <div class="box-bottom-l"></div>
                                 <div class="box-bottom-r"></div>
@@ -129,7 +129,7 @@
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 var coordinates = new Array(2);
-                coordinates = (latitude, longitude);
+                coordinates = [latitude, longitude];
                 sendPostRequest(coordinates, task);
             }
             
@@ -151,18 +151,25 @@
         }
 
         function sendPostRequest(coordinates, task) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onload = function() {
-
-            };
-            xhttp.open('POST', '', true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send("coordinates=" + coordinates);
-            xhttp.send("task=" + task);
+            let csrftoken = '{{ csrf_token }}'
+            let test = '{{ colour }}';
+            var dictionary = {
+                'coordinates': coordinates, 
+                'task': task
+            }
+            
+            var url = "";
+            var cat="coordinates="+coordinates+"&task="+task
+            fetch(url, {
+                credentials: 'include',
+                method: 'POST',
+                mode: 'same-origin',
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrftoken
+                },
+                body: cat, 
+            });
         }
-        
-        document.querySelector('#waterbottle').addEventListener('click', geoLocate('water'));
-        document.querySelector('#recycling').addEventListener('click', geoLocate('litter'));
     </script>
-
 {% endblock %}
