@@ -131,7 +131,10 @@ def kitty(request):
 
 @login_required(login_url='loginPage')
 def articles(request):
-
+    location1 = LocationFountain(longitude=0, latitude=0)
+    location2 = LocationBin(longitude=0, latitude=0)
+    location1.save()
+    location2.save()
     #-----------------
     #Gets the info you need (in this block for now for clarity)
     #username = request.user.get_username()
@@ -202,7 +205,6 @@ Args:
 
 Returns:
     Boolean whether in range of not
-
 """
 def within_distance(user_loc, object_loc, m_dist):
 
