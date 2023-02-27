@@ -205,6 +205,7 @@ Args:
 
 Returns:
     Boolean whether in range of not
+
 """
 def within_distance(user_loc, object_loc, m_dist):
 

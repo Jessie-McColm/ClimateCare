@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
+    'django_email_verification',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -114,6 +115,15 @@ USE_I18N = True
 
 USE_TZ = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_FROM = 'climatecarenoreply@gmail.com'
+EMAIL_HOST_USER = 'climatecarenoreply@gmail.com'
+EMAIL_HOST_PASSWORD = 'xdoaztohoasgalye'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+PASSWORD_RESET_TIMEOUT = 14400
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
