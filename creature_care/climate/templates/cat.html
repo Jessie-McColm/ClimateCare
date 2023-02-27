@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'recycling_bin.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'tupperware.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'waterbottle.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'advice.css' %}">
 
     <style>                                     
         body {
@@ -25,6 +26,13 @@
 {% endblock %}
 
 {% block content %}
+<div class = "container">
+    <div class = "bubble">
+        <span id = "advice" class = "speech">hello this is a super long sentence</span>
+    </div>
+    <div class = "bubble2"></div>
+    <div class = "bubble3"></div>
+</div>
 <div class="container-1">
     <div class="cat">
         <div class="face">
@@ -172,7 +180,7 @@
         }
         let watered = '{{ watered }}';
         let cleaned = '{{ cleaned }}';
-        if (watered == 'True') {
+        if (watered == 'True' && cleaned == 'True') {
             document.getElementById("tear").style.display = "none";
         }
         if (cleaned == 'True') {
