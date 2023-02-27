@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
-from climate.models import Creature, Profile, LocationFountain, LocationBin
+from climate.models import Creature, Profile, LocationFountain, LocationBin, Advice
 from django.test import Client
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
@@ -228,6 +228,11 @@ class KittyIndexTests(TestCase):
                               "task":"water"})
         self.assertNotEqual(response.context['task'],"clean")
         self.assertEqual(response.status_code, 200)
+    
+    def test_advice_creation(self):
+        advice1 = Advice.objects.create(link="https://example.com", source="admin")
+        advice2 = Advice.objects.create(content="this is some advice!", source="admin")
+        self.assertEqual(len(list(Advice.objects.all())), 2)
 
 
 
