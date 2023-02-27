@@ -34,18 +34,26 @@ def allowed_users(allowed_roles=[]):
 def game_master(view_func):
     
     def wrapper_func(request, *args, **kwargs):
-        group = None
+        
+        if is_dev_or_gm(request):
+                return view_func(request, *args, **kwargs)
+        else:
+            return redirect('kitty')
+    
+    return wrapper_func
 
-        if request.user.groups.exists():
-            groups = request.user.groups.all()
+
+def is_dev_or_gm(request):
+    group = None
+
+    if request.user.groups.exists():
+        groups = request.user.groups.all()
 
         for group in groups:
             group_name = group.name
-            # print(group_name) for testing to see what access you are
+            print(group_name)
 
             if ("Game_master" == group_name) or (("Developers" == group_name)) :
-                return view_func(request, *args, **kwargs)
+                return True
         
-        return redirect('kitty')
-    
-    return wrapper_func
+    return False
