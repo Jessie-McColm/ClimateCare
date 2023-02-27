@@ -19,21 +19,19 @@ from django.contrib.auth.decorators import login_required
 import haversine as hs
 from haversine import Unit
 
-'''
-The main page of the project, accessed using /kitty/. Displays the creature and shows its current state,
-while providing functionality to feed/water/clean it. Uses geolocation functionality to verify whether a
-user is within a sensible distance from a fountain/bin
 
-request = the POST sent from the website containing the user query 
-'''
 # this decorator means if not logged in sends back to login page
 # might want to change in future 
 @login_required(login_url='loginPage')
 #@allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 def kitty(request):
-    
-   # return render(request, 'cat.html')
-    #will pass a dict of various DB info gotten from the user - can this be handled in html?
+    '''
+    The main page of the project, accessed using /. Displays the creature and shows its current state,
+    while providing functionality to feed/water/clean it. Uses geolocation functionality to verify whether a
+    user is within a sensible distance from a fountain/bin
+
+    request = the POST sent from the website containing the user query 
+    '''
 
     #-----------------
     #Gets the info you need (in this block for now for clarity)
@@ -54,6 +52,7 @@ def kitty(request):
     info={}
     info['watered']=False
     info['cleaned']=False
+    info['fed']=False
 
     info['colour'] = cat_data.colour
     info['name'] = cat_data.name
@@ -108,6 +107,8 @@ def kitty(request):
                 cat_data.save() 
                 #can we play a little animation?
                 info['task']='feed'
+                info['fed']=True
+                info['advice']=retrieveAdvice()
         
 
     
@@ -187,7 +188,6 @@ def articles(request):
 #@allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 @game_master
 def game_master_page(request):
-
     return HttpResponse("You're at the master page")
 
 
@@ -251,7 +251,6 @@ def string_coord_convert(coord_string):
     # remove plus symbol if there is one
     no_plus = coord_string.replace('+','')
     y = re.findall(r"((\-?|\+?)?\d+(\.\d+)?)", coord_string)
-
     coordinates = [y[0][0],y[1][0]]
     out = tuple([float(value) for value in coordinates])
     return out
