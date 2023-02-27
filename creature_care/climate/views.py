@@ -26,11 +26,16 @@ from haversine import Unit
 #@allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 def kitty(request):
     '''
-    The main page of the project, accessed using /. Displays the creature and shows its current state,
+    The main page of the project, accessed using climate/. Displays the creature and shows its current state,
     while providing functionality to feed/water/clean it. Uses geolocation functionality to verify whether a
     user is within a sensible distance from a fountain/bin
 
-    request = the POST sent from the website containing the user query 
+    Args:
+        request(HTTP request): the http request send by a front end client viewing the url 
+
+    Returns:
+        render(request, 'cat.html',info): renders the template 'cat.html' with the context variables stored in the dictionary
+        called info
     '''
 
     #-----------------
@@ -70,7 +75,7 @@ def kitty(request):
                 total_fountains = len(list(LocationFountain.objects.all())) #gets the number of fountains possible
                 location_counter = 0 #counter used to iterate through LocationFountain.objects.all()
                 success = False #boolean to confirm a location has been found
-                while ((success == False) and (location_counter != total_fountains - 1)): #iterates through
+                while ((success == False) and (location_counter <= total_fountains - 1)): #iterates through
                     #every single location, checking if the user is within distance
                     current_fountain = list(LocationFountain.objects.all())[location_counter]
                     success = within_distance((coordinates[0], coordinates[1]), (current_fountain.latitude, current_fountain.longitude), 100)
@@ -88,7 +93,7 @@ def kitty(request):
                 total_bins = len(list(LocationBin.objects.all())) #gets the number of bins possible
                 location_counter = 0
                 success = False 
-                while ((success == False) and (location_counter != total_bins - 1)):
+                while ((success == False) and (location_counter <= total_bins - 1)):
                     current_bin = list(LocationBin.objects.all())[location_counter]
                     success = within_distance((coordinates[0], coordinates[1]), (current_bin.latitude, current_bin.longitude), 200)
                     location_counter = location_counter + 1
@@ -199,15 +204,17 @@ def page_not_found_view(request, exception):
 
 #---------Below not views but functions for views ----------------
 
-'''
-This function retrieves a random piece of advice available in the Advice database.
 
-Output is a list of data, the first item being "link" or "message". This determines
-whether the user will be simply given a link to click or message to read. The second
-item is either 1) the link or 2) the content. The third item is always the source of
-the information.
-'''
 def retrieveAdvice():
+    '''
+    This function retrieves a random piece of advice available in the Advice database.
+
+    Returns:
+         A list of data, the first item being "link" or "message". This determines
+         whether the user will be simply given a link to click or message to read. The second
+         item is either 1) the link or 2) the content. The third item is always the source of
+         the information.
+    '''
     random_population = list(Advice.objects.all())
     advice_object = random.choice(random_population) 
     content = advice_object.content
@@ -218,18 +225,19 @@ def retrieveAdvice():
     else:
         return ["message", content, source]
 
-"""
-Calculates haversine distance (not euclidean) and returns if within distance
 
-Args:
-    user_loc: tuple of user location (lattitude, longitude)
-    object_loc: tuple of object location (lattitude, longitude)
-    m_dist: maximum desired distance between objects
-
-Returns:
-    Boolean whether in range of not
-"""
 def within_distance(user_loc, object_loc, m_dist):
+    """
+    Calculates haversine distance (not euclidean) and returns if within distance
+
+    Args:
+        user_loc (tuple): tuple of user location (lattitude, longitude)
+        object_loc (tuple): tuple of object location (lattitude, longitude)
+        m_dist (float CHECK): maximum desired distance between objects
+
+    Returns:
+        in_range (Bool): whether in range of not
+    """
 
     # using haversine distance not eulcidean
     
@@ -246,6 +254,14 @@ def within_distance(user_loc, object_loc, m_dist):
 
 
 def string_coord_convert(coord_string):
+    """
+    Converts a set of coordinates from a string to a tuple of two floats
+
+    Args:
+        coord_string(String): two coordinates seperated by a comma
+    Returns:
+        out(tuple): a tuple of the latitude and longitude as floats
+    """
 
     # sort out grouping as shouldnt have to do below with tuple
     # remove plus symbol if there is one

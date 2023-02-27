@@ -79,8 +79,8 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
-        location = LocationFountain(longitude=0, latitude=0)
-        location.save()
+        new_advice = Advice(content="example advice", source ="example")
+        new_advice.save()
         
         client.post(path='/users/login_user', data=
         {
@@ -92,6 +92,7 @@ class KittyIndexTests(TestCase):
                              {"coordinates":"0,0",
                               "task":"feed"})
         self.assertEqual(response.context['task'],"feed")
+        self.assertEqual(response.context['advice'],["message","example advice","example"])
         self.assertEqual(response.status_code, 200)
 
     def test_post_not_articles(self):
