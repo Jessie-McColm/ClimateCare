@@ -37,10 +37,10 @@ class KittyIndexTests(TestCase):
 
     def test_unauthorised_user(self):
         client=Client()
-        response=client.get(path='/climate/')
+        response=client.get(path='/climate/kitty')
         self.assertEqual(response.status_code, 302)
         #should ask lucia why this happens
-        self.assertEqual(response.url,"/users/login_user?next=/climate/")
+        self.assertEqual(response.url,"/users/login_user?next=/climate/kitty")
         
 
     def test_authorised_user(self):
@@ -63,7 +63,7 @@ class KittyIndexTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        response=client.get(path='/climate/')
+        response=client.get(path='/climate/kitty')
         self.assertTrue(response.context['user'].is_authenticated)
         self.assertEqual(response.status_code, 200)
 
@@ -88,11 +88,10 @@ class KittyIndexTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        response=client.post(path='/climate/', data=
+        response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"feed"})
         self.assertEqual(response.context['task'],"feed")
-        self.assertEqual(response.context['advice'],["message","example advice","example"])
         self.assertEqual(response.status_code, 200)
 
     def test_post_not_articles(self):
@@ -116,7 +115,7 @@ class KittyIndexTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        response=client.post(path='/climate/', data=
+        response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"water"})
         self.assertNotEqual(response.context['task'],"feed")
@@ -143,7 +142,7 @@ class KittyIndexTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        response=client.post(path='/climate/', data=
+        response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"water"})
         self.assertEqual(response.context['task'],"water")
@@ -170,7 +169,7 @@ class KittyIndexTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        response=client.post(path='/climate/', data=
+        response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"litter"})
         self.assertNotEqual(response.context['task'],"water")
@@ -197,7 +196,7 @@ class KittyIndexTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        response=client.post(path='/climate/', data=
+        response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"litter"})
         self.assertEqual(response.context['task'],"clean")
@@ -224,7 +223,7 @@ class KittyIndexTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        response=client.post(path='/climate/', data=
+        response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"water"})
         self.assertNotEqual(response.context['task'],"clean")

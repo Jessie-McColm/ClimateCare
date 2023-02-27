@@ -75,7 +75,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a href="" onclick="return getArticle();">
+                    <a href="http://127.0.0.1:8000/climate/kitty/articles" onclick="return getArticle();">
                         <div class="container-2">
                             <div class ="tupperware">
                                 <div class="tup-cap"></div>
@@ -184,13 +184,13 @@
                 body: cat, 
             });
         }
-        let watered = '{{ watered }}';
-        let cleaned = '{{ cleaned }}';
-        let fed = '{{ fed }}';
-        if (watered == 'True' && cleaned == 'True' && fed == 'True') {
+        let thirsty = '{{ thirsty }}';
+        let stinky = '{{ stinky }}';
+        let hungry = '{{ hungry }}';
+        if (thirsty == 'False' && stinky == 'False' && hungry == 'False') {
             document.getElementById("tear").style.display = "none";
         }
-        if (cleaned == 'True') {
+        if (stinky == 'False') {
             document.getElementById("poop").style.display = "none";
         }
     </script>

@@ -24,7 +24,7 @@ from haversine import Unit
 # might want to change in future 
 @login_required(login_url='loginPage')
 #@allowed_users(allowed_roles=['Developers','Game_masters','Player'])
-def kitty(request):
+def kitty(request,type_of="none"):
     '''
     The main page of the project, accessed using climate/. Displays the creature and shows its current state,
     while providing functionality to feed/water/clean it. Uses geolocation functionality to verify whether a
@@ -112,13 +112,23 @@ def kitty(request):
                 cat_data.save() 
                 #can we play a little animation?
                 info['task']='feed'
-                info['fed']=True
-                articlesList=retrieveAdvice()
-                info['content'] = str(articlesList[0])
-                info['advice'] = str(articlesList[1])
-                info['example'] = str(articlesList[2])
-        
+                
+    #always a get after a post so need to do this
+    if type_of == "articles":
+        info['fed']=True
+        print("hii")
+        articlesList=retrieveAdvice()
+        info['content'] = str(articlesList[0])
+        info['advice'] = str(articlesList[1])
+        info['example'] = str(articlesList[2])
 
+    if type_of == "water":
+        info['watered']=True
+
+    if type_of == "clean":
+        info['cleaned']=True
+       
+        
     
     water_time_difference= currentTime-cat_data.last_thirst_refill
     litter_time_difference= currentTime-cat_data.last_litter_refill
