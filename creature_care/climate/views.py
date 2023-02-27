@@ -71,7 +71,7 @@ def kitty(request):
                 total_fountains = len(list(LocationFountain.objects.all())) #gets the number of fountains possible
                 location_counter = 0 #counter used to iterate through LocationFountain.objects.all()
                 success = False #boolean to confirm a location has been found
-                while ((success == False) and (location_counter != total_fountains - 1)): #iterates through
+                while ((success == False) and (location_counter <= total_fountains - 1)): #iterates through
                     #every single location, checking if the user is within distance
                     current_fountain = list(LocationFountain.objects.all())[location_counter]
                     success = within_distance((coordinates[0], coordinates[1]), (current_fountain.latitude, current_fountain.longitude), 100)
@@ -89,7 +89,7 @@ def kitty(request):
                 total_bins = len(list(LocationBin.objects.all())) #gets the number of bins possible
                 location_counter = 0
                 success = False 
-                while ((success == False) and (location_counter != total_bins - 1)):
+                while ((success == False) and (location_counter <= total_bins - 1)):
                     current_bin = list(LocationBin.objects.all())[location_counter]
                     success = within_distance((coordinates[0], coordinates[1]), (current_bin.latitude, current_bin.longitude), 200)
                     location_counter = location_counter + 1

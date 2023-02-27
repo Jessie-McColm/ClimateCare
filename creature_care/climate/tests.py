@@ -79,7 +79,8 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
-
+        location = LocationFountain(longitude=0, latitude=0)
+        location.save()
         
         client.post(path='/users/login_user', data=
         {
@@ -105,8 +106,9 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
+        location = LocationFountain(longitude=0, latitude=0)
+        location.save()
 
-        
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -132,6 +134,7 @@ class KittyIndexTests(TestCase):
         })
         user = User.objects.get(username='kittylover123')
         location = LocationFountain(longitude=0, latitude=0)
+        location.save()
         
         client.post(path='/users/login_user', data=
         {
@@ -157,7 +160,8 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
-        location = LocationFountain(longitude=10000, latitude=10000)
+        location = LocationFountain(longitude=1000, latitude=1000)
+        location.save()
         
         client.post(path='/users/login_user', data=
         {
@@ -184,7 +188,8 @@ class KittyIndexTests(TestCase):
         })
         user = User.objects.get(username='kittylover123')
         location = LocationBin(longitude=0, latitude=0)
-        
+        location.save()
+
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -210,6 +215,7 @@ class KittyIndexTests(TestCase):
         })
         user = User.objects.get(username='kittylover123')
         location = LocationBin(longitude=10000, latitude=10000)
+        location.save()
         
         client.post(path='/users/login_user', data=
         {
