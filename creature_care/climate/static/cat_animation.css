@@ -357,8 +357,8 @@ body{
 .poop{
     position: relative;
     z-index: -1;
-    bottom: 57px;
-    left: 35px;
+    top: 52px;
+    left: 215px;
 }
 
 .poop-1{

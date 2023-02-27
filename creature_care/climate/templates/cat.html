@@ -40,7 +40,7 @@
                 <div class="l1"></div>
                 <div class="l2"></div>
             </div>
-            <div class="tear"></div>
+            <div class="tear" id = "tear"></div>
         </div>
         <div class="body">
             <div class="paw-l"></div>
@@ -55,11 +55,11 @@
         <div class="litter-box-bottom"></div>
         <div class="litter-box-bottom-l"></div>
         <div class="litter-box-bottom-r"></div>
-        <div class="poop">
-            <div class="poop-1"></div>
-            <div class="poop-2"></div>
-            <div class="poop-3"></div>
-        </div>
+    </div>
+    <div class="poop" id = "poop">
+        <div class="poop-1"></div>
+        <div class="poop-2"></div>
+        <div class="poop-3"></div>
     </div>
 </div>
 
@@ -152,7 +152,6 @@
 
         function sendPostRequest(coordinates, task) {
             let csrftoken = '{{ csrf_token }}'
-            let test = '{{ colour }}';
             var dictionary = {
                 'coordinates': coordinates, 
                 'task': task
@@ -170,6 +169,14 @@
                 },
                 body: cat, 
             });
+        }
+        let watered = '{{ watered }}';
+        let cleaned = '{{ cleaned }}';
+        if (watered == 'True') {
+            document.getElementById("tear").style.display = "none";
+        }
+        if (cleaned == 'True') {
+            document.getElementById("poop").style.display = "none";
         }
     </script>
 {% endblock %}
