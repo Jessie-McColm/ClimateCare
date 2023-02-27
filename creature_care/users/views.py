@@ -13,6 +13,19 @@ from .decorators import unauthenticated_user
 # only lets you access if not logged in
 @unauthenticated_user
 def register_user(request):
+    """
+    The registration page of the project, accessed using /users/register_user. Allows new users to create a new user account with their chosen username and password. Only creates users in
+    'player' group.
+
+    Args:
+        request(HTTP request): the http request send by a front end client viewing the url 
+
+    Returns:
+        render(request, 'authenticate/register.html', context): renders the template 'register.html' with the context variables stored in the dictionary called context. This will display
+        the registration page to the user if a request other than POST is sent to the page or if the user didn't send valid information to create an account with
+
+        redirect('loginPage'): redirects the user to the login page after they have successfully created a new account      
+    """
     # gets form I have put in forms.py which we can customise later
 
     form = CreateUserForm()
@@ -48,6 +61,19 @@ def register_user(request):
 
 @unauthenticated_user
 def login_user(request):
+
+    """
+    This method logs the user in if the correct credentials have been sent via a POST request. It can be accessed via /users/login_user
+
+     Args:
+        request(HTTP request): the http request send by a front end client viewing the url 
+
+    Returns:
+        redirect('loginPage'): redirects the user to the login page if they provided incorrect credentials
+        redirect('kitty'): redirects the user to the kitty (climate/) page if they provided correct credentials and been successfully logged in
+        render(request, 'authenticate/login.html', {}): renders the template 'login.html'. This will display the login page to the user if a request other than POST is sent to the page and
+        allows them to enter their details into a html form
+    """
     # if user already logged in, redirect to the home kitty page
     # if you go to page and actually do something
     if request.method == "POST":
@@ -76,7 +102,15 @@ def login_user(request):
 
 
 def logout_user(request):
-    # this method fully logs the user out
+    """
+    This method fully logs the user out. It can be accessed via /users/logout_user
+
+     Args:
+        request(HTTP request): the http request send by a front end client viewing the url 
+
+    Returns:
+        redirect('loginPage'): redirects the user to the login page after they have successfully logged out
+    """
     # will need to have this in html as a link to logout page so we can logout - note the name is 'logoutPage' for link and can dipslay username with {{request.user}}
     logout(request)
     return redirect('loginPage')
