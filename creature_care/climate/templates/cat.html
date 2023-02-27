@@ -75,7 +75,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a href="" onclick="return sendPostRequest([0,0],'feed');">
+                    <a href="" onclick="return getArticle();">
                         <div class="container-2">
                             <div class ="tupperware">
                                 <div class="tup-cap"></div>
@@ -158,6 +158,12 @@
             }
         }
 
+        function getArticle() {
+            sendPostRequest([0,0],'feed');
+            let content = '{{ content }}';
+            alert(content);
+        }
+
         function sendPostRequest(coordinates, task) {
             let csrftoken = '{{ csrf_token }}'
             var dictionary = {
@@ -180,7 +186,8 @@
         }
         let watered = '{{ watered }}';
         let cleaned = '{{ cleaned }}';
-        if (watered == 'True' && cleaned == 'True') {
+        let fed = '{{ fed }}';
+        if (watered == 'True' && cleaned == 'True' && fed == 'True') {
             document.getElementById("tear").style.display = "none";
         }
         if (cleaned == 'True') {

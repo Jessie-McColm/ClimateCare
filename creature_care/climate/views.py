@@ -108,7 +108,10 @@ def kitty(request):
                 #can we play a little animation?
                 info['task']='feed'
                 info['fed']=True
-                info['advice']=retrieveAdvice()
+                articlesList=retrieveAdvice()
+                info['content'] = str(articlesList[0])
+                info['advice'] = str(articlesList[1])
+                info['example'] = str(articlesList[2])
         
 
     
