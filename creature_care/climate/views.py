@@ -187,6 +187,7 @@ def articles(request):
 #@allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 @game_master
 def game_master_page(request):
+
     return HttpResponse("You're at the master page")
 
 
@@ -250,6 +251,7 @@ def string_coord_convert(coord_string):
     # remove plus symbol if there is one
     no_plus = coord_string.replace('+','')
     y = re.findall(r"((\-?|\+?)?\d+(\.\d+)?)", coord_string)
+
     coordinates = [y[0][0],y[1][0]]
     out = tuple([float(value) for value in coordinates])
     return out

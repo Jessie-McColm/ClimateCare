@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from climate.models import Creature, Profile
 from django.test import Client
 from django.contrib.auth import authenticate
@@ -49,6 +49,7 @@ class KittyIndexTests(TestCase):
     def test_authorised_user(self):
         #test if a given user returns a page with the correct data
         client = Client()
+        g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
         {
             "username": "kittylover123",
@@ -72,6 +73,7 @@ class KittyIndexTests(TestCase):
     def test_post_articles(self):
         #test if valid response if given when a post request is sent to get articles/feed the kitty
         client = Client()
+        g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
         {
             "username": "kittylover123",
@@ -89,7 +91,7 @@ class KittyIndexTests(TestCase):
         })
 
         response=client.post(path='/climate/', data=
-                             {"coordinates":[0,0],
+                             {"coordinates":"0,0",
                               "task":"feed"})
         self.assertEqual(response.context['task'],"feed")
         self.assertEqual(response.status_code, 200)
@@ -97,6 +99,7 @@ class KittyIndexTests(TestCase):
     def test_post_not_articles(self):
         #test if valid response if given when a post request is sent to get articles/feed the kitty
         client = Client()
+        g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
         {
             "username": "kittylover123",
@@ -114,7 +117,7 @@ class KittyIndexTests(TestCase):
         })
 
         response=client.post(path='/climate/', data=
-                             {"coordinates":[0,0],
+                             {"coordinates":"0,0",
                               "task":"water"})
         self.assertNotEqual(response.context['task'],"feed")
         self.assertEqual(response.status_code, 200)
@@ -122,6 +125,7 @@ class KittyIndexTests(TestCase):
     def test_post_water(self):
         #test if valid response if given when a post request is sent to water the kitty
         client = Client()
+        g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
         {
             "username": "kittylover123",
@@ -139,7 +143,7 @@ class KittyIndexTests(TestCase):
         })
 
         response=client.post(path='/climate/', data=
-                             {"coordinates":[0,0],
+                             {"coordinates":"0,0",
                               "task":"water"})
         self.assertEqual(response.context['task'],"water")
         self.assertEqual(response.status_code, 200)
@@ -147,6 +151,7 @@ class KittyIndexTests(TestCase):
     def test_post_not_water(self):
         #test if valid response if given when a post request is sent to water the kitty
         client = Client()
+        g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
         {
             "username": "kittylover123",
@@ -164,7 +169,7 @@ class KittyIndexTests(TestCase):
         })
 
         response=client.post(path='/climate/', data=
-                             {"coordinates":[0,0],
+                             {"coordinates":"0,0",
                               "task":"litter"})
         self.assertNotEqual(response.context['task'],"water")
         self.assertEqual(response.status_code, 200)
@@ -172,6 +177,7 @@ class KittyIndexTests(TestCase):
     def test_post_clean(self):
         #test if valid response if given when a post request is sent to clean the kitty
         client = Client()
+        g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
         {
             "username": "kittylover123",
@@ -189,7 +195,7 @@ class KittyIndexTests(TestCase):
         })
 
         response=client.post(path='/climate/', data=
-                             {"coordinates":[0,0],
+                             {"coordinates":"0,0",
                               "task":"litter"})
         self.assertEqual(response.context['task'],"clean")
         self.assertEqual(response.status_code, 200)
@@ -197,6 +203,7 @@ class KittyIndexTests(TestCase):
     def test_post_not_clean(self):
         #test if valid response if given when a post request is sent to clean the kitty
         client = Client()
+        g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
         {
             "username": "kittylover123",
@@ -214,7 +221,7 @@ class KittyIndexTests(TestCase):
         })
 
         response=client.post(path='/climate/', data=
-                             {"coordinates":[0,0],
+                             {"coordinates":"0,0",
                               "task":"water"})
         self.assertNotEqual(response.context['task'],"clean")
         self.assertEqual(response.status_code, 200)
