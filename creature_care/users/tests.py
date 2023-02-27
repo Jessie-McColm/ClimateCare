@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.test import Client
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -10,6 +10,7 @@ class LoginViewTests(TestCase):
 
     def test_create_user(self):
         client = Client()
+        g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
         {
             "username": "kittylover123",
@@ -23,6 +24,7 @@ class LoginViewTests(TestCase):
 
     def test_login_user(self):
         client_reg = Client()
+        g1 = Group.objects.create(name='Player')
         client_reg.post(path='/users/register_user', data=
         {
             "username": "kittylover123",
@@ -45,6 +47,7 @@ class LoginViewTests(TestCase):
         self.assertEqual(response_login.status_code, 200)
 
     def test_invalid_password(self):
+        g1 = Group.objects.create(name='Player')
         client_reg = Client()
         client_reg.post(path='/users/register_user', data=
         {
@@ -70,6 +73,7 @@ class LoginViewTests(TestCase):
 
     def test_blank_credentials(self):
         client = Client()
+        g1 = Group.objects.create(name='Player')
         client.login()
         response_not_follow = client.post(path='/users/login_user', data={
             "username": "",
@@ -86,6 +90,7 @@ class LoginViewTests(TestCase):
 
     def test_various_chars_in_username(self):
         client = Client()
+        g1 = Group.objects.create(name='Player')
         response = client.post(path='/users/register_user', data={
             "username": "!\"#$%&'()*+,-./0123456789:;<=>?@¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿",
             "email": "strange@characters.com",
@@ -101,6 +106,7 @@ class LoginViewTests(TestCase):
 
     def test_mismatching_passwords(self):
         client = Client()
+        g1 = Group.objects.create(name='Player')
         response = client.post(path='/users/register_user', data={
             "username": "schroedingerskitty",
             "email": "schroedingerskitty@deadoralive.com",

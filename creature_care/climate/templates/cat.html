@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'tupperware.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'waterbottle.css' %}">
 
-    <style>
+    <style>                                     
         body {
             background-color: #649756;
         }
@@ -67,7 +67,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id = "tupperware" href="">
+                    <a href="" onclick="return sendPostRequest([0,0],'feed');">
                         <div class="container-2">
                             <div class ="tupperware">
                                 <div class="tup-cap"></div>
@@ -138,7 +138,7 @@
             }
             
             if (!navigator.geolocation) {
-                alert("Geolocation is not supported by your browser");
+                alert("geolocation is not supported by your browser");
             } else {
             const options = {
             enableHighAccuracy: true,
@@ -159,7 +159,7 @@
             }
             
             var url = "";
-            var cat="coordinates="+coordinates+"&task="+task
+            var cat="coordinates="+coordinates+"&task="+task;
             fetch(url, {
                 credentials: 'include',
                 method: 'POST',

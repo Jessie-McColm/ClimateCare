@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from climate.models import Profile, Creature
@@ -21,16 +21,20 @@ def register_user(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             # makes user :))
-            form.save()
+            user = form.save()
 
             # can get these messages to show up on page later
             # also way of accessing data 
-            user = form.cleaned_data.get('username')
-            messages.success(request, "Account was created for " + user)
+            username = form.cleaned_data.get('username')
+            messages.success(request, "Account was created for " + username)
+
+            # default adds user to Player group
+            group = Group.objects.get(name='Player')
+            user.groups.add(group)
 
             # -------------------
             # creates a creature and a profile for the user 
-            user_obj = User.objects.get(username = user)
+            user_obj = User.objects.get(username = username)
             user_creature = Creature()
             profile = Profile(user=user_obj, creature=user_creature)
             user_creature.save()

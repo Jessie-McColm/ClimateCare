@@ -9,6 +9,7 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login,logout
 from .models import Profile,Creature,Advice,LocationBin,LocationFountain
+from users.decorators import allowed_users, game_master
 import random
 import re
 
@@ -28,6 +29,7 @@ request = the POST sent from the website containing the user query
 # this decorator means if not logged in sends back to login page
 # might want to change in future 
 @login_required(login_url='loginPage')
+#@allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 def kitty(request):
     
    # return render(request, 'cat.html')
@@ -136,6 +138,7 @@ def kitty(request):
 
 
 @login_required(login_url='loginPage')
+#@allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 def articles(request):
     location1 = LocationFountain(longitude=0, latitude=0)
     location2 = LocationBin(longitude=0, latitude=0)
@@ -179,8 +182,22 @@ def articles(request):
     
     return HttpResponse()
 
+
+@login_required(login_url='loginPage')
+#@allowed_users(allowed_roles=['Developers','Game_masters','Player'])
+@game_master
+def game_master_page(request):
+
+    return HttpResponse("You're at the master page")
+
+
 def page_not_found_view(request, exception):
     return render(request, 'notFound.html', status=404)
+
+
+
+
+#---------Below not views but functions for views ----------------
 
 '''
 This function retrieves a random piece of advice available in the Advice database.
@@ -226,12 +243,15 @@ def within_distance(user_loc, object_loc, m_dist):
     
     return in_range
 
+
+
 def string_coord_convert(coord_string):
 
     # sort out grouping as shouldnt have to do below with tuple
     # remove plus symbol if there is one
     no_plus = coord_string.replace('+','')
     y = re.findall(r"((\-?|\+?)?\d+(\.\d+)?)", coord_string)
+
     coordinates = [y[0][0],y[1][0]]
     out = tuple([float(value) for value in coordinates])
     return out
