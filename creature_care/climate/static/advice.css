@@ -1,0 +1,48 @@
+.container{
+    height:500px;
+    width: 350px;
+    background-color: transparent;
+    position: relative;
+    top: 100px;
+    bottom: 0;
+    left: 370px;
+    right: 0;
+    position: absolute;
+    margin: auto;
+}
+.bubble{
+    position: relative;
+    border-radius: 20px;
+    background-color: #ececec;
+    width: 200px;
+    height: 100px;
+}
+.bubble2{
+    top: 5px;
+    left: 5px;
+    position: relative;
+    border-radius: 50px;
+    background-color: #ececec;
+    width: 70px;
+    height: 15px;
+}
+.bubble3{
+    top: 10px;
+    left: 5px;
+    position: relative;
+    border-radius: 50px;
+    background-color: #ececec;
+    width: 15px;
+    height: 15px;
+}
+
+.speech{
+    margin: 15px;
+    height: 100%;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    font-size: 20px;
+    color:#212121;
+    top: 20px;
+}
