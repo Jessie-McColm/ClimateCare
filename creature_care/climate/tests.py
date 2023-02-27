@@ -1,15 +1,12 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
-from climate.models import Creature, Profile
+from climate.models import Creature, Profile, LocationFountain, LocationBin
 from django.test import Client
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
 
 from .views import within_distance
-
-# Create your tests here.
-
 
 class UserModelTests(TestCase):
 
@@ -134,7 +131,7 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
-
+        location = LocationFountain(longitude=0, latitude=0)
         
         client.post(path='/users/login_user', data=
         {
@@ -160,7 +157,7 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
-
+        location = LocationFountain(longitude=10000, latitude=10000)
         
         client.post(path='/users/login_user', data=
         {
@@ -186,7 +183,7 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
-
+        location = LocationBin(longitude=0, latitude=0)
         
         client.post(path='/users/login_user', data=
         {
@@ -212,7 +209,7 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
-
+        location = LocationBin(longitude=10000, latitude=10000)
         
         client.post(path='/users/login_user', data=
         {
