@@ -28,6 +28,9 @@ DEBUG = True
 # for now add this so when set debug to false we get the 404 page
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.2.2']
 
+# makes http into https
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_SSL_REDIRECT = True
 
 # Application definition
 
