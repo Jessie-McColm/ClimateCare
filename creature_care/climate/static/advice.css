@@ -1,0 +1,68 @@
+.container{
+    height:500px;
+    width: 350px;
+    background-color: transparent;
+    position: relative;
+    top: 100px;
+    bottom: 0;
+    left: 370px;
+    right: 0;
+    position: absolute;
+    margin: auto;
+}
+.bubble{
+    position: relative;
+    border-radius: 20px;
+    background-color: #ececec;
+    width: 200px;
+    height: 100px;
+}
+.bubble2{
+    top: 5px;
+    left: 5px;
+    position: relative;
+    border-radius: 50px;
+    background-color: #ececec;
+    width: 70px;
+    height: 15px;
+}
+.bubble3{
+    top: 10px;
+    left: 5px;
+    position: relative;
+    border-radius: 50px;
+    background-color: #ececec;
+    width: 15px;
+    height: 15px;
+}
+
+.allspeech{
+    margin: auto;
+    position: absolute;
+    top: 10%; 
+    left: 0; 
+    bottom: 0; 
+    right: 0;
+}
+.speech{
+    margin-top: 5px;
+    margin-left: 15px;
+    display: block;  
+    font-size: 15px;
+    color:#212121;
+}
+
+.speech1{
+    margin-top: 5px;
+    margin-left: 15px;
+    display: block; 
+    font-size: 13px;
+    color:#212121;
+}
+
+.speech2{
+    margin-left: 15px;
+    display: block; 
+    font-size: 10px;
+    color:#212121;
+}
