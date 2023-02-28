@@ -51,7 +51,6 @@ def register_user(request):
 
             activate_email(request, user, form.cleaned_data.get('email'))
 
-
             return redirect('climate/kitty')
 
         else:
@@ -74,15 +73,17 @@ def activate_email(request, user, email):
     })
     email = EmailMessage(mail_subject, message, to=[email])
     if email.send():
-        print('Email sent...')
+        print('Email sent!')
         messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{email}</b> inbox and click on \
             received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
     else:
         print('FAILURE: Email not sent.')
         messages.error(request, f'Problem sending confirmation email to {email}, check if you typed it correctly.')
 
+
 def activate(request, uidb64, token):
     return redirect('homepage')
+
 
 @unauthenticated_user
 def login_user(request):

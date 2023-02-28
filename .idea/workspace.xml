@@ -4,22 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="adding 10.0.2.2 to the allowed hosts">
-      <change afterPath="$PROJECT_DIR$/creature_care/climate/templates/confirmation.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/creature_care/confirmation/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/creature_care/confirmation/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/creature_care/users/templates/email/template_activate_account.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/creature_care/users/tokens.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/pythonactions.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/pythonactions.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="made some good progress with getting email verification working :D&#10;&#10;- nevan">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/climate/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/climate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/creature_care/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/creature_care/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/users/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/users/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/users/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +23,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -130,7 +122,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677425283470</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="made some good progress with getting email verification working :D&#10;&#10;- nevan">
+      <created>1677529253822</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1677529253822</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -151,6 +150,7 @@
     <MESSAGE value="some very work-in-progress code, pushing so jessie can access it&#10;&#10;- nevan" />
     <MESSAGE value="we figured out how to use django's test environment (finally), and we've verified that the user login system does indeed accept valid username/password combos.&#10;&#10;further tests to do are&#10;- check that valid usernames with wrong passwords are denied&#10;- check that invalid usernames are denied&#10;- check that valid usernames are not compatible with other user's passwords&#10;&#10;:)" />
     <MESSAGE value="adding 10.0.2.2 to the allowed hosts" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding 10.0.2.2 to the allowed hosts" />
+    <MESSAGE value="made some good progress with getting email verification working :D&#10;&#10;- nevan" />
+    <option name="LAST_COMMIT_MESSAGE" value="made some good progress with getting email verification working :D&#10;&#10;- nevan" />
   </component>
 </project>
