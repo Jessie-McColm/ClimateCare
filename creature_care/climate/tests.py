@@ -234,8 +234,6 @@ class KittyIndexTests(TestCase):
         advice2 = Advice.objects.create(content="this is some advice!", source="admin")
         self.assertEqual(len(list(Advice.objects.all())), 2)
 
-
-
 class GeoLocationTests(TestCase):
     
     def test_within_dist(self):
