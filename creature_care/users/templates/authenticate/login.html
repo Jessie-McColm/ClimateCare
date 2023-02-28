@@ -1,13 +1,13 @@
 <!-- tutorial has line to extend base.html from like climate - to do with token and style of page -->
 {% extends "base.html" %}
+{% load static %}
 
 {% block head %}
-    <style>
-        #login {
-            margin-left: 25%;
-            margin-top: 2.5%;
-        }
-    </style>
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet"/> 
+
 {% endblock %}
 
 {% block title %}Login{% endblock %}
@@ -15,34 +15,75 @@
 {% block navbar %}{% endblock %}
 
 {%block content %}
-    <div id="login" class="col-6">
-        <h1>Login</h1>
-        <br>
-        <form action="" method=POST>
-        {% csrf_token %}
-        <form>
-            <div class="form-group">
-                <label for="exampleInputEmail1" class="form-label">Username</label>
-                <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password">
-            </div>
+    <div class="main-column"></div>
+        <div id="login" class="col-6">
+            <h1>Login</h1>
             <br>
-            <input type="submit" value="Submit" class="btn btn-dark">
-        </form>
+            <form action="" method=POST>
+            {% csrf_token %}
+            <form>
+                <div class="form-group">
+                    <label for="exampleInputEmail1" class="form-label">Username</label>
+                    <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password">
+                </div>
+                <br>
+                <input type="submit" value="Submit" class="btn btn-dark">
+            </form>
 
-        <div>
-          <br>
-          <h2>Or register</h2>
-          <br>
-          <a href="{% url 'registerPage' %}">
-            <button type="button" class="btn btn-dark">
-                Register
-            </button>
-          </a>
-      </div>
+            <div>
+                <br>
+                <h2>Or register</h2>
+                <br>
+                <a href="{% url 'registerPage' %}">
+                    <button type="button" class="btn btn-dark">
+                        Register
+                    </button>
+                </a>
+            </div>
 
-    </div> 
+        </div> 
+        
+        <div class="container">
+            <div class="earth">
+                <div class="orbit">
+                    <div class="sun"></div>
+                    <!-- put in the cat -->
+                    <div class="cat">
+                        
+                        <div class="face">
+                            <div class="inner-l"></div>
+                            <div class="inner-r"></div>
+                            <div class="eye-l">
+                                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                            </div>
+                            <div class="eye-r">
+                                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                            </div>
+                            <div class="nose">
+                                <div class="l1"></div>
+                                <div class="l2"></div>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <div class="paw-l"></div>
+                            <div class="paw-r"></div>
+                            <div class="tail"></div>
+                        </div>
+                        <div class="shadow"></div>
+                        <div class="blob1"></div>
+                        <div class="blob2"></div>
+                        <div class="blob6"></div>
+                        <div class="blob4"></div>
+                        <div class="blob5"></div>
+                        <div class="blob3"></div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
