@@ -22,13 +22,18 @@
         div.row {
             height: 25%;
         }
+        
     </style>
 {% endblock %}
 
 {% block content %}
-<div class = "container">
+<div id = "bubble" class = "container">
     <div class = "bubble">
-        <span id = "advice" class = "speech">hello this is a super long sentence</span>
+        <div class = "allspeech">
+            <span id = "message" class = "speech"></span>
+            <span id = "content" class = "speech1"></span>
+            <span id = "source" class = "speech2"></span>
+        </div>
     </div>
     <div class = "bubble2"></div>
     <div class = "bubble3"></div>
@@ -75,7 +80,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a href="http://127.0.0.1:8000/climate/kitty/articles" onclick="return getArticle();">
+                    <a id = "tupperware" href="http://127.0.0.1:8000/climate/kitty/articles" onclick="return getArticle();">
                         <div class="container-2">
                             <div class ="tupperware">
                                 <div class="tup-cap"></div>
@@ -91,7 +96,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a href="" onclick="return geoLocate('water');">
+                    <a id="water" href="" onclick="return geoLocate('water');">
                         <div class="container-3">
                             <div class="waterbottle">
                                 <div class="bottle-cap">
@@ -108,7 +113,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a href="" onclick="return geoLocate('litter');">
+                    <a id="litter" href="" onclick="return geoLocate('litter');">
                         <div class="container-4">
                             <div class ="recycling-bin">
                                 <div class="cap-top"></div>
@@ -160,8 +165,13 @@
 
         function getArticle() {
             sendPostRequest([0,0],'feed');
+            document.getElementById("bubble").style.display = "";
+            let message = '{{ message }}';
             let content = '{{ content }}';
-            alert(content);
+            let source = '{{ source }}'; 
+            document.getElementById("message").textContent = message;
+            document.getElementById("content").textContent = content;
+            document.getElementById("source").textContent = source;
         }
 
         function sendPostRequest(coordinates, task) {
@@ -184,14 +194,33 @@
                 body: cat, 
             });
         }
+
         let thirsty = '{{ thirsty }}';
         let stinky = '{{ stinky }}';
         let hungry = '{{ hungry }}';
+        document.getElementById("bubble").style.display = "";
+        let message = '{{ message }}';
+        let content = '{{ content }}';
+        let source = '{{ source }}'; 
+        document.getElementById("message").textContent = message;
+        document.getElementById("content").textContent = content;
+        document.getElementById("source").textContent = source;
+        if (message == '') {
+            document.getElementById("bubble").style.display = "none";
+        }
         if (thirsty == 'False' && stinky == 'False' && hungry == 'False') {
             document.getElementById("tear").style.display = "none";
         }
         if (stinky == 'False') {
             document.getElementById("poop").style.display = "none";
         }
+        url = window.location.href;
+        url = url.split('/kitty')[0];
+        articlesLink = url + '/kitty/articles';
+        waterLink = url + '/kitty/water';
+        litterLink = url + '/kitty/clean';
+        document.getElementById("tupperware").href = articlesLink;
+        document.getElementById("water").href = waterLink;
+        document.getElementById("litter").href = litterLink;
     </script>
 {% endblock %}

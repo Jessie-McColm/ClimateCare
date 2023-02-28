@@ -36,13 +36,33 @@
     height: 15px;
 }
 
+.allspeech{
+    margin: auto;
+    position: absolute;
+    top: 10%; 
+    left: 0; 
+    bottom: 0; 
+    right: 0;
+}
 .speech{
-    margin: 15px;
-    height: 100%;
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-    font-size: 20px;
+    margin-top: 5px;
+    margin-left: 15px;
+    display: block;  
+    font-size: 15px;
     color:#212121;
-    top: 20px;
+}
+
+.speech1{
+    margin-top: 5px;
+    margin-left: 15px;
+    display: block; 
+    font-size: 13px;
+    color:#212121;
+}
+
+.speech2{
+    margin-left: 15px;
+    display: block; 
+    font-size: 10px;
+    color:#212121;
 }

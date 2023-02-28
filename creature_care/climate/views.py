@@ -116,11 +116,10 @@ def kitty(request,type_of="none"):
     #always a get after a post so need to do this
     if type_of == "articles":
         info['fed']=True
-        print("hii")
         articlesList=retrieveAdvice()
-        info['content'] = str(articlesList[0])
-        info['advice'] = str(articlesList[1])
-        info['example'] = str(articlesList[2])
+        info['message'] = str(articlesList[0])
+        info['content'] = str(articlesList[1])
+        info['source'] = str(articlesList[2])
 
     if type_of == "water":
         info['watered']=True
