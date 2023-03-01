@@ -1,67 +1,69 @@
-from django.contrib.auth.models import User
-from django.shortcuts import render
-from django.http import Http404
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
-from django.template import loader
-from django.urls import reverse
-from django.views import generic
-from django.utils import timezone
-from django.contrib.auth import authenticate, login, logout
-from .models import Profile, Creature, Advice, LocationBin, LocationFountain
-from users.decorators import allowed_users, game_master
+"""
+This is the django view for the main page, and handles user interaction with the Kitty
+"""
 import random
 import re
 
-from django.contrib.auth.decorators import login_required
-
-# requires import!!!!
 import haversine as hs
 from haversine import Unit
 
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+
+from users.decorators import game_master
+from .models import Profile, Advice, LocationBin, LocationFountain
+
 
 # this decorator means if not logged in sends back to login page
-# might want to change in future 
+# might want to change in future
 @login_required(login_url='loginPage')
 # @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 def kitty(request, type_of="none"):
-    '''
-    The main page of the project, accessed using climate/. Displays the creature and shows its current state,
-    while providing functionality to feed/water/clean it. Uses geolocation functionality to verify whether a
-    user is within a sensible distance from a fountain/bin
+    """
+    The main page of the project, accessed using climate/. Displays the creature and shows its
+    current state, while providing functionality to feed/water/clean it. Uses geolocation
+    functionality to verify whether a user is within a sensible distance from a fountain/bin
 
     Args:
-        request(HTTP request): the http request send by a front end client viewing the url 
+        request(HTTP request): the http request send by a front end client viewing the url
+        type_of: Caught from the URL, used to send back article data
 
     Returns:
-        render(request, 'cat.html',info): renders the template 'cat.html' with the context variables stored in the dictionary
-        called info
-    '''
+        render(request, 'cat.html',info): renders the template 'cat.html' with the context
+        variables stored in the dictionary called info
+    """
 
     # -----------------
     # Gets the info you need (in this block for now for clarity)
-    username = request.user.get_username()
+    # username = request.user.get_username()
 
-    # can also use this: User.objects.get(username = username) 
+    # can also use this: User.objects.get(username = username)
     user_obj = request.user
-
     user_prof = Profile.objects.get(user=user_obj)
     cat_data = user_prof.creature
 
-    # -----------------
+    # ----------------------------------------------------------------------------------
 
     # calculating the time difference to determine how stinky/thirsty/ etc the kitty is
     # better to calculate each time we send page cause changes depending on current time
-    threeDays = 259200
-    currentTime = timezone.now()
-    info = {}
-    info['watered'] = False
-    info['cleaned'] = False
-    info['fed'] = False
-
-    info['colour'] = cat_data.colour
-    info['name'] = cat_data.name
-    info['task'] = "none"
+    current_time = timezone.now()
+    three_days = 259200
+    info = {
+        'watered': False,
+        'cleaned': False,
+        'fed': False,
+        'colour': cat_data.colour,
+        'name': cat_data.name,
+        'task': "none",
+        'message': "",
+        'source': "",
+        'content': "",
+        'thirsty': False,
+        'stinky': False,
+        'hungry': False
+    }
 
     if request.method == "POST":
         # set null coordinates for feeding
@@ -72,45 +74,17 @@ def kitty(request, type_of="none"):
         coordinates = string_coord_convert(coordinates_string)
 
         if task == "water":
-            total_fountains = len(list(LocationFountain.objects.all()))  # gets the number of fountains possible
-            location_counter = 0  # counter used to iterate through LocationFountain.objects.all()
-            success = False  # boolean to confirm a location has been found
-            while ((success == False) and (location_counter <= total_fountains - 1)):  # iterates through
-                # every single location, checking if the user is within distance
-                current_fountain = list(LocationFountain.objects.all())[location_counter]
-                success = within_distance((coordinates[0], coordinates[1]),
-                                          (current_fountain.latitude, current_fountain.longitude), 100)
-                location_counter = location_counter + 1
-            if (success == True):  # if a valid location is found, this condition is chosen
-                print(coordinates, task)
-                cat_data.last_thirst_refill = currentTime  # (is this how you edit?)
-                cat_data.save()
-                # can we play a little animation?
+            near_water = validate_location(coordinates, cat_data, task)
+            if near_water:
                 info['task'] = 'water'
-            else:  # if no valid location is found, this condition is chosen
-                # error display maybe?
-                print("not within distance")
-        if task == "litter":
-            total_bins = len(list(LocationBin.objects.all()))  # gets the number of bins possible
-            location_counter = 0
-            success = False
-            while ((success == False) and (location_counter <= total_bins - 1)):
-                current_bin = list(LocationBin.objects.all())[location_counter]
-                success = within_distance((coordinates[0], coordinates[1]),
-                                          (current_bin.latitude, current_bin.longitude), 200)
-                location_counter = location_counter + 1
-            if (success == True):  # if a valid location is found, this condition is chosen
-                print(coordinates, task)
-                cat_data.last_litter_refill = currentTime
-                cat_data.save()
-                # can we play a little animation?
-                info['task'] = 'clean'
-            else:  # if no valid location is found, this condition is chosen
-                # error display maybe?
-                print("not within distance")
 
-        if task == "feed":
-            cat_data.last_food_refill = currentTime  # (is this how you edit?)
+        elif task == "litter":
+            near_bin = validate_location(coordinates, cat_data, task)
+            if near_bin:
+                info['task'] = 'clean'
+
+        elif task == "feed":
+            cat_data.last_food_refill = current_time  # (is this how you edit?)
             cat_data.save()
             # can we play a little animation?
             info['task'] = 'feed'
@@ -118,10 +92,10 @@ def kitty(request, type_of="none"):
     # always a get after a post so need to do this
     if type_of == "articles":
         info['fed'] = True
-        articlesList = retrieveAdvice()
-        info['message'] = str(articlesList[0])
-        info['content'] = str(articlesList[1])
-        info['source'] = str(articlesList[2])
+        articles_list = retrieve_advice()
+        info['message'] = str(articles_list[0])
+        info['content'] = str(articles_list[1])
+        info['source'] = str(articles_list[2])
 
     if type_of == "water":
         info['watered'] = True
@@ -129,31 +103,80 @@ def kitty(request, type_of="none"):
     if type_of == "clean":
         info['cleaned'] = True
 
-    water_time_difference = currentTime - cat_data.last_thirst_refill
-    litter_time_difference = currentTime - cat_data.last_litter_refill
-    food_time_difference = currentTime - cat_data.last_food_refill
+    current_time = timezone.now()
+
+    water_time_difference = current_time - cat_data.last_thirst_refill
+    litter_time_difference = current_time - cat_data.last_litter_refill
+    food_time_difference = current_time - cat_data.last_food_refill
+
     water_time_difference_seconds = water_time_difference.total_seconds()
     litter_time_difference_seconds = litter_time_difference.total_seconds()
     food_time_difference_seconds = food_time_difference.total_seconds()
 
-    if water_time_difference_seconds > threeDays:
+    if water_time_difference_seconds > three_days:
         info['thirsty'] = True
-    else:
-        info['thirsty'] = False
 
-    if litter_time_difference_seconds > threeDays:
+    elif litter_time_difference_seconds > three_days:
         info['stinky'] = True
-    else:
-        info['stinky'] = False
 
-    if food_time_difference_seconds > threeDays:
+    elif food_time_difference_seconds > three_days:
         info['hungry'] = True
-    else:
-        info['hungry'] = False
 
     return render(request, 'cat.html', info)
 
 
+def validate_location(coordinates, cat_data, location_type):
+    """
+    Verifies whether the user is near a bin/fountain location by performing calculations based on
+    the user's geolocation and the location data stored on bins/fountains.
+
+    Args:
+        coordinates: The user's coordinates to be validated
+        cat_data: The cat object representing the user's cat in the database, through which
+                  datetime stamps will be updated
+        location_type: A string specifying whether the user is near a bin or a water fountain
+
+    Returns:
+        A boolean that denotes whether the user is near a location or not
+          + True means the user is near a bin/fountain
+          - False means the user is NOT near a bin/fountain
+    """
+    success = False
+    location_counter = 0
+    if location_type == 'bin':
+        num_locations = len(list(LocationBin.objects.all()))
+        while (success is False) and (location_counter <= num_locations - 1):
+            current_bin = list(LocationBin.objects.all())[location_counter]
+            success = within_distance(
+                (coordinates[0], coordinates[1]),
+                (current_bin.latitude, current_bin.longitude),
+                200
+            )
+            location_counter = location_counter + 1
+
+    elif location_type == 'water':
+        num_locations = len(list(LocationFountain.objects.all()))
+        while (success is False) and (location_counter <= num_locations - 1):
+            # every single location, checking if the user is within distance
+            current_fountain = list(LocationFountain.objects.all())[location_counter]
+            success = within_distance(
+                (coordinates[0], coordinates[1]),
+                (current_fountain.latitude, current_fountain.longitude),
+                100
+            )
+            location_counter = location_counter + 1
+
+    if success:  # if a valid location is found, this condition is chosen
+        print(coordinates, location_type)
+        current_time = timezone.now()
+        cat_data.last_litter_refill = current_time
+        cat_data.save()
+        return True
+    print("not within distance")
+    return False  # if no valid location is found, this is returned (may need error display)
+
+
+"""
 @login_required(login_url='loginPage')
 # @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 def articles(request):
@@ -165,7 +188,7 @@ def articles(request):
     # Gets the info you need (in this block for now for clarity)
     # username = request.user.get_username()
 
-    # can also use this: User.objects.get(username = username) 
+    # can also use this: User.objects.get(username = username)
     # user_obj =  request.user
 
     # user_prof=Profile.objects.get(user = user_obj)
@@ -198,24 +221,32 @@ def articles(request):
     # Do something for anonymous users.
 
     return HttpResponse()
-
+"""
 
 @login_required(login_url='loginPage')
 # @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 @game_master
-def game_master_page(request):
+def game_master_page():  # may need to add `request` as param
     return HttpResponse("You're at the master page")
 
 
-def page_not_found_view(request, exception):
+def page_not_found_view(request):
+    """
+    Redirects the user to the notFound.html page if they enter an invalid URL.
+
+    Args:
+        request(HTTP request): the http request send by a front end client viewing the url
+    Returns:
+        render(request, 'notFound.html', status=404) renders the template 'cat.html'
+    """
     return render(request, 'notFound.html', status=404)
 
 
 # ---------Below not views but functions for views ----------------
 
 
-def retrieveAdvice():
-    '''
+def retrieve_advice():
+    """
     This function retrieves a random piece of advice available in the Advice database.
 
     Returns:
@@ -223,16 +254,15 @@ def retrieveAdvice():
          whether the user will be simply given a link to click or message to read. The second
          item is either 1) the link or 2) the content. The third item is always the source of
          the information.
-    '''
+    """
     random_population = list(Advice.objects.all())
     advice_object = random.choice(random_population)
     content = advice_object.content
     link = advice_object.link
     source = advice_object.source
-    if (content == ""):
+    if content == "":
         return ["link", link, source]
-    else:
-        return ["message", content, source]
+    return ["message", content, source]
 
 
 def within_distance(user_loc, object_loc, m_dist):
@@ -253,10 +283,7 @@ def within_distance(user_loc, object_loc, m_dist):
     # To calculate distance in meters
     o_dist = hs.haversine(user_loc, object_loc, unit=Unit.METERS)
 
-    if o_dist <= m_dist:
-        in_range = True
-    else:
-        in_range = False
+    in_range = bool(o_dist <= m_dist)
 
     return in_range
 
@@ -273,8 +300,8 @@ def string_coord_convert(coord_string):
 
     # sort out grouping as shouldn't have to do below with tuple
     # remove plus symbol if there is one
-    no_plus = coord_string.replace('+', '')
-    y = re.findall(r"((\-?|\+?)?\d+(\.\d+)?)", coord_string)
-    coordinates = [y[0][0], y[1][0]]
+    coord_string.replace('+', '')
+    coord_regex = re.findall(r"((\-?|\+?)?\d+(\.\d+)?)", coord_string)
+    coordinates = [coord_regex[0][0], coord_regex[1][0]]
     out = tuple([float(value) for value in coordinates])
     return out
