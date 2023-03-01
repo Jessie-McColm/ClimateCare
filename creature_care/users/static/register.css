@@ -1,28 +1,20 @@
-*{
-    padding : 0;
+.register {
+    padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: "Montserrat", sans-serif;
     color: #ffffff;
+    text-align: center;
+    z-index: 1;
+}
 
+ul {
+    display: inline-block;
+    text-align: left;
 }
 
 body{
     background-color: #393946 ;
-}
-
-.main_column{
-    text-align: center;
-    width: 100%;
-    margin: 0 auto;
-}
-
-#login {
-    text-align: center;
-    width: 30em;
-    margin: 0 auto;
-    padding: 3em;
-    z-index: 1;
 }
 
 .btn-dark{
@@ -43,6 +35,7 @@ body{
     top: 70%;
     left: 50%;
     color: #ffffff;
+    z-index: -1;
 }
 
 .earth{
@@ -184,4 +177,3 @@ body{
         font-size: 20px;
     }
 }
-
