@@ -1,3 +1,7 @@
+<!-- page created by des -->
+<!-- sanchi did django integration -->
+<!-- jessie navigated for post requests with des as navigator -->
+
 {% extends "base.html" %}
 
 {% load static %}
@@ -80,7 +84,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id = "tupperware" href="http://127.0.0.1:8000/climate/kitty/articles" onclick="return getArticle();">
+                    <a id = "tupperware" href="/climate/kitty/articles" onclick="return getArticle();">
                         <div class="container-2">
                             <div class ="tupperware">
                                 <div class="tup-cap"></div>
@@ -96,7 +100,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id="water" href="javascript:delay('http://127.0.0.1:8000/climate/kitty/water')" onclick="return geoLocate('water');">
+                    <a id="water" href="javascript:delay('/climate/kitty/water')" onclick="return geoLocate('water');">
                         <div class="container-3">
                             <div class="waterbottle">
                                 <div class="bottle-cap">
@@ -113,7 +117,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id="litter" href="javascript:delay('http://127.0.0.1:8000/climate/kitty/clean')" onclick="return geoLocate('litter');">
+                    <a id="litter" href="javascript:delay('/climate/kitty/clean')" onclick="return geoLocate('litter');">
                         <div class="container-4">
                             <div class ="recycling-bin">
                                 <div class="cap-top"></div>
@@ -137,7 +141,7 @@
 
     <script>
         function delay(delayedLink) {
-            setTimeout( function() { window.location = delayedLink }, 1000 );
+            setTimeout( function() { window.location = delayedLink }, 10 );
         }
 
         function geoLocate(task) {
@@ -148,14 +152,20 @@
                 var coordinates = new Array(2);
                 coordinates = [latitude, longitude];
                 sendPostRequest(coordinates, task);
+                if (task == "water") {
+                    alert("You have hydrated your cat!");
+                }
+                if (task == "litter") {
+                    alert("You have cleaned your cat!");
+                }
             }
             
             function error() {
-                alert("unable to retrieve your location");
+                alert("Unable to retrieve your location");
             }
             
             if (!navigator.geolocation) {
-                alert("geolocation is not supported by your browser");
+                alert("Geolocation is not supported by your browser");
             } else {
             const options = {
             enableHighAccuracy: true,
@@ -169,6 +179,7 @@
 
         function getArticle() {
             sendPostRequest([0,0],'feed');
+            alert("You have fed your cat!");
             document.getElementById("bubble").style.display = "";
             let message = '{{ message }}';
             let content = '{{ content }}';
@@ -218,13 +229,5 @@
         if (stinky == 'False') {
             document.getElementById("poop").style.display = "none";
         }
-        // url = window.location.href;
-        // url = url.split('/kitty')[0];
-        // articlesLink = url + '/kitty/articles';
-        // waterLink = url + '/kitty/water';
-        // litterLink = url + '/kitty/clean';
-        // document.getElementById("tupperware").href = articlesLink;
-        // document.getElementById("water").href = waterLink;
-        // document.getElementById("litter").href = litterLink;
     </script>
 {% endblock %}

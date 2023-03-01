@@ -117,9 +117,9 @@ Sometimes waste cannot be entirely reduced, but it can still be recycled!
 In order to feed your Kitty, you'll need to put recyclable waste in its
 relevant recycling bin.
 
-Much like the water bottle, your Kitty will only accept a meal from you if
-it believes you truly are recycling your waste. To this effect, you must
-be within 10 meters of a recycling bin in order for the Kitty to believe
+Much like the water bottle, your Kitty will only let you take away its poop 
+if it believes you truly are recycling your waste. To this effect, you must
+be within 10 meters of a recycling bin in order for the Kitty to believe 
 that you're recycling.
 
 
