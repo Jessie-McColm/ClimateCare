@@ -230,7 +230,7 @@ def game_master_page():  # may need to add `request` as param
     return HttpResponse("You're at the master page")
 
 
-def page_not_found_view(request):
+def page_not_found_view(request, exception):
     """
     Redirects the user to the notFound.html page if they enter an invalid URL.
 

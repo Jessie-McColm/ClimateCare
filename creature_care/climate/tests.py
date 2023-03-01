@@ -5,6 +5,9 @@ from climate.models import Creature, Profile, LocationFountain, LocationBin, Adv
 from django.test import Client
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
+from datetime import timedelta
+
 
 from .views import within_distance
 
@@ -203,7 +206,7 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_not_clean(self):
-        #test if valid response if given when a post request is sent to clean the kitty
+        #tests that sending a water task does not result in a clean task being performed
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -233,6 +236,234 @@ class KittyIndexTests(TestCase):
         advice1 = Advice.objects.create(link="https://example.com", source="admin")
         advice2 = Advice.objects.create(content="this is some advice!", source="admin")
         self.assertEqual(len(list(Advice.objects.all())), 2)
+
+
+    def test_advice_url(self):
+        #testing if advice data is sent back correctly when a request is made to climate/kitty/articles 
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user = User.objects.get(username='kittylover123')
+        advice1 = Advice.objects.create(link="https://example.com", source="admin")
+        
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.get(path='/climate/kitty/articles')
+        self.assertEqual(response.context['fed'],True)
+        self.assertNotEqual(response.context['message'],"")
+        self.assertNotEqual(response.context['content'],"")
+        self.assertNotEqual(response.context['source'],"")
+        self.assertEqual(response.status_code, 200)
+
+    def test_water_url(self):
+        #testing if data saying the cat was watered is sent back correctly when a request is made to climate/kitty/water 
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user = User.objects.get(username='kittylover123')
+     
+        
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.get(path='/climate/kitty/water')
+        self.assertEqual(response.context['watered'],True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_water_url(self):
+        #testing if data saying the cat was cleaned is sent back correctly when a request is made to climate/kitty/clean 
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user = User.objects.get(username='kittylover123')
+       
+        
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.get(path='/climate/kitty/clean')
+        self.assertEqual(response.context['cleaned'],True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_stinky_cat_is_stinky(self):
+        #sets up a creature object that has not been cleaned in over 3 days, so should be judged as "stinky"
+        currentTime = timezone.now()
+        pastTime=currentTime-timedelta(days=5)
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user_obj = User.objects.get(username='kittylover123')
+     
+        user_prof = Profile.objects.get(user=user_obj)
+        cat_data = user_prof.creature
+        cat_data.last_litter_refill = pastTime  
+        cat_data.save()
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        
+        response=client.get(path='/climate/kitty')
+        self.assertEqual(response.context['stinky'],True)
+        self.assertEqual(response.status_code, 200)
+        
+    def test_clean_cat_is_clean(self):
+        #sets up a creature object that has been cleaned recently, so should not be judged as "stinky"
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+      
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        
+        response=client.get(path='/climate/kitty')
+        self.assertEqual(response.context['stinky'],False)
+        self.assertEqual(response.status_code, 200)
+
+    def test_thirsty_cat_is_thirsty(self):
+        #sets up a creature object that has not been watered in over 3 days, so should be judged as "thirsty"
+        currentTime = timezone.now()
+        pastTime=currentTime-timedelta(days=9)
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user_obj = User.objects.get(username='kittylover123')
+     
+        user_prof = Profile.objects.get(user=user_obj)
+        cat_data = user_prof.creature
+        cat_data.last_thirst_refill = pastTime  
+        cat_data.save()
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        
+        response=client.get(path='/climate/kitty')
+        self.assertEqual(response.context['thirsty'],True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_non_thirsty_cat_is_not_thirsty(self):
+        #sets up a creature object that has been watered recently, so should not be judged as "thirsty"
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        
+        response=client.get(path='/climate/kitty')
+        self.assertEqual(response.context['thirsty'],False)
+        self.assertEqual(response.status_code, 200)
+        
+    def test_hungry_cat_is_hungry(self):
+        #sets up a creature object that has not been fed in over 3 days, so should be judged as "hungry"
+        currentTime = timezone.now()
+        pastTime=currentTime-timedelta(days=5)
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user_obj = User.objects.get(username='kittylover123')
+     
+        user_prof = Profile.objects.get(user=user_obj)
+        cat_data = user_prof.creature
+        cat_data.last_food_refill = pastTime  
+        cat_data.save()
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        
+        response=client.get(path='/climate/kitty')
+        self.assertEqual(response.context['hungry'],True)
+        self.assertEqual(response.status_code, 200)
+        
+    def test_fed_cat_is_fed(self):
+        #sets up a creature object that has been watered recently, so should not be judged as "thirsty"
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        
+        response=client.get(path='/climate/kitty')
+        self.assertEqual(response.context['hungry'],False)
+        self.assertEqual(response.status_code, 200)
+        
 
 class GeoLocationTests(TestCase):
     
