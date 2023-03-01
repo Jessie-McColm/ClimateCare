@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="we figured out how to use django's test environment (finally), and we've verified that the user login system does indeed accept valid username/password combos.&#10;&#10;further tests to do are&#10;- check that valid usernames with wrong passwords are denied&#10;- check that invalid usernames are denied&#10;- check that valid usernames are not compatible with other user's passwords&#10;&#10;:)">
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="made start on README.md&#10;&#10;- nevan">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/db.sqlite3" afterDir="false" />
@@ -99,7 +99,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677176963194</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="made start on README.md&#10;&#10;- nevan">
+      <created>1677598304482</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1677598304482</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -119,6 +126,7 @@
     <MESSAGE value="pair programming sesh. made a start on tests for users, not finished yet (jessie had a lecture)&#10;&#10;- jessie and nevan" />
     <MESSAGE value="some very work-in-progress code, pushing so jessie can access it&#10;&#10;- nevan" />
     <MESSAGE value="we figured out how to use django's test environment (finally), and we've verified that the user login system does indeed accept valid username/password combos.&#10;&#10;further tests to do are&#10;- check that valid usernames with wrong passwords are denied&#10;- check that invalid usernames are denied&#10;- check that valid usernames are not compatible with other user's passwords&#10;&#10;:)" />
-    <option name="LAST_COMMIT_MESSAGE" value="we figured out how to use django's test environment (finally), and we've verified that the user login system does indeed accept valid username/password combos.&#10;&#10;further tests to do are&#10;- check that valid usernames with wrong passwords are denied&#10;- check that invalid usernames are denied&#10;- check that valid usernames are not compatible with other user's passwords&#10;&#10;:)" />
+    <MESSAGE value="made start on README.md&#10;&#10;- nevan" />
+    <option name="LAST_COMMIT_MESSAGE" value="made start on README.md&#10;&#10;- nevan" />
   </component>
 </project>
