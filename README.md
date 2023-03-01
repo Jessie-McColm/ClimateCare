@@ -2,7 +2,7 @@
 
 #### Group 15 - Lucia Adams, Sanchi Chakraborty, Laurence Harbord, Destyny Ho, Nevan Masterson, and Jessie McColm
 
-### Introcuction
+### Introduction
 
 Welcome to Climate Care! This is a web application for merging
 the topics of sustainability and gamification on University campuses,
