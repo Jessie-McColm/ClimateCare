@@ -80,7 +80,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id = "tupperware" href="http://127.0.0.1:8000/climate/kitty/articles" onclick="return getArticle();">
+                    <a id = "tupperware" href="/climate/kitty/articles" onclick="return getArticle();">
                         <div class="container-2">
                             <div class ="tupperware">
                                 <div class="tup-cap"></div>
@@ -96,7 +96,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id="water" href="javascript:delay('http://127.0.0.1:8000/climate/kitty/water')" onclick="return geoLocate('water');">
+                    <a id="water" href="javascript:delay('/climate/kitty/water')" onclick="return geoLocate('water');">
                         <div class="container-3">
                             <div class="waterbottle">
                                 <div class="bottle-cap">
@@ -113,7 +113,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id="litter" href="javascript:delay('http://127.0.0.1:8000/climate/kitty/clean')" onclick="return geoLocate('litter');">
+                    <a id="litter" href="javascript:delay('/climate/kitty/clean')" onclick="return geoLocate('litter');">
                         <div class="container-4">
                             <div class ="recycling-bin">
                                 <div class="cap-top"></div>
@@ -137,7 +137,7 @@
 
     <script>
         function delay(delayedLink) {
-            setTimeout( function() { window.location = delayedLink }, 1000 );
+            setTimeout( function() { window.location = delayedLink }, 10000 );
         }
 
         function geoLocate(task) {
