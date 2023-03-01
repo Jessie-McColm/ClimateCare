@@ -183,53 +183,6 @@ def validate_location(coordinates, cat_data, location_type):
     return False  # if no valid location is found, this is returned (may need error display)
 
 
-"""
-@login_required(login_url='loginPage')
-# @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
-def articles(request):
-    location1 = LocationFountain(longitude=0, latitude=0)
-    location2 = LocationBin(longitude=0, latitude=0)
-    location1.save()
-    location2.save()
-    # -----------------
-    # Gets the info you need (in this block for now for clarity)
-    # username = request.user.get_username()
-
-    # can also use this: User.objects.get(username = username)
-    # user_obj =  request.user
-
-    # user_prof=Profile.objects.get(user = user_obj)
-    # cat_data= user_prof.creature
- 
-    # -----------------
-
-    # colour = cat_data.colour
-    # name = cat_data.name
-
-    # Laurie and jessie added the above commands for testing the databases
-
-    # Laurie: these lines were used to generate some simple example articles
-    # new_advice1 = Advice(link="https://example.com", source="example")
-    # new_advice2 = Advice(content="example advice", source ="example2")
-    # new_advice3 = Advice(content="second example advice", source ="example3")
-    # new_advice4 = Advice(content="third example advice", source ="example4")
-    # new_advice1.save()
-    # new_advice2.save()
-    # new_advice3.save()
-    # new_advice4.save()
-
-    # if request.user.is_authenticated:
-    # Do something for authenticated users.
-    # userID=request.session['userID']
-    # can then make a DB request to get needed info? - actually may need extra
-    # security - can someone just set an arbitrary session variable?
-
-    # else:
-    # Do something for anonymous users.
-
-    return HttpResponse()
-"""
-
 @login_required(login_url='loginPage')
 # @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 @game_master
