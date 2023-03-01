@@ -150,7 +150,7 @@ def validate_location(coordinates, cat_data, location_type):
     """
     success = False
     location_counter = 0
-    if location_type == 'bin':
+    if location_type == 'litter':
         num_locations = len(list(LocationBin.objects.all()))
         while (success is False) and (location_counter <= num_locations - 1):
             current_bin = list(LocationBin.objects.all())[location_counter]
@@ -246,7 +246,7 @@ def game_master_page():  # may need to add `request` as param
     return HttpResponse("You're at the master page")
 
 
-def page_not_found_view(request):
+def page_not_found_view(request, exception):
     """
     Redirects the user to the notFound.html page if they enter an invalid URL.
 
