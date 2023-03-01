@@ -1,8 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
 
-  <h2>No creature here!!</h2>
+<title>
+    404 :(
+</title>
 
-  <p> Try going to /climate </p>
+<head>
+    <!-- for some reason it doesn't work with the django notation -->
+    <!-- for now i've put the styling in a style tag (it's probably bad practice but i can't figure out how to get it to work with the static folder)-->
+    <!-- still need to add a "not found" text at the top -->
+    <!-- ill push the css file too but rn it's not being used :) -->
+   <style>
+        body {
+    background-color: #649756;
+    padding: 0;
+    margin: 0;
+        }
 
-</html>
+        .container {
+            height: 200px;
+            width: 350px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+        }
+        .cat {
+            background-color: #33292b;
+            height: 60px;
+            width: 80px;
+            border-radius: 40px 80px 80px 0;
+            position: absolute;
+            bottom: 60px;
+            right: 50px;
+        }
+
+        .ear {
+            background-color: #33292b;
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            bottom: 55px;
+            left: 6px;
+            border-radius: 20px 0 0 0;
+            box-shadow: 25px 0 #33292b;
+        }
+
+        .eye, .eye:before{
+            height: 10px;
+            width: 20px;
+            border: 2px solid #cacaca;
+            position: absolute;
+            border-radius: 0 0 50px 50px;
+            border-top: none;
+        }
+
+        .eye {
+            top: 25px;
+            left: 15px;
+        }
+
+        .eye:before{
+            content: "";
+            left: 30px;
+        }
+
+        .nose{
+            background-color: #33292b;
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            position: absolute;
+            top: 37px;
+            left: 33px;
+            box-shadow: 8px 0 #33292b;
+        }
+
+        .nose:before {
+            content: "";
+            width: 8px;
+            height: 6px;
+            position: absolute;
+            background-color: #33292b;
+            left: 5px;
+        }
+
+        .nose:after {
+            content: "";
+            position: absolute;
+            height: 0;
+            width: 0;
+            border-top: 5px solid #d36149;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            bottom: 2px;
+            left: 6px;
+        }
+
+        .mouth {
+            background-color: #602e24;
+            height: 8px;
+            width: 10px;
+            position: absolute;
+            border-radius: 0 0 3px 3px;
+            top: 40px;
+            left: 35px;
+            animation: mouth-move 2s infinite;
+            transform-origin: top;
+        }
+
+        @keyframes mouth-move{
+            50% {
+                transform:scaleY(0.7);
+            }
+        }
+
+        .body {
+            background-color: #33292b;
+            height: 65px;
+            width: 100px;
+            position: absolute;
+            right: 55px;
+            bottom: 0px;
+            border-radius: 60px 60px 0 0;
+            animation: sleep 2s infinite;
+            transform-origin: bottom right;
+            z-index: -1;
+        }
+
+        @keyframes sleep {
+            50% {
+                transform: scale(0.9, 1.05);
+            }
+        }
+
+        .tail {
+            background-color: #271f20;
+            height: 15px;
+            width: 50px;
+            position: absolute;
+            right: 130px;
+            bottom: 0;
+            border-radius: 20px 0 0 20px;
+            z-index: -1;
+        }
+
+        .body:before {
+            content: "";
+            position: absolute;
+            background-color: #271f20;
+            height: 10px;
+            width: 20px;
+            border-radius: 6px;
+            bottom: 0;
+            left: 22px;
+            box-shadow: 30px 0 #271f20;
+        }
+
+        .bubble {
+            height: 27px;
+            width: 27px;
+            background-color: rgba(255, 255, 255, 0.4);
+            position: absolute;
+            left: 60px;
+            top: 15px;
+            border-radius: 50px 50px 50px 5px;
+            animation: bubble-scale 2s infinite;
+        }
+
+        @keyframes bubble-scale {
+            50% {
+                transform: scale(0.7);
+            }
+        }
+
+        .shadow{
+            height: 10px;
+            width: 180px;
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            position: absolute;
+            right: 0px;
+            bottom: -5px;
+            z-index: -2;
+            animation: shadow 2s infinite;
+        }
+
+        @keyframes shadow {
+            50%{
+                transform: scaleX(0.9);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class = "container">
+        <div class = "cat">
+            <div class = "ear"></div>
+            <div class = "eye"></div>
+            <div class = "mouth"></div>
+            <div class = "nose"></div>
+            <div class = "tail"></div>
+            <div class = "body"></div>
+            <div class = "bubble"></div>
+            <div class = "shadow"></div>
+        </div>
+    </div>
+
+</body>

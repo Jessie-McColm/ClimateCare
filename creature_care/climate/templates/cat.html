@@ -96,7 +96,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id="water" href="" onclick="return geoLocate('water');">
+                    <a id="water" href="javascript:delay('http://127.0.0.1:8000/climate/kitty/water')" onclick="return geoLocate('water');">
                         <div class="container-3">
                             <div class="waterbottle">
                                 <div class="bottle-cap">
@@ -113,14 +113,14 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id="litter" href="" onclick="return geoLocate('litter');">
+                    <a id="litter" href="javascript:delay('http://127.0.0.1:8000/climate/kitty/clean')" onclick="return geoLocate('litter');">
                         <div class="container-4">
                             <div class ="recycling-bin">
                                 <div class="cap-top"></div>
                                 <div class="cap">
                                     <div class="hole"></div>
                                 </div>
-                                <div class="box-top-line"></div>
+                                <div class="box-top-line"></divE>
                                 <div class="box">
                                     <span id = "symbol" class="recycling-symbol">&#9851;</span>
                                 </div>
@@ -136,8 +136,12 @@
     </div>
 
     <script>
+        function delay(delayedLink) {
+            setTimeout( function() { window.location = delayedLink }, 1000 );
+        }
+
         function geoLocate(task) {
-           
+
             function success(position) {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
@@ -158,8 +162,8 @@
             maximumAge: 30000,
             timeout: 27000
             };
-                navigator.geolocation.getCurrentPosition(success, error, options);
-                return success();
+            navigator.geolocation.getCurrentPosition(function () {}, function () {}, {});
+            navigator.geolocation.getCurrentPosition(success, error, options);
             }
         }
 
@@ -214,13 +218,13 @@
         if (stinky == 'False') {
             document.getElementById("poop").style.display = "none";
         }
-        url = window.location.href;
-        url = url.split('/kitty')[0];
-        articlesLink = url + '/kitty/articles';
-        waterLink = url + '/kitty/water';
-        litterLink = url + '/kitty/clean';
-        document.getElementById("tupperware").href = articlesLink;
-        document.getElementById("water").href = waterLink;
-        document.getElementById("litter").href = litterLink;
+        // url = window.location.href;
+        // url = url.split('/kitty')[0];
+        // articlesLink = url + '/kitty/articles';
+        // waterLink = url + '/kitty/water';
+        // litterLink = url + '/kitty/clean';
+        // document.getElementById("tupperware").href = articlesLink;
+        // document.getElementById("water").href = waterLink;
+        // document.getElementById("litter").href = litterLink;
     </script>
 {% endblock %}

@@ -24,3 +24,5 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),
 
 ]
+
+handler404="climate.views.page_not_found_view"
