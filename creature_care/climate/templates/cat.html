@@ -1,6 +1,6 @@
-<!-- page created by des -->
-<!-- sanchi did django integration -->
-<!-- jessie navigated for post requests with des as navigator -->
+<!-- Page created by Des -->
+<!-- Sanchi did Django integration -->
+<!-- Jessie navigated for POST requests with Des as driver -->
 
 {% extends "base.html" %}
 
@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block head %}
-    <!-- placeholder favicon -->
+    <!-- Placeholder favicon -->
     <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'recycling_bin.css' %}">
@@ -141,10 +141,22 @@
 
     <script>
         function delay(delayedLink) {
+            /* 
+            Delays the page reload, used for geolocation testing.
+            
+            Author:
+                Des
+            */
             setTimeout( function() { window.location = delayedLink }, 10 );
         }
 
         function geoLocate(task) {
+            /* 
+            Gets user geolocation data.
+            
+            Authors:
+                Des, Jessie
+            */
 
             function success(position) {
                 const latitude = position.coords.latitude;
@@ -178,6 +190,12 @@
         }
 
         function getArticle() {
+            /* 
+            Fetches articles from backend and displays them in a speech bubble on the page.
+            
+            Author:
+                Des
+            */
             sendPostRequest([0,0],'feed');
             alert("You have fed your cat!");
             document.getElementById("bubble").style.display = "";
@@ -190,6 +208,13 @@
         }
 
         function sendPostRequest(coordinates, task) {
+            /* 
+            Sends POST request to the backend containing user coordinates and task.
+            User coordinates are set to (0, 0) if the tupperware is clicked.
+            
+            Authors:
+                Des, Jessie
+            */
             let csrftoken = '{{ csrf_token }}'
             var dictionary = {
                 'coordinates': coordinates, 
@@ -209,7 +234,12 @@
                 body: cat, 
             });
         }
-
+        /* 
+        Fetches context variables to determine the state of the cat.
+        
+        Authors:
+            Des
+        */
         let thirsty = '{{ thirsty }}';
         let stinky = '{{ stinky }}';
         let hungry = '{{ hungry }}';
