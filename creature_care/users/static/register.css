@@ -30,7 +30,7 @@ body{
     height: 31.25em;
     width: 31.25em;
     /* uncomment to see border: 1px solid white; */
-    position: absolute;
+    position: relative;
     transform: translate(-50%,-50%);
     top: 70%;
     left: 50%;
