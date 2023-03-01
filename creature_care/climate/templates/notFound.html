@@ -12,13 +12,13 @@
     <!-- ill push the css file too but rn it's not being used :) -->
    <style>
         body {
-    background-color: #649756;
-    padding: 0;
-    margin: 0;
+            background-color: #649756;
+            padding: 0;
+            margin: 0;
         }
 
         .container {
-            height: 200px;
+            height: 250px;
             width: 350px;
             position: absolute;
             transform: translate(-50%, -50%);
@@ -157,7 +157,7 @@
             box-shadow: 30px 0 #271f20;
         }
 
-        .bubble {
+        .sleep-bubble {
             height: 27px;
             width: 27px;
             background-color: rgba(255, 255, 255, 0.4);
@@ -191,11 +191,69 @@
                 transform: scaleX(0.9);
             }
         }
+
+        .thought {
+        display:flex;
+        background-color: white;
+        border-radius:30px;
+        padding: 20px;
+        width: 220px;
+        height: 40px;
+        bottom: 60px;
+        position:relative;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        }
+        .thought:before,
+        .thought:after {
+        content:"";
+        background-color:#fff;
+        border-radius:50%;
+        display:block;
+        position:absolute;
+        z-index:-1;
+        }
+        .thought:before {
+        width:44px;
+        height:44px;
+        top:-12px;
+        left:28px;
+        box-shadow:-50px 30px 0 -12px #fff;
+        }
+        .thought:after {
+        bottom:-10px;
+        right:26px;
+        width:30px;
+        height:30px;
+        box-shadow: 40px -34px 0 0 #fff,
+                    -28px -6px 0 -2px #fff,
+                    -24px 17px 0 -6px #fff,
+                    -5px 25px 0 -10px #fff;
+        
+        }
+
+        .notfound {
+            position: relative;
+            background-color: transparent;
+            color: white;
+            height: 50px;
+            width: 100px;
+            bottom: 74px;
+            left: 100px;
+            font-size: 70px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
 <body>
     <div class = "container">
+        <div class = "notfound">404</div>
+        <div class = "thought">
+            <p>zzzz... try going to <a href = "/climate/kitty">/climate/kitty</a> zzz... </p>
+        </div>
         <div class = "cat">
             <div class = "ear"></div>
             <div class = "eye"></div>
@@ -203,9 +261,8 @@
             <div class = "nose"></div>
             <div class = "tail"></div>
             <div class = "body"></div>
-            <div class = "bubble"></div>
+            <div class = "sleep-bubble"></div>
             <div class = "shadow"></div>
         </div>
     </div>
-
 </body>
