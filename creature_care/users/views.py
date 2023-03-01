@@ -22,8 +22,11 @@ from .decorators import unauthenticated_user
 def register_user(request):
     """
     The registration page of the project, accessed using /users/register_user. Allows new
-    users to create a new useraccount with their chosen username and password. Only creates
+    users to create a new user account with their chosen username and password. Only creates
     users in 'player' group.
+
+    Authors:
+        Lucia
 
     Args:
         request(HTTP request): the http request send by a front end client viewing the url 
@@ -76,6 +79,9 @@ def login_user(request):
     This method logs the user in if the correct credentials have been sent via a POST
     request. It can be accessed via /users/login_user
 
+    Authors:
+        Lucia
+
      Args:
         request(HTTP request): the http request send by a front end client viewing the url 
 
@@ -116,6 +122,9 @@ def logout_user(request):
     """
     This method fully logs the user out. It can be accessed via /users/logout_user
 
+    Authors:
+        Lucia
+
      Args:
         request(HTTP request): the http request send by a front end client viewing the url 
 
@@ -127,10 +136,3 @@ def logout_user(request):
     # 'logoutPage' for link and can dipslay username with {{request.user}}
     logout(request)
     return redirect('loginPage')
-
-
-# I have chnaged to above as automatically checks for duplicates etc
-# i will work on cutomising it to our needs :))
-
-# remianing notes from deletion:
-# b = Blog(name='Beatles Blog', tagline='All the latest Beatles news.')

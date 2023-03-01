@@ -26,6 +26,9 @@ def kitty(request, type_of="none"):
     current state, while providing functionality to feed/water/clean it. Uses geolocation
     functionality to verify whether a user is within a sensible distance from a fountain/bin
 
+    Authors:
+        Jessie and Laurie
+
     Args:
         request(HTTP request): the http request send by a front end client viewing the url
         type_of: Caught from the URL, used to send back article data
@@ -33,6 +36,7 @@ def kitty(request, type_of="none"):
     Returns:
         render(request, 'cat.html',info): renders the template 'cat.html' with the context
         variables stored in the dictionary called info
+
     """
 
     # -----------------
@@ -130,6 +134,9 @@ def validate_location(coordinates, cat_data, location_type):
     Verifies whether the user is near a bin/fountain location by performing calculations based on
     the user's geolocation and the location data stored on bins/fountains.
 
+    Authors:
+        Laurie, Jessie, and Nevan
+
     Args:
         coordinates: The user's coordinates to be validated
         cat_data: The cat object representing the user's cat in the database, through which
@@ -193,7 +200,7 @@ def articles(request):
 
     # user_prof=Profile.objects.get(user = user_obj)
     # cat_data= user_prof.creature
-
+ 
     # -----------------
 
     # colour = cat_data.colour
@@ -227,12 +234,24 @@ def articles(request):
 # @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 @game_master
 def game_master_page():  # may need to add `request` as param
+    """
+    Redirects an authorised user to the game master's page.
+
+    Authors:
+        Lucia
+
+    Returns:
+        A http response.
+    """
     return HttpResponse("You're at the master page")
 
 
 def page_not_found_view(request):
     """
     Redirects the user to the notFound.html page if they enter an invalid URL.
+
+    Authors:
+        Lucia
 
     Args:
         request(HTTP request): the http request send by a front end client viewing the url
@@ -248,6 +267,9 @@ def page_not_found_view(request):
 def retrieve_advice():
     """
     This function retrieves a random piece of advice available in the Advice database.
+
+    Authors:
+        Laurie
 
     Returns:
          A list of data, the first item being "link" or "message". This determines
@@ -268,6 +290,9 @@ def retrieve_advice():
 def within_distance(user_loc, object_loc, m_dist):
     """
     Calculates haversine distance (not euclidean) and returns if within distance
+
+    Authors:
+        Lucia
 
     Args:
         user_loc (tuple): tuple of user location (lattitude, longitude)
@@ -292,8 +317,12 @@ def string_coord_convert(coord_string):
     """
     Converts a set of coordinates from a string to a tuple of two floats
 
+    Authors:
+        Lucia
+
     Args:
-        coord_string(String): two coordinates seperated by a comma
+        coord_string(String): two coordinates separated by a comma
+
     Returns:
         out(tuple): a tuple of the latitude and longitude as floats
     """
