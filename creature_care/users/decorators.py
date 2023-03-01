@@ -1,7 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect
 
-#make decorator for not logged in user
+
+"""
+Writing decorators for authentication to use in views
+
+Authors:
+    Lucia
+"""
 def unauthenticated_user(view_func):
 
     def wrapper_func(request, *args, **kwargs):
@@ -12,6 +18,12 @@ def unauthenticated_user(view_func):
 
     return wrapper_func
 
+
+"""
+
+Authors:
+    Lucia
+"""
 def allowed_users(allowed_roles=[]):
     
     def decorator(view_func):
@@ -31,6 +43,12 @@ def allowed_users(allowed_roles=[]):
     
     return decorator
 
+
+"""
+
+Authors:
+    Lucia
+"""
 def game_master(view_func):
     
     def wrapper_func(request, *args, **kwargs):
@@ -42,6 +60,11 @@ def game_master(view_func):
     
     return wrapper_func
 
+"""
+
+Authors:
+    Lucia
+"""
 
 def is_dev_or_gm(request):
     group = None
