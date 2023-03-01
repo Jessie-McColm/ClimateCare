@@ -13,14 +13,32 @@ from .views import within_distance
 
 class UserModelTests(TestCase):
 
+    """
+    Block of tests for the climate view.
+
+    Authors:
+        Jessie, Laurie, Lucia, and Nevan
+    """
+
     def test_create_user(self):
-        #i guess test if various DB functions work?
+        """
+        Tests that various database functions are operational from climate/view.
+
+        Author:
+            Jessie
+        """
         testUser = User.objects.create_user('testUser', 'test@test.com', 'testPass')
         check= User.objects.get(username = "testUser")
         self.assertIs(True,check==testUser)
         testUser.delete()
 
     def test_create_profile(self):
+        """
+        Tests that a Profile entrance can be created and linked to a user account
+
+        Author:
+            Jessie
+        """
         testUser = User.objects.create_user('testUser', 'test@test.com', 'testPass')
         testKitty = Creature()
         testProfile = Profile(user=testUser, creature=testKitty)
@@ -36,18 +54,29 @@ class UserModelTests(TestCase):
 
 
 class KittyIndexTests(TestCase):
-    #class to check that the data returned from the kitty view is correct
+    """
+    Test to check that the data returned from the kitty view is correct
+
+    Authors:
+        Laurie and Jessie
+    """
 
     def test_unauthorised_user(self):
         client=Client()
         response=client.get(path='/climate/kitty')
         self.assertEqual(response.status_code, 302)
         #should ask lucia why this happens
-        self.assertEqual(response.url,"/users/login_user?next=/climate/kitty")
+        self.assertEqual(response.url, "/users/login_user?next=/climate/kitty")
         
 
     def test_authorised_user(self):
-        #test if a given user returns a page with the correct data
+        """
+        Test if a given user returns a page with the correct data
+
+        Authors:
+            Jessie and Laurie
+        """
+
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -71,7 +100,12 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_articles(self):
-        #test if valid response if given when a post request is sent to get articles/feed the kitty
+        """
+        Test if valid response is given when a post request is sent to get articles/feed the kitty
+
+        Authors:
+            Jessie and Laurie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -98,9 +132,14 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_not_articles(self):
-        #test if valid response if given when a post request is sent to get articles/feed the kitty
+        """
+        Test if valid response is given when a post request is sent to get articles/feed the kitty
+
+        Author:
+            Jessie and Laurie
+        """
         client = Client()
-        g1 = Group.objects.create(name='Player')
+        Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
         {
             "username": "kittylover123",
@@ -125,7 +164,12 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_water(self):
-        #test if valid response if given when a post request is sent to water the kitty
+        """
+        Test if valid response is given when a post request is sent to water the kitty
+
+        Author:
+            Jessie and Laurie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -152,7 +196,12 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_not_water(self):
-        #test if valid response if given when a post request is sent to water the kitty
+        """
+        Test if valid response is given when a post request is sent to water the kitty
+
+        Authors:
+            Jessie and Laurie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -179,7 +228,12 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_clean(self):
-        #test if valid response if given when a post request is sent to clean the kitty
+        """
+        Test if valid response is given when a post request is sent to clean the kitty
+
+        Authors:
+            Jessie and Laurie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -206,7 +260,12 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_not_clean(self):
-        #tests that sending a water task does not result in a clean task being performed
+        """
+        Tests that sending a water task does not result in a clean task being performed
+
+        Authors:
+            Jessie and Laurie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -239,7 +298,12 @@ class KittyIndexTests(TestCase):
 
 
     def test_advice_url(self):
-        #testing if advice data is sent back correctly when a request is made to climate/kitty/articles 
+        """
+        Testing if advice data is sent back correctly when a request is made to climate/kitty/articles
+
+        Author:
+            Jessie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -266,7 +330,13 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_water_url(self):
-        #testing if data saying the cat was watered is sent back correctly when a request is made to climate/kitty/water 
+        """
+        Testing if data saying the cat was watered is sent back correctly when a request is made
+        to climate/kitty/water
+
+        Authors:
+            Jessie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -290,7 +360,13 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_water_url(self):
-        #testing if data saying the cat was cleaned is sent back correctly when a request is made to climate/kitty/clean 
+        """
+        Testing if data saying the cat was cleaned is sent back correctly when a request is
+        made to climate/kitty/clean
+
+        Author:
+            Jessie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -303,18 +379,25 @@ class KittyIndexTests(TestCase):
         user = User.objects.get(username='kittylover123')
        
         
-        client.post(path='/users/login_user', data=
-        {
-            "username": "kittylover123",
-            "password": "i_secretly_hate_kitties"
-        })
+        client.post(
+            path='/users/login_user', data=
+            {
+                "username": "kittylover123",
+                "password": "i_secretly_hate_kitties"
+            }
+        )
 
-        response=client.get(path='/climate/kitty/clean')
+        response = client.get(path='/climate/kitty/clean')
         self.assertEqual(response.context['cleaned'],True)
         self.assertEqual(response.status_code, 200)
 
     def test_stinky_cat_is_stinky(self):
-        #sets up a creature object that has not been cleaned in over 3 days, so should be judged as "stinky"
+        """
+        Sets up a creature object that has not been cleaned in over 3 days, so should be judged as "stinky"
+
+        Author:
+            Jessie
+        """
         currentTime = timezone.now()
         pastTime=currentTime-timedelta(days=5)
         client = Client()
@@ -343,7 +426,12 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
         
     def test_clean_cat_is_clean(self):
-        #sets up a creature object that has been cleaned recently, so should not be judged as "stinky"
+        """
+        Sets up a creature object that has been cleaned recently, so should not be judged as "stinky"
+
+        Author:
+            Jessie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -365,7 +453,12 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_thirsty_cat_is_thirsty(self):
-        #sets up a creature object that has not been watered in over 3 days, so should be judged as "thirsty"
+        """
+        Sets up a creature object that has not been watered in over 3 days, so should be judged as "thirsty"
+
+        Author:
+            Jessie
+        """
         currentTime = timezone.now()
         pastTime=currentTime-timedelta(days=9)
         client = Client()
@@ -394,7 +487,12 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_non_thirsty_cat_is_not_thirsty(self):
-        #sets up a creature object that has been watered recently, so should not be judged as "thirsty"
+        """
+        Sets up a creature object that has been watered recently, so should not be judged as "thirsty"
+
+        Author:
+            Jessie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -415,7 +513,12 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
         
     def test_hungry_cat_is_hungry(self):
-        #sets up a creature object that has not been fed in over 3 days, so should be judged as "hungry"
+        """
+        Sets up a creature object that has not been fed in over 3 days, so should be judged as "hungry"
+
+        Author:
+            Jessie
+        """
         currentTime = timezone.now()
         pastTime=currentTime-timedelta(days=5)
         client = Client()
@@ -444,7 +547,12 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
         
     def test_fed_cat_is_fed(self):
-        #sets up a creature object that has been watered recently, so should not be judged as "thirsty"
+        """
+        Sets up a creature object that has been watered recently, so should not be judged as "thirsty"
+
+        Author:
+            Jessie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -466,10 +574,22 @@ class KittyIndexTests(TestCase):
         
 
 class GeoLocationTests(TestCase):
+    """
+    Test block to test geolocation functionality.
+
+    Author:
+        Lucia
+    """
     
     def test_within_dist(self):
-        loc1=(28.426846,77.088834)
-        loc2=(28.394231,77.050308)
+        """
+        Tests whether a user can be considered to be in or out of range of certain coordinates.
+
+        Author:
+            Lucia
+        """
+        loc1 = (28.426846, 77.088834)
+        loc2 = (28.394231, 77.050308)
 
         self.assertFalse(within_distance(loc1, loc2, 10))
         self.assertTrue(within_distance(loc1, loc2, 6000))

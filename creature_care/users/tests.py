@@ -5,10 +5,24 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist
 
-
 class LoginViewTests(TestCase):
+    """
+    Block of tests for the login view.
+
+    Args:
+        TestCase obj
+
+    Authors:
+        Jessie, Laurie, and Nevan
+    """
 
     def test_create_user(self):
+        """
+        Test for ensuring a user can be created with no trouble
+
+        Authors:
+            Nevan and Jessie
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -23,6 +37,12 @@ class LoginViewTests(TestCase):
         self.assertIsNotNone(user)
 
     def test_login_user(self):
+        """
+        Test for ensuring a user can log in with no issue
+
+        Authors:
+            Nevan and Jessie
+        """
         client_reg = Client()
         g1 = Group.objects.create(name='Player')
         client_reg.post(path='/users/register_user', data=
@@ -47,6 +67,11 @@ class LoginViewTests(TestCase):
         self.assertEqual(response_login.status_code, 200)
 
     def test_invalid_password(self):
+        """
+        Tests that a user cannot log in if an invalid password is provided
+
+        Author: Nevan
+        """
         g1 = Group.objects.create(name='Player')
         client_reg = Client()
         client_reg.post(path='/users/register_user', data=
@@ -72,6 +97,13 @@ class LoginViewTests(TestCase):
         self.assertEqual(response_not_follow.status_code, 302)
 
     def test_blank_credentials(self):
+        """
+        Tests that a user account cannot be accessed when no
+        credentials are provided
+
+        Author:
+            Nevan
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         client.login()
@@ -89,6 +121,12 @@ class LoginViewTests(TestCase):
         self.assertEqual(response_not_follow.status_code, 302)
 
     def test_various_chars_in_username(self):
+        """
+        Tests that strange chars cannot be used to register a user
+
+        Author:
+            Nevan
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         response = client.post(path='/users/register_user', data={
@@ -105,6 +143,13 @@ class LoginViewTests(TestCase):
             self.assertEqual(response.status_code, 200)  # ensures that the user hasn't been redirected
 
     def test_mismatching_passwords(self):
+        """
+        Tests that an account cannot be registered if the passwords
+        do not match
+
+        Authors:
+            Nevan
+        """
         client = Client()
         g1 = Group.objects.create(name='Player')
         response = client.post(path='/users/register_user', data={
