@@ -31,6 +31,7 @@
 {% endblock %}
 
 {% block content %}
+<button id="find-me">Show my location</button><br />
 <div id = "bubble" class = "container">
     <div class = "bubble">
         <div class = "allspeech">
@@ -149,6 +150,34 @@
             */
             setTimeout( function() { window.location = delayedLink }, 10 );
         }
+
+        function geoFindMe() {
+
+            function success(position) {
+            const latitude  = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            alert(latitude, longitude);
+            }
+
+            function error() {
+            alert("unable to retrieve your location");
+            }
+
+            if (!navigator.geolocation) {
+            alert("geolocation is not supported by your browser");
+            } else {
+            alert("locating");
+            const options = {
+                enableHighAccuracy: true,
+                maximumAge: 30000,
+                timeout: 27000
+            };
+            navigator.geolocation.getCurrentPosition(success, error, options);
+            }
+
+            }
+
+        document.querySelector('#find-me').addEventListener('click', geoFindMe);
 
         function geoLocate(task) {
             /* 
