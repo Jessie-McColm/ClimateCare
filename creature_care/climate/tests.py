@@ -128,6 +128,9 @@ class KittyIndexTests(TestCase):
         response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"feed"})
+        profile = Profile.objects.get(user=user)
+        self.assertEqual(profile.points, 1)
+        self.assertEqual(profile.num_times_fed, 1)
         self.assertEqual(response.context['task'],"feed")
         self.assertEqual(response.status_code, 200)
 
@@ -160,6 +163,9 @@ class KittyIndexTests(TestCase):
         response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"water"})
+        profile = Profile.objects.get(user=user)
+        self.assertEqual(profile.points, 5)
+        self.assertEqual(profile.num_times_fed, 0)
         self.assertNotEqual(response.context['task'],"feed")
         self.assertEqual(response.status_code, 200)
 
@@ -180,9 +186,9 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
+        
         location = LocationFountain(longitude=0, latitude=0)
         location.save()
-        
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -192,6 +198,9 @@ class KittyIndexTests(TestCase):
         response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"water"})
+        profile = Profile.objects.get(user=user)
+        self.assertEqual(profile.points, 5)
+        self.assertEqual(profile.num_times_watered, 1)
         self.assertEqual(response.context['task'],"water")
         self.assertEqual(response.status_code, 200)
 
@@ -224,6 +233,9 @@ class KittyIndexTests(TestCase):
         response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"litter"})
+        profile = Profile.objects.get(user=user)
+        self.assertEqual(profile.points, 0)
+        self.assertEqual(profile.num_times_watered, 0)
         self.assertNotEqual(response.context['task'],"water")
         self.assertEqual(response.status_code, 200)
 
@@ -256,6 +268,9 @@ class KittyIndexTests(TestCase):
         response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"litter"})
+        profile = Profile.objects.get(user=user)
+        self.assertEqual(profile.points, 3)
+        self.assertEqual(profile.num_times_litter_cleared, 1)
         self.assertEqual(response.context['task'],"clean")
         self.assertEqual(response.status_code, 200)
 
@@ -288,6 +303,9 @@ class KittyIndexTests(TestCase):
         response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"water"})
+        profile = Profile.objects.get(user=user)
+        self.assertEqual(profile.points, 0)
+        self.assertEqual(profile.num_times_litter_cleared, 0)
         self.assertNotEqual(response.context['task'],"clean")
         self.assertEqual(response.status_code, 200)
     

@@ -81,15 +81,28 @@ def kitty(request, type_of="none"):
             near_water = validate_location(coordinates, cat_data, task)
             if near_water:
                 info['task'] = 'water'
+                setattr(cat_data, "last_thirst_refill", current_time)
+                cat_data.save()
+                user_prof.points = user_prof.points + 5
+                user_prof.num_times_watered = user_prof.num_times_watered + 1
+                user_prof.save()
 
         elif task == "litter":
             near_bin = validate_location(coordinates, cat_data, task)
             if near_bin:
                 info['task'] = 'clean'
+                cat_data.last_litter_refill = current_time
+                cat_data.save()
+                user_prof.points = user_prof.points + 3
+                user_prof.num_times_litter_cleared = user_prof.num_times_litter_cleared + 1
+                user_prof.save()
 
         elif task == "feed":
-            cat_data.last_food_refill = current_time  # (is this how you edit?)
+            cat_data.last_food_refill = current_time 
             cat_data.save()
+            user_prof.points = user_prof.points + 1
+            user_prof.num_times_fed = user_prof.num_times_fed + 1
+            user_prof.save()
             # can we play a little animation?
             info['task'] = 'feed'
 
@@ -172,12 +185,8 @@ def validate_location(coordinates, cat_data, location_type):
                 100
             )
             location_counter = location_counter + 1
-
     if success:  # if a valid location is found, this condition is chosen
         print(coordinates, location_type)
-        current_time = timezone.now()
-        cat_data.last_litter_refill = current_time
-        cat_data.save()
         return True
     print("not within distance")
     return False  # if no valid location is found, this is returned (may need error display)
