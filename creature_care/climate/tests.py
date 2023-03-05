@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from datetime import timedelta
+from time import sleep
 
 
 from .views import within_distance
@@ -133,6 +134,46 @@ class KittyIndexTests(TestCase):
         self.assertEqual(profile.num_times_fed, 1)
         self.assertEqual(response.context['task'],"feed")
         self.assertEqual(response.status_code, 200)
+        
+    def test_post_articles_DB_update(self):
+        """
+        Test if database is updated correctly when a post request is sent to get articles/feed the kitty
+
+        Authors:
+            Jessie 
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user = User.objects.get(username='kittylover123')
+        new_advice = Advice(content="example advice", source ="example")
+        new_advice.save()
+        user_prof = Profile.objects.get(user=user)
+        cat_data = user_prof.creature
+        sleep(5)
+        
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.post(path='/climate/kitty', data=
+                             {"coordinates":"0,0",
+                              "task":"feed"})
+        current_time=timezone.now()
+        food_time_difference = current_time - cat_data.last_food_refill
+        food_time_difference_seconds = food_time_difference.total_seconds()
+        self.assertTrue(food_time_difference_seconds<4)
+        self.assertEqual(response.status_code, 200)
+
+        
 
     def test_post_not_articles(self):
         """
@@ -204,6 +245,44 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.context['task'],"water")
         self.assertEqual(response.status_code, 200)
 
+    def test_post_water_DB_update(self):
+        """
+        Test if database is updated correctly when a post request is sent to water the kitty
+
+        Author:
+            Jessie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user = User.objects.get(username='kittylover123')
+        location = LocationFountain(longitude=0, latitude=0)
+        location.save()
+        user_prof = Profile.objects.get(user=user)
+        cat_data = user_prof.creature
+        sleep(5)
+        
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.post(path='/climate/kitty', data=
+                             {"coordinates":"0,0",
+                              "task":"water"})
+        current_time=timezone.now()
+        water_time_difference = current_time - cat_data.last_thirst_refill
+        water_time_difference_seconds = water_time_difference.total_seconds()
+        self.assertTrue(water_time_difference_seconds<4)
+        self.assertEqual(response.status_code, 200)
+
     def test_post_not_water(self):
         """
         Test if valid response is given when a post request is sent to water the kitty
@@ -272,6 +351,45 @@ class KittyIndexTests(TestCase):
         self.assertEqual(profile.points, 3)
         self.assertEqual(profile.num_times_litter_cleared, 1)
         self.assertEqual(response.context['task'],"clean")
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_clean_DB_update(self):
+        """
+        Test if database is updated correctly when a post request is sent to clean the kitty
+
+        Authors:
+            Jessie 
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user = User.objects.get(username='kittylover123')
+        location = LocationBin(longitude=0, latitude=0)
+        location.save()
+        user_prof = Profile.objects.get(user=user)
+        cat_data = user_prof.creature
+        sleep(5)
+
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.post(path='/climate/kitty', data=
+                             {"coordinates":"0,0",
+                              "task":"litter"})
+        current_time=timezone.now()
+        clean_time_difference = current_time - cat_data.last_litter_refill
+        clean_time_difference_seconds = clean_time_difference.total_seconds()
+        print(clean_time_difference_seconds)
+        self.assertTrue(clean_time_difference_seconds<4)
         self.assertEqual(response.status_code, 200)
 
     def test_post_not_clean(self):
