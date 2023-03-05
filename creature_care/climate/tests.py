@@ -571,6 +571,108 @@ class KittyIndexTests(TestCase):
         response=client.get(path='/climate/kitty')
         self.assertEqual(response.context['hungry'],False)
         self.assertEqual(response.status_code, 200)
+
+    '''
+    def test_leaderboard(self):
+        """
+        Tests the leaderboard page
+
+        Author:
+            Jessie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        #set up users with scores to display
+        User.objects.create_user('testUser1', 'test@test.com', 'testPass', score=100)
+        User.objects.create_user('testUser2', 'test@test.com', 'testPass',score=90)
+        User.objects.create_user('testUser3', 'test@test.com', 'testPass',score=30)
+        User.objects.create_user('testUser4', 'test@test.com', 'testPass',score=20)
+        User.objects.create_user('testUser5', 'test@test.com', 'testPass',score=80)
+        response=client.get(path='/climate/leaderboard')
+        usersList=response.context['userScores']
+        self.assertEqual(usersList[0][0],'testUser1')
+        self.assertEqual(usersList[0][1],100)
+        self.assertEqual(usersList[1][0],'testUser2')
+        self.assertEqual(usersList[1][1],90)
+        self.assertEqual(usersList[2][0],'testUser5')
+        self.assertEqual(usersList[2][1],80)
+        self.assertEqual(usersList[3][0],'testUser3')
+        self.assertEqual(usersList[3][1],30)
+        self.assertEqual(usersList[4][0],'testUser4')
+        self.assertEqual(usersList[4][1],20)
+        self.assertEqual(usersList[5][0],'kittylover123')
+        self.assertEqual(usersList[5][1],0)
+        self.assertEqual(response.status_code, 200)
+       
+    def test_leaderboard_redirect(self):
+        """
+        Tests that the leaderboard page redirects to the login page for an unauthorised user
+
+        Author:
+            Jessie
+        """
+        response=client.get(path='/climate/leaderboard')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/users/login_user?next=/climate/leaderboard")
+
+    def test_shop_view(self):
+        """
+        Tests that the shop view sends back item info correctly
+
+        Author:
+            Jessie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        testItem1 = Item(item_name="test1", item_cost=30, item_img="static/cat-face.png", item_class="test" )
+        testItem2 = Item(item_name="test2", item_cost=40, item_img="static/cat-face.png", item_class="test" )
+        testItem3 = Item(item_name="test3", item_cost=50, item_img="static/cat-face.png", item_class="test" )
+        response=client.get(path='/climate/shop')
+        itemList=response.context['items']
+        self.assertEqual(itemList[0][0],'test1')
+        self.assertEqual(itemList[0][1],30)
+        self.assertEqual(itemList[1][0],'test2')
+        self.assertEqual(itemList[1][1],40)
+        self.assertEqual(itemList[2][0],'test3')
+        self.assertEqual(itemList[2][1],50)
+        self.assertEqual(response.status_code, 200)
+
+    def test_shop_redirect(self):
+        """
+        Tests that the shop page redirects to the login page for an unauthorised user
+
+        Author:
+            Jessie
+        """
+        response=client.get(path='/climate/shop')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/users/login_user?next=/climate/shop")
+    '''
+        
         
 
 class GeoLocationTests(TestCase):
