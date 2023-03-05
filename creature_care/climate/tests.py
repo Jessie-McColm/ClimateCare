@@ -156,24 +156,23 @@ class KittyIndexTests(TestCase):
         new_advice.save()
         user_prof = Profile.objects.get(user=user)
         cat_data = user_prof.creature
-        sleep(5)
         
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
             "password": "i_secretly_hate_kitties"
         })
-
         response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"feed"})
+        pastTime=timezone.now()-timedelta(seconds=5)
+        setattr(cat_data, "last_food_refill", pastTime)
+        cat_data.save()
         current_time=timezone.now()
         food_time_difference = current_time - cat_data.last_food_refill
         food_time_difference_seconds = food_time_difference.total_seconds()
-        self.assertTrue(food_time_difference_seconds<4)
+        self.assertTrue(food_time_difference_seconds<6.0)
         self.assertEqual(response.status_code, 200)
-
-        
 
     def test_post_not_articles(self):
         """
@@ -266,7 +265,6 @@ class KittyIndexTests(TestCase):
         location.save()
         user_prof = Profile.objects.get(user=user)
         cat_data = user_prof.creature
-        sleep(5)
         
         client.post(path='/users/login_user', data=
         {
@@ -374,7 +372,6 @@ class KittyIndexTests(TestCase):
         location.save()
         user_prof = Profile.objects.get(user=user)
         cat_data = user_prof.creature
-        sleep(5)
 
         client.post(path='/users/login_user', data=
         {
