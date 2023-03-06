@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+<form method="POST" action="">
+  {% csrf_token %}
+  <label for="content">Content or link</label><br>
+  <input type="text" id="content" name="content"><br>
+  <label for="source">Source</label><br>
+  <input type="text" id="source" name="source" ><br><br>
+  <input type="radio" id="content" name="link_or_content" value="content">
+  <label for="content">Content</label><br>
+  <input type="radio" id="link" name="link_or_content" value="link">
+  <label for="link">Link</label><br>
+  <input type="submit" value="Submit">
+</form> 
+
+
+</body>
+</html>

@@ -230,7 +230,20 @@ def game_master_page(request):
     Returns:
         A http response.
     """
-    return HttpResponse("You're at the master page")
+    #may need to look into preventing XSS
+    if request.method == "POST":
+        link_or_content=request.POST.get('link_or_content')
+        if link_or_content=="link":
+            link=request.POST.get('content')
+            source=request.POST.get('source')
+            Advice.objects.create(link=link, source=source)
+        elif link_or_content=="content":
+            content=request.POST.get('content')
+            source=request.POST.get('source')
+            Advice.objects.create(content=content, source=source)
+        
+    
+    return render(request, 'temp_game_master.html')
 
 
 def page_not_found_view(request, exception):

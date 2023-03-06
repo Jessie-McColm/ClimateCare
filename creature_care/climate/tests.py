@@ -156,7 +156,9 @@ class KittyIndexTests(TestCase):
         new_advice.save()
         user_prof = Profile.objects.get(user=user)
         cat_data = user_prof.creature
-        
+        pastTime=timezone.now()-timedelta(seconds=5)
+        setattr(cat_data, "last_food_refill", pastTime)
+        cat_data.save()
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -165,13 +167,11 @@ class KittyIndexTests(TestCase):
         response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"feed"})
-        pastTime=timezone.now()-timedelta(seconds=5)
-        setattr(cat_data, "last_food_refill", pastTime)
-        cat_data.save()
+        
         current_time=timezone.now()
         food_time_difference = current_time - cat_data.last_food_refill
         food_time_difference_seconds = food_time_difference.total_seconds()
-        self.assertTrue(food_time_difference_seconds<6.0)
+        self.assertTrue(food_time_difference_seconds<4.0)
         self.assertEqual(response.status_code, 200)
 
     def test_post_not_articles(self):
@@ -265,7 +265,9 @@ class KittyIndexTests(TestCase):
         location.save()
         user_prof = Profile.objects.get(user=user)
         cat_data = user_prof.creature
-        
+        pastTime=timezone.now()-timedelta(seconds=5)
+        setattr(cat_data, "last_thirst_refill", pastTime)
+        cat_data.save()
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -276,6 +278,7 @@ class KittyIndexTests(TestCase):
                              {"coordinates":"0,0",
                               "task":"water"})
         current_time=timezone.now()
+        
         water_time_difference = current_time - cat_data.last_thirst_refill
         water_time_difference_seconds = water_time_difference.total_seconds()
         self.assertTrue(water_time_difference_seconds<4)
@@ -372,7 +375,9 @@ class KittyIndexTests(TestCase):
         location.save()
         user_prof = Profile.objects.get(user=user)
         cat_data = user_prof.creature
-
+        pastTime=timezone.now()-timedelta(seconds=5)
+        setattr(cat_data, "last_litter_refill", pastTime)
+        cat_data.save()
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -386,6 +391,7 @@ class KittyIndexTests(TestCase):
         clean_time_difference = current_time - cat_data.last_litter_refill
         clean_time_difference_seconds = clean_time_difference.total_seconds()
         print(clean_time_difference_seconds)
+        self.assertEqual(response.context['task'],"clean")
         self.assertTrue(clean_time_difference_seconds<4)
         self.assertEqual(response.status_code, 200)
 
