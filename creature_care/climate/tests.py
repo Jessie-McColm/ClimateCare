@@ -755,7 +755,7 @@ class KittyIndexTests(TestCase):
         self.assertEqual(leaderboard_data[3]["points"],30)
         self.assertEqual(leaderboard_data[4]["username"],'testUser4')
         self.assertEqual(leaderboard_data[4]["points"],20)
-        self.assertEqual(len(leaderboard_data), 5)
+        self.assertEqual(len(leaderboard_data), 6)
         self.assertEqual(response.status_code, 200)
        
     def test_leaderboard_redirect(self):

@@ -374,7 +374,7 @@ def validate_location(coordinates, location_type):
     return False  # if no valid location is found, this is returned (may need error display)
 
 '''
-Retrieves the top 5 (currently, subject to change) players in terms of lifetime points
+Retrieves up to the top 20 players in terms of lifetime points
 
 Authors: Laurie
 
@@ -382,15 +382,15 @@ Args: None
 
 Returns: a list of dictionaries, each dictionary represents
 an entry in the leaderboards.
-
-TODO currently only retrieves 5! change this using 
-the scopes of the slice ([0:5]).
 '''
 def return_leaderboard():
     leaderboard_output = [] #this is the ouput data, a list of dictionaries
-    top_five_profiles = list(Profile.objects.all())[0:5] #retrieves the 
-    #first 5 objects of an already ordered database
-    for i in top_five_profiles:
+    max_items = len(list(Profile.objects.all()))
+    if max_items > 20: #ensures no more than 20 items are retrieved
+        max_items = 20
+    top_profiles = list(Profile.objects.all())[0:max_items] #retrieves the 
+    #first (up to or below) 20 objects of an already ordered database
+    for i in top_profiles:
         username = (i.user).username
         points = i.points
         creature_colour = (i.creature).colour
