@@ -193,9 +193,60 @@ def validate_location(coordinates, location_type):
 
 
 @login_required(login_url='loginPage')
+def leaderboard_page(request):
+    """
+    Displays a leaderboard
+
+    Authors:
+        
+
+    Returns:
+        A http response.
+    """
+
+    return HttpResponse("You're at the leaderboard page")
+
+
+
+@login_required(login_url='loginPage')
+def my_stats_page(request):
+    """
+    Displays a stats page on the users progress in the game
+
+    Authors:
+        Lucia
+
+    Returns:
+        A http response.
+    """
+    
+    #obtain user data
+    user_obj = request.user
+    user_prof = Profile.objects.get(user=user_obj)
+    username = user_obj.get_username()
+    #cat_data = user_prof.creature
+    
+
+    bottle_num = user_prof.num_times_watered
+    article_num = user_prof.num_times_fed
+    recycle_num = user_prof.num_times_litter_cleared
+
+    info = {
+        'username': username,
+        'bottle_num': bottle_num,
+        'article_num': article_num,
+        'recycle_num': recycle_num,
+
+    }
+
+    return HttpResponse("You're at the my stats page")
+
+
+
+@login_required(login_url='loginPage')
 # @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 @game_master
-def game_master_page():  # may need to add `request` as param
+def game_master_page(request): 
     """
     Redirects an authorised user to the game master's page.
 
@@ -221,6 +272,7 @@ def page_not_found_view(request, exception):
         render(request, 'notFound.html', status=404) renders the template 'cat.html'
     """
     return render(request, 'notFound.html', status=404)
+
 
 
 # ---------Below not views but functions for views ----------------
