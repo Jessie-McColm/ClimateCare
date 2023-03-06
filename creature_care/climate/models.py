@@ -62,7 +62,7 @@ can "purchase" with earnt points in order to customise their cat for their own
 satisfaction. 
 
 Authors:
-    Laurie and NEvan
+    Laurie and Nevan
 '''
 
 

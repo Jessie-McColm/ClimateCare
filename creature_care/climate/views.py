@@ -142,56 +142,6 @@ def kitty(request, type_of="none"):
     return render(request, 'cat.html', info)
 
 
-def validate_location(coordinates, location_type):
-    """
-    Verifies whether the user is near a bin/fountain location by performing calculations based on
-    the user's geolocation and the location data stored on bins/fountains.
-
-    Authors:
-        Laurie, Jessie, and Nevan
-
-    Args:
-        coordinates: The user's coordinates to be validated
-        cat_data: The cat object representing the user's cat in the database, through which
-                  datetime stamps will be updated
-        location_type: A string specifying whether the user is near a bin or a water fountain
-
-    Returns:
-        A boolean that denotes whether the user is near a location or not
-          + True means the user is near a bin/fountain
-          - False means the user is NOT near a bin/fountain
-    """
-    success = False
-    location_counter = 0
-    if location_type == 'litter':
-        num_locations = len(list(LocationBin.objects.all()))
-        while (success is False) and (location_counter <= num_locations - 1):
-            current_bin = list(LocationBin.objects.all())[location_counter]
-            success = within_distance(
-                (coordinates[0], coordinates[1]),
-                (current_bin.latitude, current_bin.longitude),
-                200
-            )
-            location_counter = location_counter + 1
-
-    elif location_type == 'water':
-        num_locations = len(list(LocationFountain.objects.all()))
-        while (success is False) and (location_counter <= num_locations - 1):
-            # every single location, checking if the user is within distance
-            current_fountain = list(LocationFountain.objects.all())[location_counter]
-            success = within_distance(
-                (coordinates[0], coordinates[1]),
-                (current_fountain.latitude, current_fountain.longitude),
-                100
-            )
-            location_counter = location_counter + 1
-    if success:  # if a valid location is found, this condition is chosen
-        print(coordinates, location_type)
-        return True
-    print("not within distance")
-    return False  # if no valid location is found, this is returned (may need error display)
-
-
 @login_required(login_url='loginPage')
 def leaderboard_page(request):
     """
@@ -203,21 +153,10 @@ def leaderboard_page(request):
     Returns:
         A http response.
     """
-    leaderboard_output = [] #this is the ouput data, a list of dictionaries
-    top_five_profiles = list(Profile.objects.all())[0:4] #retrieves the 
-    #first 5 objects of an already ordered database
-    for i in top_five_profiles:
-        username = (i.user).username
-        points = i.points
-        creature = i.creature
-        temp_dictionary = {
-            "username":username,
-            "points":points,
-            "creature":creature
-        }
-        leaderboard_output.append(temp_dictionary)
-    #leaderboard_output is now ready for outputting
-    return HttpResponse("You're at the leaderboard page, oh and also " + str(len(leaderboard_output)))
+    
+    leaderboard_data = return_leaderboard() #returns a list of dictionaries for 
+    #rendering the full leaderboard
+    return render(request, 'base.html', {'data':leaderboard_data})
 
 
 @login_required(login_url='loginPage')
@@ -360,3 +299,82 @@ def string_coord_convert(coord_string):
     coordinates = [coord_regex[0][0], coord_regex[1][0]]
     out = tuple([float(value) for value in coordinates])
     return out
+
+
+def validate_location(coordinates, location_type):
+    """
+    Verifies whether the user is near a bin/fountain location by performing calculations based on
+    the user's geolocation and the location data stored on bins/fountains.
+
+    Authors:
+        Laurie, Jessie, and Nevan
+
+    Args:
+        coordinates: The user's coordinates to be validated
+        cat_data: The cat object representing the user's cat in the database, through which
+                  datetime stamps will be updated
+        location_type: A string specifying whether the user is near a bin or a water fountain
+
+    Returns:
+        A boolean that denotes whether the user is near a location or not
+          + True means the user is near a bin/fountain
+          - False means the user is NOT near a bin/fountain
+    """
+    success = False
+    location_counter = 0
+    if location_type == 'litter':
+        num_locations = len(list(LocationBin.objects.all()))
+        while (success is False) and (location_counter <= num_locations - 1):
+            current_bin = list(LocationBin.objects.all())[location_counter]
+            success = within_distance(
+                (coordinates[0], coordinates[1]),
+                (current_bin.latitude, current_bin.longitude),
+                200
+            )
+            location_counter = location_counter + 1
+
+    elif location_type == 'water':
+        num_locations = len(list(LocationFountain.objects.all()))
+        while (success is False) and (location_counter <= num_locations - 1):
+            # every single location, checking if the user is within distance
+            current_fountain = list(LocationFountain.objects.all())[location_counter]
+            success = within_distance(
+                (coordinates[0], coordinates[1]),
+                (current_fountain.latitude, current_fountain.longitude),
+                100
+            )
+            location_counter = location_counter + 1
+    if success:  # if a valid location is found, this condition is chosen
+        print(coordinates, location_type)
+        return True
+    print("not within distance")
+    return False  # if no valid location is found, this is returned (may need error display)
+
+'''
+Retrieves the top 5 (currently, subject to change) players in terms of lifetime points
+
+Authors: Laurie
+
+Args: None
+
+Returns: a list of dictionaries, each dictionary represents
+an entry in the leaderboards.
+
+TODO currently only retrieves 5! change this using 
+the scopes of the slice ([0:5]).
+'''
+def return_leaderboard():
+    leaderboard_output = [] #this is the ouput data, a list of dictionaries
+    top_five_profiles = list(Profile.objects.all())[0:5] #retrieves the 
+    #first 5 objects of an already ordered database
+    for i in top_five_profiles:
+        username = (i.user).username
+        points = i.points
+        creature_colour = (i.creature).colour
+        temp_dictionary = {
+            "username":username,
+            "points":points,
+            "creature":creature_colour
+        }
+        leaderboard_output.append(temp_dictionary)
+    return leaderboard_output
