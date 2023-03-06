@@ -197,15 +197,27 @@ def leaderboard_page(request):
     """
     Displays a leaderboard
 
-    Authors:
+    Authors: Lucia, Laurie
         
 
     Returns:
         A http response.
     """
-
-    return HttpResponse("You're at the leaderboard page")
-
+    leaderboard_output = [] #this is the ouput data, a list of dictionaries
+    top_five_profiles = list(Profile.objects.all())[0:4] #retrieves the 
+    #first 5 objects of an already ordered database
+    for i in top_five_profiles:
+        username = (i.user).username
+        points = i.points
+        creature = i.creature
+        temp_dictionary = {
+            "username":username,
+            "points":points,
+            "creature":creature
+        }
+        leaderboard_output.append(temp_dictionary)
+    #leaderboard_output is now ready for outputting
+    return HttpResponse("You're at the leaderboard page, oh and also " + str(len(leaderboard_output)))
 
 
 @login_required(login_url='loginPage')
@@ -275,7 +287,7 @@ def page_not_found_view(request, exception):
 
 
 
-# ---------Below not views but functions for views ----------------
+# ---------Below this are functions for views, not views ----------------
 
 
 def retrieve_advice():

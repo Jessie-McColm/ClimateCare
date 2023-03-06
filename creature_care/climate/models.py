@@ -53,6 +53,8 @@ class Profile(models.Model):
     num_times_fed = models.IntegerField(default=0, null=False)
     num_times_litter_cleared = models.IntegerField(default=0, null=False)
 
+    class Meta:
+        ordering = ['-points']
 
 '''
 This class contains information regarding each object existing within a system that a user
