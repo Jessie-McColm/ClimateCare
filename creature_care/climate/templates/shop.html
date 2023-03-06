@@ -1,0 +1,124 @@
+<!-- Page created by Des -->
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Shop
+{% endblock %}
+
+{% block head %}
+    <!-- Placeholder favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'shop.css' %}">
+
+    <style>                                     
+        body {
+            background-color: #649756;
+        }
+        div.row {
+            height: 25%;
+        }
+        
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="container-1">
+    <div class="cat">
+        <div class="face">
+            <div class="inner-l"></div>
+            <div class="inner-r"></div>
+            <div class="eye-l">
+                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+            </div>
+            <div class="eye-r">
+                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+            </div>
+            <div class="nose">
+                <div class="l1"></div>
+                <div class="l2"></div>
+            </div>
+            <div class="tear" id = "tear"></div>
+        </div>
+        <div class="body">
+            <div class="paw-l"></div>
+            <div class="paw-r"></div>
+            <div class="tail"></div>
+        </div>
+        <div class="shadow"></div>
+    </div>
+</div>
+<div class="container-2">
+    <div class="cat">
+        <div id = "still_cat_ear-l" class = "cat_ear-l"></div>
+        <div id = "still_cat_ear-r"class = "cat_ear-r"></div>
+        <div id = "still_face" class="cat_face">
+            <div class="inner-l"style="animation:none;"></div>
+            <div class="inner-r"></div>
+            <div class="eye-l"style="animation:none;">
+                <div class = "eyeball"style="animation:none;"><div class="eyeshine"style="animation:none;"><div class="eyeshine2"style="animation:none;"></div></div></div>
+            </div>
+            <div class="eye-r"style="animation:none;">
+                <div class = "eyeball"style="animation:none;"><div class="eyeshine" style="animation:none;"><div class="eyeshine2"style="animation:none;"></div></div></div>
+            </div>
+            <div class="nose">
+                <div class="l1"></div>
+                <div class="l2"></div>
+            </div>
+        </div>
+        <div id = "still_body" class="body">
+            <div id = "still_paw-1" class="paw-l"></div>
+            <div id = "still_paw-r" class="paw-r"></div>
+            <div id = "still_tail" class="tail"></div>
+        </div>
+        <div class="shadow"></div>
+    </div>
+</div>
+<div class="container-3">
+    <div class="cat">
+        <div class = "cat_ear-l"></div>
+        <div class = "cat_ear-r"></div>
+        <div class="cat_face">
+            <div class="inner-l"style="animation:none;"></div>
+            <div class="inner-r"></div>
+            <div id = "still_eye-l" class="eye-l"style="animation:none;">
+                <div class = "eyeball"style="animation:none;"><div class="eyeshine"style="animation:none;"><div class="eyeshine2"style="animation:none;"></div></div></div>
+            </div>
+            <div id = "still_eye-r" class="eye-r"style="animation:none;">
+                <div class = "eyeball"style="animation:none;"><div class="eyeshine" style="animation:none;"><div class="eyeshine2"style="animation:none;"></div></div></div>
+            </div>
+            <div class="nose">
+                <div class="l1"></div>
+                <div class="l2"></div>
+            </div>
+        </div>
+        <div class="body">
+            <div class="paw-l"></div>
+            <div class="paw-r"></div>
+            <div class="tail"></div>
+        </div>
+        <div class="shadow"></div>
+    </div>
+</div>
+
+<script>
+    var colour = ["still_face", "still_body", "still_tail", "still_paw-1", "still_paw-r"];
+    colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = "#414E77";
+    });
+
+    var ear_colour = ["still_cat_ear-l", "still_cat_ear-r"]
+    ear_colour.forEach(function (item, index) {
+        document.getElementById(item).style.borderBottomColor = "#414E77";
+    });
+
+    var eye_colour = ["still_eye-l", "still_eye-r"];
+    eye_colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = "#9CFF94";
+    });
+</script>
+
+{% endblock %}

@@ -192,7 +192,30 @@ def my_stats_page(request):
 
     return render(request, 'my_stats.html', info)
 
+@login_required(login_url='loginPage')
+def shop_page(request):
+    """
+    Displays a shop page
 
+    Authors:
+        Des
+
+    Returns:
+        A http response.
+    """
+    
+    #obtain user data
+    user_obj = request.user
+    #user_prof = Profile.objects.get(user=user_obj)
+    username = user_obj.get_username()
+    #cat_data = user_prof.creature
+    
+
+    info = {
+        'username': username
+    }
+
+    return render(request, 'shop.html', info)
 
 @login_required(login_url='loginPage')
 # @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
