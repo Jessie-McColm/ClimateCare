@@ -239,7 +239,7 @@ def my_stats_page(request):
 
     }
 
-    return HttpResponse("You're at the my stats page")
+    return render(request, 'my_stats.html', info)
 
 
 
