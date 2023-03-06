@@ -78,17 +78,17 @@ def kitty(request, type_of="none"):
         coordinates = string_coord_convert(coordinates_string)
 
         if task == "water":
-            near_water = validate_location(coordinates, cat_data, task)
+            near_water = validate_location(coordinates, task)
             if near_water:
                 info['task'] = 'water'
-                setattr(cat_data, "last_thirst_refill", current_time)
+                cat_data.last_thirst_refill = current_time
                 cat_data.save()
                 user_prof.points = user_prof.points + 5
                 user_prof.num_times_watered = user_prof.num_times_watered + 1
                 user_prof.save()
 
         elif task == "litter":
-            near_bin = validate_location(coordinates, cat_data, task)
+            near_bin = validate_location(coordinates, task)
             if near_bin:
                 info['task'] = 'clean'
                 cat_data.last_litter_refill = current_time
@@ -142,7 +142,7 @@ def kitty(request, type_of="none"):
     return render(request, 'cat.html', info)
 
 
-def validate_location(coordinates, cat_data, location_type):
+def validate_location(coordinates, location_type):
     """
     Verifies whether the user is near a bin/fountain location by performing calculations based on
     the user's geolocation and the location data stored on bins/fountains.
