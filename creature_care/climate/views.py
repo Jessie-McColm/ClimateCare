@@ -193,9 +193,24 @@ def validate_location(coordinates, cat_data, location_type):
 
 
 @login_required(login_url='loginPage')
+def my_stats_page(request):
+    """
+    Displays a stats page on the users progress in the game
+
+    Authors:
+        Lucia
+
+    Returns:
+        A http response.
+    """
+    return HttpResponse("You're at the my stats")
+
+
+
+@login_required(login_url='loginPage')
 # @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 @game_master
-def game_master_page():  # may need to add `request` as param
+def game_master_page(request): 
     """
     Redirects an authorised user to the game master's page.
 
@@ -221,6 +236,7 @@ def page_not_found_view(request, exception):
         render(request, 'notFound.html', status=404) renders the template 'cat.html'
     """
     return render(request, 'notFound.html', status=404)
+
 
 
 # ---------Below not views but functions for views ----------------

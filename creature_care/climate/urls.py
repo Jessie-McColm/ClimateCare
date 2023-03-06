@@ -5,7 +5,8 @@ from . import views
 urlpatterns = [
     path('kitty', views.kitty, name='kitty'),
     path('kitty/<str:type_of>', views.kitty, name='kitty'),
-    path('game_masters',views.game_master_page, name='game_masters')
+    path('my_stats',views.my_stats_page, name='my_stats'),
+    path('game_masters',views.game_master_page, name='game_masters'),
 ]
 
 # path('articles',views.articles,name='articles') <-- to be added later if needed
