@@ -156,7 +156,7 @@ def leaderboard_page(request):
     
     leaderboard_data = return_leaderboard() #returns a list of dictionaries for 
     #rendering the full leaderboard
-    return render(request, 'base.html', {'data':leaderboard_data})
+    return render(request, 'leaderboard.html', {'data':leaderboard_data})
 
 
 @login_required(login_url='loginPage')
@@ -195,10 +195,10 @@ def my_stats_page(request):
 @login_required(login_url='loginPage')
 def shop_page(request):
     """
-    Displays a shop page
+    Just for testing the shop page for front-end :)
 
     Authors:
-        Des
+        Lucia, Des
 
     Returns:
         A http response.
