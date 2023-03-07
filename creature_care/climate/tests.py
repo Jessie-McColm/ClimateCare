@@ -119,7 +119,11 @@ class KittyIndexTests(TestCase):
         user = User.objects.get(username='kittylover123')
         new_advice = Advice(content="example advice", source ="example")
         new_advice.save()
-        
+        user_prof = Profile.objects.get(user=user)
+        cat_data = user_prof.creature
+        pastTime=timezone.now()-timedelta(days=5)
+        setattr(cat_data, "last_food_refill", pastTime)
+        cat_data.save()
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -193,7 +197,11 @@ class KittyIndexTests(TestCase):
         user = User.objects.get(username='kittylover123')
         location = LocationFountain(longitude=0, latitude=0)
         location.save()
-
+        user_prof = Profile.objects.get(user=user)
+        cat_data = user_prof.creature
+        pastTime=timezone.now()-timedelta(days=5)
+        setattr(cat_data, "last_thirst_refill", pastTime)
+        cat_data.save()
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -229,6 +237,11 @@ class KittyIndexTests(TestCase):
         
         location = LocationFountain(longitude=0, latitude=0)
         location.save()
+        user_prof = Profile.objects.get(user=user)
+        cat_data = user_prof.creature
+        pastTime=timezone.now()-timedelta(days=5)
+        setattr(cat_data, "last_thirst_refill", pastTime)
+        cat_data.save()
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -305,7 +318,11 @@ class KittyIndexTests(TestCase):
         user = User.objects.get(username='kittylover123')
         location = LocationFountain(longitude=1000, latitude=1000)
         location.save()
-        
+        user_prof = Profile.objects.get(user=user)
+        cat_data = user_prof.creature
+        pastTime=timezone.now()-timedelta(days=5)
+        setattr(cat_data, "last_thirst_refill", pastTime)
+        cat_data.save()
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -340,7 +357,11 @@ class KittyIndexTests(TestCase):
         user = User.objects.get(username='kittylover123')
         location = LocationBin(longitude=0, latitude=0)
         location.save()
-
+        user_prof = Profile.objects.get(user=user)
+        cat_data = user_prof.creature
+        pastTime=timezone.now()-timedelta(days=5)
+        setattr(cat_data, "last_litter_refill", pastTime)
+        cat_data.save()
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
@@ -417,7 +438,11 @@ class KittyIndexTests(TestCase):
         user = User.objects.get(username='kittylover123')
         location = LocationBin(longitude=10000, latitude=10000)
         location.save()
-        
+        user_prof = Profile.objects.get(user=user)
+        cat_data = user_prof.creature
+        pastTime=timezone.now()-timedelta(days=5)
+        setattr(cat_data, "last_litter_refill", pastTime)
+        cat_data.save()
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
