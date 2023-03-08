@@ -68,7 +68,6 @@ def kitty(request, type_of="none"):
         'stinky': False,
         'hungry': False
     }
-
     if request.method == "POST":
         # set null coordinates for feeding
         task = request.POST.get('task')
@@ -76,7 +75,6 @@ def kitty(request, type_of="none"):
 
         # will need testing
         coordinates = string_coord_convert(coordinates_string)
-
         if task == "water":
             #check that a certain amount of time has passed since the user last tried to water
             water_time_difference = current_time - cat_data.last_thirst_refill
