@@ -26,12 +26,105 @@
         div.row {
             height: 25%;
         }
+        .pop-up {
+            height: 150px;
+            width: 300px;
+            background-color: #649756;
+            border-radius: 7%;
+            border: 3.5px solid white;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            display: flex;
+        }
+
+        .locating{
+            margin: auto;
+            display: flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            font-size: 25px;
+        }
+
+        .locating span {
+            display: inline-flex;
+            color: white;
+            font-family: "Comic Sans MS", "Comic Sans", cursive;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce{
+            0%,
+            50%,
+            100% {
+                transform: translateY(0);
+            }
+            25% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .pop-up span:nth-of-type(1) {
+            animation-delay: 0.05s;
+        }
+        .pop-up span:nth-of-type(2) {
+            animation-delay: 0.1s;
+        }
+        .pop-up span:nth-of-type(3) {
+            animation-delay: 0.15s;
+        }
+        .pop-up span:nth-of-type(4) {
+            animation-delay: 0.2s;
+        }
+        .pop-up span:nth-of-type(5) {
+            animation-delay: 0.25s;
+        }
+        .pop-up span:nth-of-type(6) {
+            animation-delay: 0.3s;
+        }
+        .pop-up span:nth-of-type(7) {
+            animation-delay: 0.35s;
+        }
+        .pop-up span:nth-of-type(8) {
+            animation-delay: 0.4s;
+        }
+        .pop-up span:nth-of-type(9) {
+            animation-delay: 0.45s;
+        }
+        .pop-up span:nth-of-type(10) {
+            animation-delay: 0.5s;
+        }
+        .pop-up span:nth-of-type(11) {
+            animation-delay: 0.55s;
+        }
+
+ 
+
         
     </style>
 {% endblock %}
 
 {% block content %}
-<button id="find-me">Show my location</button><br />
+<div id = "pop-up" class = "pop-up">
+    <h3 class="locating">
+        <span>l</span>
+        <span>o</span>
+        <span>c</span>
+        <span>a</span>
+        <span>t</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+    </h3>
+</div>
 <div id = "bubble" class = "container">
     <div class = "bubble">
         <div class = "allspeech">
@@ -85,7 +178,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id = "tupperware" href="/climate/kitty/articles" onclick="return getArticle();">
+                    <a id = "tupperware" onclick="return getArticle();">
                         <div class="container-2">
                             <div class ="tupperware">
                                 <div class="tup-cap"></div>
@@ -101,7 +194,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id="water" href="javascript:delay('/climate/kitty/water')" onclick="return geoLocate('water');">
+                    <a id="water" onclick="return geoLocate('water');">
                         <div class="container-3">
                             <div class="waterbottle">
                                 <div class="bottle-cap">
@@ -118,7 +211,7 @@
             </div>
             <div class="col-4">
                 <div class="d-inline-block">
-                    <a id="litter" href="javascript:delay('/climate/kitty/clean')" onclick="return geoLocate('litter');">
+                    <a id="litter" onclick="return geoLocate('litter');">
                         <div class="container-4">
                             <div class ="recycling-bin">
                                 <div class="cap-top"></div>
@@ -141,43 +234,6 @@
     </div>
 
     <script>
-        function delay(delayedLink) {
-            /* 
-            Delays the page reload, used for geolocation testing.
-            
-            Author:
-                Des
-            */
-            setTimeout( function() { window.location = delayedLink }, 10 );
-        }
-
-        function geoFindMe() {
-
-            function success(position) {
-            const latitude  = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            alert(latitude, longitude);
-            }
-
-            function error() {
-            alert("unable to retrieve your location");
-            }
-
-            if (!navigator.geolocation) {
-            alert("geolocation is not supported by your browser");
-            } else {
-            alert("locating");
-            const options = {
-                enableHighAccuracy: true,
-                maximumAge: 30000,
-                timeout: 27000
-            };
-            navigator.geolocation.getCurrentPosition(success, error, options);
-            }
-
-            }
-
-        document.querySelector('#find-me').addEventListener('click', geoFindMe);
 
         function geoLocate(task) {
             /* 
@@ -186,19 +242,16 @@
             Authors:
                 Des, Jessie
             */
-
+            document.getElementById("pop-up").style.display = "";
+            const temp = window.location.href.split("/kitty")[0];
+            pageLink = temp + "/kitty/" + task;
             function success(position) {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 var coordinates = new Array(2);
                 coordinates = [latitude, longitude];
                 sendPostRequest(coordinates, task);
-                if (task == "water") {
-                    alert("You have hydrated your cat!");
-                }
-                if (task == "litter") {
-                    alert("You have cleaned your cat!");
-                }
+                window.location.href = pageLink;
             }
             
             function error() {
@@ -208,12 +261,13 @@
             if (!navigator.geolocation) {
                 alert("Geolocation is not supported by your browser");
             } else {
+                
             const options = {
             enableHighAccuracy: true,
             maximumAge: 30000,
             timeout: 27000
             };
-            navigator.geolocation.getCurrentPosition(function () {}, function () {}, {});
+
             navigator.geolocation.getCurrentPosition(success, error, options);
             }
         }
@@ -234,6 +288,9 @@
             document.getElementById("message").textContent = message;
             document.getElementById("content").textContent = content;
             document.getElementById("source").textContent = source;
+            const temp = window.location.href.split("/kitty")[0];
+            pageLink = temp + "/kitty/articles";
+            window.location.href = pageLink;
         }
 
         function sendPostRequest(coordinates, task) {
@@ -269,6 +326,7 @@
         Authors:
             Des
         */
+        document.getElementById("pop-up").style.display = "none";
         let thirsty = '{{ thirsty }}';
         let stinky = '{{ stinky }}';
         let hungry = '{{ hungry }}';
