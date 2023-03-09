@@ -202,7 +202,8 @@ def my_stats_page(request):
 @login_required(login_url='loginPage')
 def item_shop_page(request):
     """
-    Just for testing the shop page for front-end :)
+    This function handles POST requests from the item shop, and provides functionality
+    for allowing users to purchase new items and equip their cat with these items.
 
     Authors:
         Nevan, Lucia, Des
@@ -230,16 +231,22 @@ def item_shop_page(request):
         if request.POST.get('equip_new_item') == "true":
             item_id = request.POST.get('item_id')
             item = Item.objects.get(item_id=item_id)
-            wearing.item = item
-            wearing.save()
+            item_cost = item.item_cost
+
+            if points_available > item_cost:
+                user_prof.points = points_available-item_cost
+                wearing.item = item
+
+                user_prof.save()
+                wearing.save()
 
     return render(request, 'item_shop.html', info)
 
 @login_required(login_url='loginPage')
 def colour_shop_page(request):
     """
-    Function called when the user navigates to the colour shop. Handles initial set-up of
-    the colour shop page.
+    This function handles POST requests from the colours shop, and provides functionality
+    for allowing users to purchase new items and stylize their cat with these new colours.
 
     Authors:
         Nevan
@@ -262,6 +269,7 @@ def colour_shop_page(request):
     }
 
     # if request.method == "POST":
+    #     do stuff
 
     return render(request, 'colour_shop.html', info)
 
