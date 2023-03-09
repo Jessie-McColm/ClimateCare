@@ -791,7 +791,50 @@ class KittyIndexTests(TestCase):
         self.assertEqual(leaderboard_data[4]["points"],20)
         self.assertEqual(len(leaderboard_data), 6)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['rank'], 6)
        
+    def test_rank_in_first(self):
+        """
+        Tests the leaderboard page
+
+        Author:
+            Laurie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        #set up users with scores to display
+        testuser1 = User.objects.create_user('testUser1', 'test@test.com', 'testPass')
+        testkitty1 = Creature.objects.create()
+        Profile.objects.create(user=testuser1, creature=testkitty1, points=100)
+        testuser2 = User.objects.create_user('testUser2', 'test@test.com', 'testPass')
+        testkitty2 = Creature.objects.create()
+        Profile.objects.create(user=testuser2, creature=testkitty2, points=90)
+        testuser3 = User.objects.create_user('testUser3', 'test@test.com', 'testPass')
+        testkitty3 = Creature.objects.create()
+        Profile.objects.create(user=testuser3, creature=testkitty3, points=30)
+        testuser4 = User.objects.create_user('testUser4', 'test@test.com', 'testPass')
+        testkitty4 = Creature.objects.create()
+        Profile.objects.create(user=testuser4, creature=testkitty4, points=20)
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user = user_obj)
+        user_prof.points = 110
+        user_prof.save()
+        response=client.get(path='/climate/leaderboard')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['rank'], 1)
+
     def test_leaderboard_redirect(self):
         """
         Tests that the leaderboard page redirects to the login page for an unauthorised user

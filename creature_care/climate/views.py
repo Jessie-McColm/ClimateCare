@@ -157,14 +157,14 @@ def leaderboard_page(request):
 
     Authors: Lucia, Laurie
         
-
     Returns:
         A http response.
     """
     
     leaderboard_data = return_leaderboard() #returns a list of dictionaries for 
     #rendering the full leaderboard
-    return render(request, 'leaderboard.html', {'data':leaderboard_data})
+    user_rank = return_ranking(request.user.username) #returns the current user's rank
+    return render(request, 'leaderboard.html', {'data':leaderboard_data, 'rank':user_rank})
 
 
 @login_required(login_url='loginPage')
@@ -422,3 +422,22 @@ def return_leaderboard():
         }
         leaderboard_output.append(temp_dictionary)
     return leaderboard_output
+
+'''
+Simple linear search algorithm to find the user's place in the profile's database.
+
+Authors: Laurie
+
+Args: the User object of the user that has logged into the system
+
+Returns: the user's rank, starting at 1 and moving upwards.
+'''
+def return_ranking(username_required):
+    all_profiles = list(Profile.objects.all())
+    user_found = False
+    search_count = 0
+    while (user_found == False) and (search_count < len(all_profiles)):
+        if all_profiles[search_count].user.username == username_required:
+            user_found = True
+        search_count = search_count + 1
+    return search_count
