@@ -1,0 +1,62 @@
+ClimateCare - Privacy Policy
+
+Our contact details:
+Name: ClimateCare
+Address: 
+University of Exeter, Streatham Campus
+Northcote House, Exeter 
+EX4 4QJ
+
+E-mail: lh813@exeter
+ 
+The type of personal information we collect:
+We currently collect and process the following information:
+•	Personal identifiers, contacts, and characteristics (name, email address)
+•	User location
+
+
+How we get the personal information and why we have it:
+Most of the personal information we process is provided to us directly by you for one of the following reasons:
+•	So that we can maintain an account for you within this system that only you have access to that stores your progress
+•	So that we can verify (due to a certain degree) that you are completing the tasks you claim to be by matching your location against locations maintained by the developers. We do not store location data.
+We use the information that you have given us in order to maintain a database that a user can log into and to validate sustainability tasks. 
+We will not share any information provided with us with any external organisations. 
+Under the UK General Data Protection Regulation (UK GDPR), the lawful bases we rely on for processing this information are:
+(a) Your consent. You can remove your consent at any time. You can do this by contacting lh813@exeter.ac.uk
+(b) We have a legitimate interest.
+
+How we store your personal information:
+Your information is securely stored. We store all data in back-end databases that are secure against common cybersecurity threats. 
+We keep all of your personal details for 2 years. We will then dispose your information by removing it from our database manually. We do not retain any location data we extract from users while verifying location.
+
+Your data protection rights:
+Under data protection law, you have rights including:
+Your right of access - You have the right to ask us for copies of your personal information. 
+Your right to rectification - You have the right to ask us to rectify personal information you think is inaccurate. You also have the right to ask us to complete information you think is incomplete. 
+Your right to erasure - You have the right to ask us to erase your personal information in certain circumstances. 
+Your right to restriction of processing - You have the right to ask us to restrict the processing of your personal information in certain circumstances. 
+Your right to object to processing - You have the the right to object to the processing of your personal information in certain circumstances.
+Your right to data portability - You have the right to ask that we transfer the personal information you gave us to another organisation, or to you, in certain circumstances.
+You are not required to pay any charge for exercising your rights. If you make a request, we have one month to respond to you.
+Please contact us at lh813@exeter.ac.uk if you wish to make a request.
+
+
+
+
+How to complain:
+If you have any concerns about our use of your personal information, you can make a complaint to us at lh813@exeter.ac.uk
+You can also complain to the ICO if you are unhappy with how we have used your data.
+The ICO’s address:            
+Information Commissioner’s Office
+Wycliffe House
+Water Lane
+Wilmslow
+Cheshire
+SK9 5AF
+
+Helpline number: 0303 123 1113
+ICO website: https://www.ico.org.uk
+
+Date: 09/03/2023
+Author: ClimateCare (Laurie H, Des H, Sanchi C, Nevan M, Lucia A, Jessie M)
+
