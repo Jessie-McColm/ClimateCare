@@ -13,7 +13,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
 from users.decorators import game_master
-from .models import Profile, Advice, LocationBin, LocationFountain
+from .models import Profile, Advice, LocationBin, LocationFountain, Item, Colour, Wearing
 
 
 # this decorator means if not logged in sends back to login page
@@ -47,10 +47,10 @@ def kitty(request, type_of="none"):
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
     cat_data = user_prof.creature
-    time_limit=3600
+    time_limit = 3600
     # ----------------------------------------------------------------------------------
 
-    # calculating the time difference to determine how stinky/thirsty/ etc the kitty is
+    # calculating the time difference to determine how stinky/thirsty/ etc. the kitty is
     # better to calculate each time we send page cause changes depending on current time
     current_time = timezone.now()
     three_days = 259200
@@ -76,10 +76,10 @@ def kitty(request, type_of="none"):
         # will need testing
         coordinates = string_coord_convert(coordinates_string)
         if task == "water":
-            #check that a certain amount of time has passed since the user last tried to water
+            # check that a certain amount of time has passed since the user last tried to water
             water_time_difference = current_time - cat_data.last_thirst_refill
             water_time_difference_seconds = water_time_difference.total_seconds()
-            if water_time_difference_seconds >time_limit:
+            if water_time_difference_seconds > time_limit:
                 near_water = validate_location(coordinates, task)
                 if near_water:
                     info['task'] = 'water'
@@ -92,7 +92,7 @@ def kitty(request, type_of="none"):
         elif task == "litter":
             litter_time_difference = current_time - cat_data.last_litter_refill
             litter_time_difference_seconds = litter_time_difference.total_seconds()
-            if litter_time_difference_seconds >time_limit:
+            if litter_time_difference_seconds > time_limit:
                 near_bin = validate_location(coordinates, task)
                 if near_bin:
                     info['task'] = 'clean'
@@ -105,8 +105,8 @@ def kitty(request, type_of="none"):
         elif task == "feed":
             food_time_difference = current_time - cat_data.last_food_refill
             food_time_difference_seconds = food_time_difference.total_seconds()
-            if food_time_difference_seconds >time_limit:
-                cat_data.last_food_refill = current_time 
+            if food_time_difference_seconds > time_limit:
+                cat_data.last_food_refill = current_time
                 cat_data.save()
                 user_prof.points = user_prof.points + 1
                 user_prof.num_times_fed = user_prof.num_times_fed + 1
@@ -156,15 +156,15 @@ def leaderboard_page(request):
     Displays a leaderboard
 
     Authors: Lucia, Laurie
-        
+
     Returns:
         A http response.
     """
-    
-    leaderboard_data = return_leaderboard() #returns a list of dictionaries for 
-    #rendering the full leaderboard
-    user_rank = return_ranking(request.user.username) #returns the current user's rank
-    return render(request, 'leaderboard.html', {'data':leaderboard_data, 'rank':user_rank})
+
+    leaderboard_data = return_leaderboard()  # returns a list of dictionaries for
+    # rendering the full leaderboard
+    user_rank = return_ranking(request.user.username)  # returns the current user's rank
+    return render(request, 'leaderboard.html', {'data': leaderboard_data, 'rank':user_rank})
 
 
 @login_required(login_url='loginPage')
@@ -178,13 +178,12 @@ def my_stats_page(request):
     Returns:
         A http response.
     """
-    
-    #obtain user data
+
+    # obtain user data
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
     username = user_obj.get_username()
-    #cat_data = user_prof.creature
-    
+    # cat_data = user_prof.creature
 
     bottle_num = user_prof.num_times_watered
     article_num = user_prof.num_times_fed
@@ -195,40 +194,82 @@ def my_stats_page(request):
         'bottle_num': bottle_num,
         'article_num': article_num,
         'recycle_num': recycle_num,
-
     }
 
     return render(request, 'my_stats.html', info)
 
+
 @login_required(login_url='loginPage')
-def shop_page(request):
+def item_shop_page(request):
     """
     Just for testing the shop page for front-end :)
 
     Authors:
-        Lucia, Des
+        Nevan, Lucia, Des
 
     Returns:
         A http response.
     """
-    
-    #obtain user data
+
     user_obj = request.user
-    #user_prof = Profile.objects.get(user=user_obj)
     username = user_obj.get_username()
-    #cat_data = user_prof.creature
-    
+    user_prof = Profile.objects.get(user=user_obj)
+    user_cat = user_prof.creature
+    wearing = Wearing.objects.get(creature=user_cat.creature_id)
+    points_available = user_prof.points
+
+    items = Item.objects.all()
 
     info = {
-        'username': username
+        'username': username,
+        'points_available': points_available,
+        'items': items
     }
 
-    return render(request, 'shop.html', info)
+    if request.method == "POST":
+        if request.POST.get('equip_new_item') == "true":
+            item_id = request.POST.get('item_id')
+            item = Item.objects.get(item_id=item_id)
+            wearing.item = item
+            wearing.save()
+
+    return render(request, 'item_shop.html', info)
+
+@login_required(login_url='loginPage')
+def colour_shop_page(request):
+    """
+    Function called when the user navigates to the colour shop. Handles initial set-up of
+    the colour shop page.
+
+    Authors:
+        Nevan
+
+    Returns:
+        A http response.
+    """
+
+    user_obj = request.user
+    username = user_obj.get_username()
+    user_prof = Profile.objects.get(user=user_obj)
+    points_available = user_prof.points
+
+    colours = Colour.objects.all()
+
+    info = {
+        'username': username,
+        'points_available': points_available,
+        'colours': colours
+    }
+
+    # if request.method == "POST":
+
+    return render(request, 'colour_shop.html', info)
+
 
 @login_required(login_url='loginPage')
 # @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 @game_master
-def game_master_page(request): 
+def game_master_page(request):
     """
     Redirects an authorised user to the game master's page.
 
@@ -238,19 +279,18 @@ def game_master_page(request):
     Returns:
         A http response.
     """
-    #may need to look into preventing XSS
+    # may need to look into preventing XSS
     if request.method == "POST":
-        link_or_content=request.POST.get('link_or_content')
-        if link_or_content=="link":
-            link=request.POST.get('content')
-            source=request.POST.get('source')
+        link_or_content = request.POST.get('link_or_content')
+        if link_or_content == "link":
+            link = request.POST.get('content')
+            source = request.POST.get('source')
             Advice.objects.create(link=link, source=source)
-        elif link_or_content=="content":
-            content=request.POST.get('content')
-            source=request.POST.get('source')
+        elif link_or_content == "content":
+            content = request.POST.get('content')
+            source = request.POST.get('source')
             Advice.objects.create(content=content, source=source)
-        
-    
+
     return render(request, 'temp_game_master.html')
 
 
@@ -263,11 +303,11 @@ def page_not_found_view(request, exception):
 
     Args:
         request(HTTP request): the http request send by a front end client viewing the url
+        exception: the exception raised when unable to find a page.
     Returns:
         render(request, 'notFound.html', status=404) renders the template 'cat.html'
     """
     return render(request, 'notFound.html', status=404)
-
 
 
 # ---------Below this are functions for views, not views ----------------
@@ -304,15 +344,15 @@ def within_distance(user_loc, object_loc, m_dist):
         Lucia
 
     Args:
-        user_loc (tuple): tuple of user location (lattitude, longitude)
-        object_loc (tuple): tuple of object location (lattitude, longitude)
+        user_loc (tuple): tuple of user location (latitude, longitude)
+        object_loc (tuple): tuple of object location (latitude, longitude)
         m_dist (float CHECK): maximum desired distance between objects
 
     Returns:
         in_range (Bool): whether in range of not
     """
 
-    # using haversine distance not eulcidean
+    # using haversine distance not euclidean
 
     # To calculate distance in meters
     o_dist = hs.haversine(user_loc, object_loc, unit=Unit.METERS)
@@ -355,8 +395,6 @@ def validate_location(coordinates, location_type):
 
     Args:
         coordinates: The user's coordinates to be validated
-        cat_data: The cat object representing the user's cat in the database, through which
-                  datetime stamps will be updated
         location_type: A string specifying whether the user is near a bin or a water fountain
 
     Returns:
@@ -394,6 +432,7 @@ def validate_location(coordinates, location_type):
     print("not within distance")
     return False  # if no valid location is found, this is returned (may need error display)
 
+
 '''
 Retrieves up to the top 20 players in terms of lifetime points
 
@@ -404,21 +443,25 @@ Args: None
 Returns: a list of dictionaries, each dictionary represents
 an entry in the leaderboards.
 '''
+
+
 def return_leaderboard():
-    leaderboard_output = [] #this is the ouput data, a list of dictionaries
+    leaderboard_output = []  # this is the output data, a list of dictionaries
     max_items = len(list(Profile.objects.all()))
-    if max_items > 20: #ensures no more than 20 items are retrieved
+    if max_items > 20:  # ensures no more than 20 items are retrieved
         max_items = 20
-    top_profiles = list(Profile.objects.all())[0:max_items] #retrieves the 
-    #first (up to or below) 20 objects of an already ordered database
+
+    # retrieves the first (up to or below) 20 objects of an already ordered database
+    top_profiles = list(Profile.objects.all())[0:max_items]
+
     for i in top_profiles:
-        username = (i.user).username
+        username = i.user.username
         points = i.points
-        creature_colour = (i.creature).colour
+        creature_colour = i.creature.colour
         temp_dictionary = {
-            "username":username,
-            "points":points,
-            "creature":creature_colour
+            "username": username,
+            "points": points,
+            "creature": creature_colour
         }
         leaderboard_output.append(temp_dictionary)
     return leaderboard_output
