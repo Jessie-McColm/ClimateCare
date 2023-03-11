@@ -313,7 +313,7 @@ def friend(request, username="none"):
         "friend_recycle_num":profile_choice.num_times_litter_cleared,
         "friend_creature":(profile_choice.creature).colour
     }
-    return HttpResponse(str(context))
+    return render(request, 'notFound.html', context)
 
 
 
