@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="fixed a bug to do with litter verification">
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="modified item_shop_page so that a number of points equal to the cost of the purchased item is deducted from the user's point balance.&#10;&#10;yet to be tested.&#10;&#10;-n">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/climate/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/climate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/users/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/users/tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +15,11 @@
   </component>
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="item_shops" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -39,6 +41,7 @@
   <component name="ProjectId" id="2Ldn8RDqJ0Kk0dUUF1KjJ7g8G1z" />
   <component name="ProjectLevelVcsManager">
     <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -46,11 +49,12 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;last.edited.regexp&quot;: &quot;\n&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Users/Nevan Masterson/Documents/.Uni/Group_Software_Engineering_Project/CreatureCare&quot;
+    &quot;last_opened_file_path&quot;: &quot;D:/Users/Nevan Masterson/Documents/.Uni/Group_Software_Engineering_Project/venv&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -174,6 +178,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="created LocationBin and LocationFountain models, and migrated them to the database&#10;&#10;- nevan" />
     <MESSAGE value="pushing migration files because they weren't pushed with my previous commit for some reason&#10;&#10;- nevan" />
     <MESSAGE value="pair programming sesh. made a start on tests for users, not finished yet (jessie had a lecture)&#10;&#10;- jessie and nevan" />

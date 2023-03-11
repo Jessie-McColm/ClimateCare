@@ -14,6 +14,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'tupperware.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'waterbottle.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'advice.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'my_stats.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet"/> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet"/> 
 
     <style>                                     
         body {
@@ -27,30 +31,148 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-1">
-    <div class="cat">
-        <div class="face">
-            <div class="inner-l"></div>
-            <div class="inner-r"></div>
-            <div class="eye-l">
-                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+
+<div class = 'main_column'>
+    <div class = 'text-box'>
+        <p class = "title">MY STATS</p>
+        <p>Hey {{username}}! Here are your stats...</p>
+    </div>
+    <div class = 'card'>
+        <span class = 'num' data-val={{bottle_num}}>0</span>
+        <span class = 'c_text'>bottle refills</span>
+        <div class = 'icon'>
+            <div class="waterbottle">
+                <div class="bottle-cap">
+                    <div class = "cap-shine"></div>
+                    <div class = "cap-shine-2"></div>
+                    <div class ="cap-shadow"></div>
+                </div>
+                <div class="bottle-top"></div>
+                <div class="bottle-bottom"></div>
             </div>
-            <div class="eye-r">
-                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-            </div>
-            <div class="nose">
-                <div class="l1"></div>
-                <div class="l2"></div>
-            </div>
-            <div class="tear" id = "tear"></div>
         </div>
-        <div class="body">
-            <div class="paw-l"></div>
-            <div class="paw-r"></div>
-            <div class="tail"></div>
+    </div>
+    <div class = 'text-box'>
+        <p>Plastic bottles need up to 450 years to dissolve</p>
+        <p>A reusable bottle stops around 156 plastic ones being used anually</p>
+        <p>Try and hit that target!</p>
+
+    </div>
+    <div class = 'card'>
+        <span class = 'num' data-val={{article_num}}>0</span>
+        <span class = 'c_text'>articles read</span>
+        <div class = 'icon'>
+            <div class ="tupperware">
+                <div class="tup-cap"></div>
+                <div class="tup-box-top-line"></div>
+                <div class="tup-box"></div>
+                <div class="tup-box-bottom"></div>
+                <div class="tup-box-bottom-l"></div>
+                <div class="tup-box-bottom-r"></div>
+            </div>
         </div>
-        <div class="shadow"></div>
+    </div>
+    <div class = 'text-box'>
+        <p>By staying aware and signing petitions we can have a huge impact!</p>
+        <p>For example this article on big companies vs consumers with greenhouse gases...</p>
+        <a id= "page-link" href="https://www.bbc.com/future/article/20220504-why-the-wrong-people-are-blamed-for-climate-change">How companies blame you for climate change </a>
+
+    </div>
+    <div class = 'card'>
+        <span class = 'num' data-val={{recycle_num}}>0</span>
+        <span class = 'c_text'>items recyled</span>
+        <div class = 'icon'>
+            
+            <div class ="recycling-bin">
+                <div class="cap-top"></div>
+                <div class="cap">
+                    <div class="hole"></div>
+                </div>
+                <div class="box-top-line"></div>
+                <div class="box">
+                    <span id = "symbol" class="recycling-symbol">&#9851;</span>
+                </div>
+                <div class="box-bottom-l"></div>
+                <div class="box-bottom-r"></div>
+            </div>
+            
+        </div>
+    </div>
+    <div class = 'text-box'>
+        <p>Did you know? Recyling a single...</p>
+        <p>plastic bottle = energy savings to power a lightbulb for three+ hours</p>
+        <p>glass bottle = energy savings to power a laptop for half an hour</p>
+        <p>aluminium can = energy savings to power a TV for up to three hours</p>
+        <p>(that's a lot of energy)</p>
+
     </div>
 </div>
+
+<div class="cat">
+    <div class="face">
+        <div class="inner-l"></div>
+        <div class="inner-r"></div>
+        <div class="eye-l">
+            <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+        </div>
+        <div class="eye-r">
+            <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+        </div>
+        <div class="nose">
+            <div class="l1"></div>
+            <div class="l2"></div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="paw-l"></div>
+        <div class="paw-r"></div>
+        <div class="tail"></div>
+    </div>
+    <div class="shadow"></div>
+</div>
+
+
+<div class = 'text-box' id="source-box">
+    <p class="source">Sources:</p>
+    <p class="source">https://www.beyondplastics.org/fact-sheets/plastic-water-bottles</p>
+    <p class="source">https://myequa.com/blogs/blog/89626311-facts-about-plastic-bottles</p>
+    <p class="source">https://www.recyclingbins.co.uk/recycling-facts/</p>
+</div>
+
+
+
+<script>
+    let valDisplays = document.querySelectorAll(".num");
+    // overall time taken
+    let interval = 1500;
+
+    // for all the numbers on the page
+    valDisplays.forEach((valDisplay) =>{
+        let startValue = 0;
+        let endValue = parseInt(valDisplay.getAttribute("data-val"))
+
+        let duration;
+
+        // by dividing duration ensures they end at the same time
+        if (endValue!=0){
+            duration = Math.floor(interval /endValue);
+        } else {
+            duration =0;
+        }
+        
+        // at set intervals we increment the numbers on the page
+        let counter = setInterval(function(){
+            startValue+=1;
+            valDisplay.textContent = startValue;
+
+            if (startValue == endValue){
+                clearInterval(counter);
+            }
+
+        }, duration);
+    });
+
+</script>
+
 
 {% endblock %}
