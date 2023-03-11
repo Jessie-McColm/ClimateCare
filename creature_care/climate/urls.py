@@ -9,8 +9,11 @@ urlpatterns = [
     path('friend', views.friend, name='friend'),
     path('my_stats',views.my_stats_page, name='my_stats'),
     path('shop',views.shop_page, name='shop'),
+    path('item_shop',views.kitty, name='item_shop'),
     path('leaderboard',views.leaderboard_page, name='leaderboard'),
     path('game_masters',views.game_master_page, name='game_masters'),
+    path('colour_shop',views.kitty, name='colour_shop'),
+    
 ]
 
 # path('articles',views.articles,name='articles') <-- to be added later if needed

@@ -301,15 +301,14 @@ def friend(request, username="none"):
         user_choice = User.objects.get(username=username)
         profile_choice=Profile.objects.get(user = user_choice)
         
-    points = profile_choice.points
-    creature_colour = (profile_choice.creature).colour
+     
     context = {
-        "username":user_obj.username,
-        "points":user_prof.points,
         "creature":(user_prof.creature).colour,
         "friend_username":username,
-        "friend_points":points,
-        "friend_creature":creature_colour
+        "friend_bottle_num":profile_choice.num_times_watered,
+        "friend_article_num":profile_choice.num_times_fed,
+        "friend_recycle_num":profile_choice.num_times_litter_cleared,
+        "friend_creature":(profile_choice.creature).colour
     }
     return HttpResponse(str(context))
 
