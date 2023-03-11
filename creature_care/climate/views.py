@@ -11,9 +11,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from users.decorators import game_master
 from .models import Profile, Advice, LocationBin, LocationFountain
+import random
+
 
 
 # this decorator means if not logged in sends back to login page
@@ -267,6 +270,48 @@ def page_not_found_view(request, exception):
         render(request, 'notFound.html', status=404) renders the template 'cat.html'
     """
     return render(request, 'notFound.html', status=404)
+
+@login_required(login_url='loginPage')
+def friend(request, username="none"):
+    """
+    Shows a random user's kitty if no username is provided in the URL. If a username is provided in the URL, shows that user's kitty
+
+    Authors:
+        Lucia
+
+    Args:
+        request(HTTP request): the http request send by a front end client viewing the url
+        username(string): the username provided in the ULR
+    Returns:
+        render(
+    """
+    user_obj = request.user
+    user_prof = Profile.objects.get(user=user_obj)
+    if username=="none":
+        #get a random user from the database
+        profiles = list(Profile.objects.all())
+        #exclude the current user from possibilities
+        profiles.remove(user_prof)
+        choice_range=len(profiles)-1
+        choice=random.randint(0, choice_range)
+        profile_choice=profiles[choice]
+        username = profile_choice.user.username
+        
+    else:
+        user_choice = User.objects.get(username=username)
+        profile_choice=Profile.objects.get(user = user_choice)
+        
+    points = profile_choice.points
+    creature_colour = (profile_choice.creature).colour
+    context = {
+        "username":user_obj.username,
+        "points":user_prof.points,
+        "creature":(user_prof.creature).colour,
+        "friend_username":username,
+        "friend_points":points,
+        "friend_creature":creature_colour
+    }
+    return HttpResponse(str(context))
 
 
 
