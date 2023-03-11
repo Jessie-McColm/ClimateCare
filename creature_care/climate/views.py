@@ -304,6 +304,9 @@ def friend(request, username="none"):
      
     context = {
         "creature":(user_prof.creature).colour,
+        "bottle_num":user_prof.num_times_watered,
+        "article_num":user_prof.num_times_fed,
+        "recycle_num":user_prof.num_times_litter_cleared,
         "friend_username":username,
         "friend_bottle_num":profile_choice.num_times_watered,
         "friend_article_num":profile_choice.num_times_fed,
