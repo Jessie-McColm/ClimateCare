@@ -1,0 +1,220 @@
+/* CSS by Lucia */
+
+*{
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Fredoka One for numbers??*/
+
+.main_column{
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+    
+}
+
+.card{
+    /* control how items are displayed in the div using flex */
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-evenly;
+   
+    position: relative;
+    /*margin auto puts in middle of page */
+    margin: auto;
+    /* scales with screen page - could check min height and width */
+    /*height: 20vh;
+    width: 35vw;*/
+    height: 14em;
+    width: 35em;
+    
+    padding: 2em;
+
+    /* margin top is distance between cards */
+    margin-top: 3vh;
+
+    background: rgb(238, 241, 238);
+    box-shadow: -1em 1em 0.5em 0em rgba(65, 71, 65, 0.467);
+    border-radius: 3em;
+    top: 1.5vh;
+    bottom: 2vh;
+    z-index: -0.5;
+
+}
+
+.text-box{
+
+    text-align: center;
+    position: relative;
+
+    width: 30vw;
+    margin: 0 auto;
+
+    padding: 2em;
+
+    margin-top: 3vh;
+
+    font-weight: 200;
+    font-size: 1.5em;
+    color: #f0f0f0;
+
+}
+
+p{
+    text-align: center;
+    position: relative;
+
+    margin: 0 auto;
+
+    padding: 0.5em;
+    width: 18vw;
+
+}
+
+#page-link{
+    color: #c2eac2;
+    text-decoration: underline;
+}
+
+.source{
+    font-size: 0.75em;
+
+}
+
+.title{
+    font-size: 3em;
+    text-decoration: overline;
+}
+
+#source-box{
+    top: 5em;
+}
+
+.num{
+    /* centre number using grid */
+    display: grid;
+    place-items: center;
+    
+    /* box position within div - don't need position as in flex box*/
+    height: 80%;
+    width: 25%;
+    /*border: 1px solid black; */
+    
+    /*took away height */
+
+    font-weight: 800;
+    font-size: 5em;
+    color: #409843;
+
+}
+
+.c_text{
+
+    display: grid;
+    place-items: center;
+    justify-items: end;
+
+    height: 80%;
+    width: 60%;
+
+    font-weight: 200;
+    font-size: 2em;
+    color: #353a3f;
+
+    /*border: 1px solid black; */
+
+}
+
+.tupperware{
+    transform: scale(0.7);
+    /*left temp fix defo change */
+    left: 2em;
+    top: 0.5em;
+
+    animation: tupper_move 3s infinite linear; 
+    /*border: 1px solid black; */
+    
+}
+
+.waterbottle{
+    transform: scale(0.4);
+    /*top temp fix defo change */
+    top: -8em;
+    left: 5.5em;
+
+    animation: bottle_move 3s infinite linear; 
+}
+
+.recycling-bin{
+    transform: scale(0.4);
+
+    left: 2.5em;
+    top: -6.5em;
+
+    animation: bin_move 3s infinite linear; 
+
+}
+
+.icon{
+
+    display: grid;
+    place-items: center;
+
+    /*border: 1px solid black; */
+    
+    height: 80%;
+    width: 25%;
+
+}
+
+.cat{
+    margin: auto;
+    position: relative;
+    
+    /* change border size as otherwsie huge */
+    height:14em;
+    width:14em;
+
+    /*align the cat */
+    left: 1em;
+
+
+}
+
+
+
+@keyframes tupper_move {
+	0% {
+		transform: rotate(0) scale(0.7);
+	}
+    50%{
+        transform: rotate(-10deg) scale(0.7);
+    }
+	100% {
+		transform: rotate(0deg) scale(0.7);
+	}
+}
+
+@keyframes bottle_move {
+	0% {
+		transform: rotate(0) scale(0.4);
+	}
+    50%{
+        transform: rotate(10deg) scale(0.4);
+    }
+	100% {
+		transform: rotate(0deg) scale(0.4);
+	}
+}
+
+@keyframes bin_move {
+	0% {
+		transform: rotate(0) scale(0.4);
+	}
+    50%{
+        transform: rotate(10deg) scale(0.4);
+    }
+	100% {
+		transform: rotate(0deg) scale(0.4);
+	}
+}
