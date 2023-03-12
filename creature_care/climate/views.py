@@ -27,7 +27,7 @@ def kitty(request, type_of="none"):
     functionality to verify whether a user is within a sensible distance from a fountain/bin
 
     Authors:
-        Jessie and Laurie
+        Jessie, Laurie, Nevan
 
     Args:
         request(HTTP request): the http request send by a front end client viewing the url
@@ -47,6 +47,13 @@ def kitty(request, type_of="none"):
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
     cat_data = user_prof.creature
+
+    eye_colour_obj = cat_data.eye_colour
+    eye_colour = eye_colour_obj.colour_hex_val
+
+    fur_colour_obj = cat_data.fur_colour
+    fur_colour = fur_colour_obj.colour_hex_val
+
     time_limit = 3600
     # ----------------------------------------------------------------------------------
 
@@ -58,7 +65,8 @@ def kitty(request, type_of="none"):
         'watered': False,
         'cleaned': False,
         'fed': False,
-        'colour': cat_data.colour,
+        'fur_colour': fur_colour,
+        'eye_colour': eye_colour,
         'name': cat_data.name,
         'task': "none",
         'message': "",
@@ -206,7 +214,7 @@ def item_shop_page(request):
     for allowing users to purchase new items and equip their cat with these items.
 
     Authors:
-        Nevan, Lucia, Des
+        Nevan
 
     Returns:
         A http response.
@@ -220,25 +228,42 @@ def item_shop_page(request):
     points_available = user_prof.points
 
     items = Item.objects.all()
+    item_ids = ','.join(str(item.item_id) for item in items)
+    item_prices = ','.join(str(item.item_cost) for item in items)
+
+    attempted_purchase = "false"
+    successful_purchase = "false"
 
     info = {
         'username': username,
         'points_available': points_available,
-        'items': items
+        'item_ids': item_ids,
+        'item_prices': item_prices,
+        'attempted_purchase': attempted_purchase,
+        'successful_purchase': successful_purchase
     }
 
     if request.method == "POST":
-        if request.POST.get('equip_new_item') == "true":
+        if request.POST.get('purchase_new_item') == "true":
+            attempted_purchase = "true"
             item_id = request.POST.get('item_id')
             item = Item.objects.get(item_id=item_id)
             item_cost = item.item_cost
 
             if points_available > item_cost:
-                user_prof.points = points_available-item_cost
+                user_prof.points = points_available - item_cost
                 wearing.item = item
 
                 user_prof.save()
                 wearing.save()
+
+                successful_purchase = "true"
+
+            else:
+                successful_purchase = "false"
+
+            info['attempted_purchase'] = attempted_purchase
+            info['successful_purchase'] = successful_purchase
 
     return render(request, 'item_shop.html', info)
 
@@ -259,17 +284,50 @@ def colour_shop_page(request):
     username = user_obj.get_username()
     user_prof = Profile.objects.get(user=user_obj)
     points_available = user_prof.points
+    cat_obj = user_prof.creature
 
     colours = Colour.objects.all()
+    colour_ids = ','.join(str(colour.colour_id) for colour in colours)
+    colour_hexs = ','.join(str(colour.colour_hex_val) for colour in colours)
+    colour_prices = ','.join(str(colour.colour_cost) for colour in colours)
+
+    attempted_purchase = "false"
+    successful_purchase = "false"
 
     info = {
         'username': username,
         'points_available': points_available,
-        'colours': colours
+        'colour_ids': colour_ids,
+        'colour_hexs': colour_hexs,
+        'colour_prices': colour_prices,
+        'attempted_purchase': attempted_purchase,
+        'successful_purchase': successful_purchase
     }
 
-    # if request.method == "POST":
-    #     do stuff
+    if request.method == "POST":
+        if request.POST.get('purchase_new_colour') == "true":
+            attempted_purchase = "true"
+            colour_id = request.POST.get('colour_id')
+            colour_obj = Colour.objects.get(colour_id=colour_id)
+            colour_cost = colour_obj.colour_cost
+
+            if points_available > colour_cost:
+                user_prof.points = points_available - colour_cost
+                if request.POST.get('eye_colour') == "true":
+                    cat_obj.eye_colour = colour_id
+                elif request.POST.get('fur_colour') == "true":
+                    cat_obj.fur_colour = colour_id
+
+                user_prof.save()
+                cat_obj.save()
+
+                successful_purchase = "true"
+
+            else:
+                successful_purchase = "false"
+
+            info['attempted_purchase'] = attempted_purchase
+            info['successful_purchase'] = successful_purchase
 
     return render(request, 'colour_shop.html', info)
 

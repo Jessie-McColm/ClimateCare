@@ -5,6 +5,19 @@ from django.utils import timezone
 
 # NOTE: Classes that reference other classes must be below the class that they reference
 
+
+"""
+This class describes the model for containing hex values of possible colours of the 
+cat's colours and eyes.
+
+Author:
+    Nevan
+"""
+class Colour(models.Model):
+    colour_id = models.CharField(primary_key=True, max_length=16)
+    colour_hex_val = models.CharField(max_length=10)
+    colour_cost = models.IntegerField(null=False, default=0)
+
 """
 This class contains all the information regarding a "Creature" which is assigned to each user in a one-to-one
 relationship. The Creature's primary ID is its CreatureID and the attributes that will vary the most are its
@@ -20,11 +33,15 @@ class Creature(models.Model):
     creature_id = models.AutoField(primary_key=True)
     name = models.CharField(default="Creature", max_length=50)
 
-    colour = models.CharField(
-        default="black",
-        max_length=16,
-        null=False  # colour names should be converted to hex values at some point
-    )
+    # colour = models.CharField(
+    #     default="black",
+    #     max_length=16,
+    #     null=False  # colour names should be converted to hex values at some point
+    # )
+
+    eye_colour = models.ForeignKey(Colour, on_delete=models.SET_DEFAULT, default="blue", related_name="eye_colour")
+    fur_colour = models.ForeignKey(Colour, on_delete=models.SET_DEFAULT, default="black", related_name="fur_colour")
+
     thirst = models.IntegerField(
         default=0  # django does not support min/max values for ints, so min/max values must be enforced elsewhere
     )
@@ -34,7 +51,6 @@ class Creature(models.Model):
     last_litter_refill = models.DateTimeField(default=now)
     food = models.IntegerField(default=0)
     last_food_refill = models.DateTimeField(default=now)
-
 
 """
 This class contains part of the information associated with each user of the system in place. Each Profile
@@ -74,19 +90,6 @@ class Item(models.Model):
     item_cost = models.IntegerField(null=False, default=0)
     item_img = models.FileField()  # reconsider later, may need to do CSS files instead of jpg/png/whatever
     item_class = models.CharField(max_length=25, null=False)
-
-
-"""
-This class describes the model for containing hex values of possible colours of the 
-cat's colours and eyes.
-
-Author:
-    Nevan
-"""
-class Colour(models.Model):
-    colour_id = models.CharField(primary_key=True, max_length=16)
-    colour_hex_val = models.CharField(max_length=10)
-    colour_cost = models.IntegerField(null=False, default=0)
 
 
 """
