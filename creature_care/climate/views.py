@@ -277,13 +277,13 @@ def friend(request, username="none"):
     Shows a random user's kitty if no username is provided in the URL. If a username is provided in the URL, shows that user's kitty
 
     Authors:
-        Jessie
+        Jessie, Lucia
 
     Args:
         request(HTTP request): the http request send by a front end client viewing the url
         username(string): the username provided in the ULR
     Returns:
-        render(
+        render(request, 'friends.html', context) 
     """
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
@@ -313,7 +313,7 @@ def friend(request, username="none"):
         "friend_recycle_num":profile_choice.num_times_litter_cleared,
         "friend_creature":(profile_choice.creature).colour
     }
-    return render(request, 'notFound.html', context)
+    return render(request, 'friends.html', context)
 
 
 @login_required(login_url='loginPage')
