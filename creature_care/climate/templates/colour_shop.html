@@ -55,40 +55,72 @@
             border-radius: 30px 30px 0 0;
             position: relative;
         }
+        .buy {
+            height: 70px;
+            width: 140px;
+            background-color: #649756;
+            border-radius: 7%;
+            border: 3.5px solid white;
+            position: absolute;
+            margin: auto;
+            top: 450px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            display: inline-block;
+            align-items:center;
+            justify-content:center;
+            color: white;
+            font-size: 25px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        .buy:hover {
+            background-color: white;
+            color: #649756;
+        }
+
+        .coins {
+            height: 70px;
+            width: 140px;
+            background-color: #649756;
+            position: absolute;
+            margin: auto;
+            top: 330px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            display: flex;
+            align-items:center;
+            justify-content:center;
+            color: white;
+            font-size: 25px;
+        }
+        
+        .coin {
+            width: 50px;
+        }
         
     </style>
 {% endblock %}
 
 {% block content %}
 <div class = "colour-container">
-    <a onclick="return changeEyeColour('#a2eb63');">
-        <div class = "eye-colour" style = "background-color: #a2eb63; margin-top: 150px;"></div>
-    </a>
-    <a onclick="return changeColour('#efdae9', '#efdae9');">
-        <div class = "fur-colour" style = "background-color: #efdae9;"></div>
-    </a>
-    <a onclick="return changeEyeColour('blue');">
-        <div class = "eye-colour" style = "background-color: blue;"></div>
-    </a>
-    <a onclick="return changeColour('#a95535', '#a95535');">
-        <div class = "fur-colour" style = "background-color: #a95535;"></div>
-    </a>
+    <div class = "eye-colour" style = "background-color: #a2eb63; margin-top: 150px;" onclick="return changeEyeColour('#a2eb63');"></div>
+    <div class = "fur-colour" style = "background-color: #efdae9;" onclick="return changeColour('#efdae9', '#efdae9');"></div>
+    <div class = "eye-colour" style = "background-color: blue;" onclick="return changeEyeColour('blue');"></div>
+    <div class = "fur-colour" style = "background-color: #a95535;" onclick="return changeColour('#a95535', '#a95535');"></div>
     <div class = "eye-colour" style = "background-color: pink;"></div>
-    <a onclick="return changeColour('#ff8e3d', '#ff8e3d');">
-        <div class = "fur-colour" style = "background-color: #ff8e3d;"></div>
-    </a>
+    <div class = "fur-colour" style = "background-color: #ff8e3d;" onclick="return changeColour('#ff8e3d', '#ff8e3d');"></div>
     <div class = "eye-colour" style = "background-color: blue;"></div>
-    <a onclick="return changeColour('#696969', '#696969');">
-        <div class = "fur-colour" style = "background-color: #696969;"></div>
-    </a>
+    <div class = "fur-colour" style = "background-color: #696969;" onclick="return changeColour('#696969', '#696969');"></div>
     <div class = "eye-colour" style = "background-color: pink;"></div>
-    <a onclick="return changeColour('#33292b', '#33292b');">
-        <div class = "fur-colour" style = "background-color: #33292b;"></div>
-    </a>
+    <div class = "fur-colour" style = "background-color: #33292b;" onclick="return changeColour('#33292b', '#33292b');"></div>
     <div class = "eye-colour" style = "background-color: blue;"></div>
-    <a onclick="return changeColour('#33292b', '#efdae9');">
-        <div class = "fur-colour" style = "background-color: #33292b;"><div class = "semicircle" style = "background-color: #efdae9;"></div>
-    </a>
+    <div class = "fur-colour" style = "background-color: #33292b;"><div class = "semicircle" style = "background-color: #efdae9;" onclick="return changeColour('#33292b', '#efdae9');"></div>
 </div>
 <div class="container-1">
     <div class="cat">
@@ -114,6 +146,12 @@
         <div class="shadow"></div>
     </div>
 </div>
+<div class = "coins"> 
+    10
+    {% load static %} 
+    <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
+</div>
+<button class = "buy">Buy now</button>
 
 
 <script>
