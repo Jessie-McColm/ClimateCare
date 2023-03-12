@@ -303,6 +303,7 @@ def friend(request, username="none"):
         
      
     context = {
+        "username": user_obj.get_username(),
         "creature":(user_prof.creature).colour,
         "bottle_num":user_prof.num_times_watered,
         "article_num":user_prof.num_times_fed,
