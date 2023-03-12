@@ -101,7 +101,7 @@ Authors:
 class Wearing(models.Model):
     wearing_id = models.AutoField(primary_key=True)
     creature = models.ForeignKey(Creature, on_delete=models.CASCADE, null=True)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, default=None)
 
 
 """
