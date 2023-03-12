@@ -1,0 +1,155 @@
+<!-- Page created by Des -->
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Shop
+{% endblock %}
+
+{% block head %}
+    <!-- Placeholder favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
+
+    <style>                                     
+        body {
+            background-color: #649756;
+        }
+        div.row {
+            height: 25%;
+        }
+
+        .colour-container{
+            height: 700px;
+            width: 550px;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 0;
+        }
+        .eye-colour {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            position: relative;
+        }
+        .fur-colour {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            position: relative;
+            left: 500px;
+            bottom: 40px;
+        }
+        .semicircle {
+            height: 20px;
+            width: 40px;
+            top: 2px;
+            right: 7px;
+            rotate: -45deg;
+            border-radius: 30px 30px 0 0;
+            position: relative;
+        }
+        
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class = "colour-container">
+    <a onclick="return changeEyeColour('#a2eb63');">
+        <div class = "eye-colour" style = "background-color: #a2eb63; margin-top: 150px;"></div>
+    </a>
+    <a onclick="return changeColour('#efdae9', '#efdae9');">
+        <div class = "fur-colour" style = "background-color: #efdae9;"></div>
+    </a>
+    <a onclick="return changeEyeColour('blue');">
+        <div class = "eye-colour" style = "background-color: blue;"></div>
+    </a>
+    <a onclick="return changeColour('#a95535', '#a95535');">
+        <div class = "fur-colour" style = "background-color: #a95535;"></div>
+    </a>
+    <div class = "eye-colour" style = "background-color: pink;"></div>
+    <a onclick="return changeColour('#ff8e3d', '#ff8e3d');">
+        <div class = "fur-colour" style = "background-color: #ff8e3d;"></div>
+    </a>
+    <div class = "eye-colour" style = "background-color: blue;"></div>
+    <a onclick="return changeColour('#696969', '#696969');">
+        <div class = "fur-colour" style = "background-color: #696969;"></div>
+    </a>
+    <div class = "eye-colour" style = "background-color: pink;"></div>
+    <a onclick="return changeColour('#33292b', '#33292b');">
+        <div class = "fur-colour" style = "background-color: #33292b;"></div>
+    </a>
+    <div class = "eye-colour" style = "background-color: blue;"></div>
+    <a onclick="return changeColour('#33292b', '#efdae9');">
+        <div class = "fur-colour" style = "background-color: #33292b;"><div class = "semicircle" style = "background-color: #efdae9;"></div>
+    </a>
+</div>
+<div class="container-1">
+    <div class="cat">
+        <div class="face" id = "face">
+            <div class="inner-l"></div>
+            <div class="inner-r"></div>
+            <div class="eye-l" id = "eye-l">
+                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+            </div>
+            <div class="eye-r" id = "eye-r">
+                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+            </div>
+            <div class="nose">
+                <div class="l1"></div>
+                <div class="l2"></div>
+            </div>
+        </div>
+        <div class="body" id = "body">
+            <div class="paw-l" id = "paw-l"></div>
+            <div class="paw-r" id = "paw-r"></div>
+            <div class="tail" id = "tail"></div>
+        </div>
+        <div class="shadow"></div>
+    </div>
+</div>
+
+
+<script>
+    function changeColour(body_colour, patches) {
+    /* 
+        Changes the colours of the cat's fur based on the button clicked.
+        
+        Authors:
+            Des
+    */
+        var colour = ["face", "body", "tail", "paw-r"];
+        colour.forEach(function (item, index) {
+            document.getElementById(item).style.backgroundColor = body_colour;
+        });
+        var styleElem = document.head.appendChild(document.createElement("style"));
+        styleElem.innerHTML = ".face:before {border-bottom: 50px solid " + body_colour + ";}";
+
+        //Changing the colour of the patches.
+
+        var styleElem = document.head.appendChild(document.createElement("style"));
+        styleElem.innerHTML = ".face:after {border-bottom: 50px solid " + patches + ";}";
+        document.getElementById("paw-l").style.backgroundColor = patches;
+    }
+
+    function changeEyeColour(colour) {
+    /* 
+        Changes the colours of the cat's eyes based on the button clicked.
+        
+        Authors:
+            Des
+    */
+        var eye_colour = ["eye-l", "eye-r"];
+        eye_colour.forEach(function (item, index) {
+            document.getElementById(item).style.backgroundColor = colour;
+        });
+    }
+</script>
+
+{% endblock %}
