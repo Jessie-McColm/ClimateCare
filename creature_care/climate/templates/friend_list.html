@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+  {% load static %}
+  
+  {% block title %}
+   Game masters
+  {% endblock %}
+  
+  {% block head %}
+    <!-- Placeholder favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
+
+    <style>                                     
+        body {
+            background-color: #649756;
+        }
+        div.row {
+            height: 25%;
+        }
+        form {
+          margin: 0 auto; 
+          width:250px;
+        }
+
+        #advice {
+    text-align: center;
+    width: 30em;
+    margin: 0 auto;
+    padding: 3em;
+    z-index: 1;
+}
+        
+    </style>
+{% endblock %}
+{% block content %}
+<div id="advice" class="col-6"></div>
+<form method="POST" action="">
+  {% csrf_token %}
+  <label for="username" class="form-label">Friend's username</label><br>
+  <input id="username" name="username" ></input> <br>
+  <input type="submit" value="Submit" >
+</form> 
+</div>
+
+{% endblock %}

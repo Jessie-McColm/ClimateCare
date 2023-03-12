@@ -316,6 +316,36 @@ def friend(request, username="none"):
     return render(request, 'notFound.html', context)
 
 
+@login_required(login_url='loginPage')
+def add_friend(request):
+    context={"exists":True,"friend_requests":[]}
+    user_obj = request.user
+    if request.method == "POST":
+       
+        friend = request.POST.get('username')
+        try:
+            user_choice = User.objects.get(username=friend)
+            #need to see if there's another way to do this
+            try:
+                accept=request.POST.get('accept')
+                #need to create an entry in the friends database including user_obj and friend
+            except:
+                    #add friend and user_obj to the friend request table
+                    pass
+        except User.DoesNotExist:
+            context["exists"]=False
+                
+        
+        
+    #requests=list(friend_requests.objects.get(requestee=user_obj))
+    #for item in requests:
+        #context["friend_requests"].append(item.requester.username)
+    return render(request, 'friend_list.html', context)
+    
+        
+            
+    
+
 
 # ---------Below this are functions for views, not views ----------------
 
