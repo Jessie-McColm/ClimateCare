@@ -11,6 +11,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 
 from users.decorators import game_master
 from .models import Profile, Advice, LocationBin, LocationFountain, Item, Colour, Wearing
@@ -224,7 +225,12 @@ def item_shop_page(request):
     username = user_obj.get_username()
     user_prof = Profile.objects.get(user=user_obj)
     user_cat = user_prof.creature
-    wearing = Wearing.objects.get(creature=user_cat.creature_id)
+
+    try:
+        wearing = Wearing.objects.get(creature=user_cat)
+    except ObjectDoesNotExist:
+        wearing = Wearing.objects.create(creature=user_cat)
+
     points_available = user_prof.points
 
     items = Item.objects.all()
