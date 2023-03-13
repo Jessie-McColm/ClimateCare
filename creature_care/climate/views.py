@@ -378,8 +378,15 @@ def settings_page(request):
         if request.POST.get('current_username') != "": #if the user has set a new username
             user_obj.username = request.POST.get('current_username')
             user_obj.save()
-        #add functionality for handling location options
-    context={"is_paused":user_prof.paused}
+        privacy_setting = request.POST.get('privacy_setting')
+        if privacy_setting=="True":
+             #change user profile to private
+             pass
+        else:
+            #change user progile to puplic
+            pass
+        
+    context={"is_paused":user_prof.paused,"is_private":False} #need to change once DB is updated
     return render(request, 'settings.html',context)
 
 

@@ -47,6 +47,10 @@ Settings
 <label for="pause_data" class="form-label">Pause</label>
 <input type="radio" id="Unpause" name="pause_data" value="False">
 <label for="pause_data" class="form-label">Unpause</label><br>
+<input type="radio" id="Private" name="privacy_setting" value="True">
+<label for="privacy_setting" class="form-label">Private</label>
+<input type="radio" id="Public" name="privacy_setting" value="False">
+<label for="privacy_setting" class="form-label">Public</label><br>
 <input type="submit" value="Submit">
 </form> 
 </div>
@@ -57,6 +61,13 @@ Settings
     }
     else{
         document.getElementById("Unpause").click();
+    }
+    let is_private = '{{ is_private }}'; 
+    if (is_private=="True"){
+        document.getElementById("Private").click();;
+    }
+    else{
+        document.getElementById("Public").click();
     }
 </script>
 
