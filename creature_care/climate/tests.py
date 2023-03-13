@@ -1097,6 +1097,8 @@ class KittyIndexTests(TestCase):
         '''
         Successfully changes a users password, and then allows
         them to log into the system with the updated password.
+
+        Authors: Laurie
         '''
         client = Client()
         g1 = Group.objects.create(name='Player')
@@ -1133,6 +1135,8 @@ class KittyIndexTests(TestCase):
         '''
         Unsuccessfully tries to change a user's password, due to current
         password being incorrect. Fails a login with new password.
+
+        Authors: Laurie
         '''
         client = Client()
         g1 = Group.objects.create(name='Player')
@@ -1169,6 +1173,8 @@ class KittyIndexTests(TestCase):
         '''
         Unsuccessfully tries to change a user's password, due to different
         passwords being entered for a new password. Fails a login with new password.
+
+        Authors: Laurie
         '''
         client = Client()
         g1 = Group.objects.create(name='Player')
