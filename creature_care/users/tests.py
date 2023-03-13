@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist
 
+from climate.models import Colour
+
+
 class LoginViewTests(TestCase):
     """
     Block of tests for the login view.
@@ -15,6 +18,26 @@ class LoginViewTests(TestCase):
     Authors:
         Jessie, Laurie, and Nevan
     """
+
+    def setUp(self):
+        """
+        Sets up the colour objects needed for foreign referencing when
+        creating new cats. These are the colours needed for the default
+        fields.
+
+        Author:
+            Nevan
+        """
+        Colour.objects.create(
+            colour_id="black",
+            colour_hex_val="#000000",
+            colour_cost=10
+        )
+        Colour.objects.create(
+            colour_id="blue",
+            colour_hex_val="#2196f3",
+            colour_cost=10
+        )
 
     def test_create_user(self):
         """

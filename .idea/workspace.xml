@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="migrated and registered some changes to the Colour and Creature models so that cats can have distinct eye colours and fur colours. Creature models also have foreign references to the Colour class now.&#10;&#10;also did more work on the colour shop and item shop views, and wrote a manage.py command for adding colours to the database via command line (add_colour.py)&#10;&#10;-nevan">
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="fixed an error where the item shop view would crash due to an ObjectDoesNotExist exception being thrown whenever trying to access non-existent &quot;Wearing&quot; objects&#10;&#10;-nevan">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/climate/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/climate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/users/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/users/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/users/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678390429769</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fixed an error where the item shop view would crash due to an ObjectDoesNotExist exception being thrown whenever trying to access non-existent &quot;Wearing&quot; objects&#10;&#10;-nevan">
+      <created>1678639677288</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1678639677288</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -208,6 +217,7 @@
     <MESSAGE value="wrote some doc strings and attributed code to authors&#10;&#10;- n" />
     <MESSAGE value="fixed a bug to do with litter verification" />
     <MESSAGE value="reverted database changes, and reflected back-end URL name changes for the shop pages in the front-end&#10;&#10;-n" />
-    <option name="LAST_COMMIT_MESSAGE" value="reverted database changes, and reflected back-end URL name changes for the shop pages in the front-end&#10;&#10;-n" />
+    <MESSAGE value="fixed an error where the item shop view would crash due to an ObjectDoesNotExist exception being thrown whenever trying to access non-existent &quot;Wearing&quot; objects&#10;&#10;-nevan" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed an error where the item shop view would crash due to an ObjectDoesNotExist exception being thrown whenever trying to access non-existent &quot;Wearing&quot; objects&#10;&#10;-nevan" />
   </component>
 </project>

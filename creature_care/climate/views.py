@@ -256,7 +256,7 @@ def item_shop_page(request):
             item = Item.objects.get(item_id=item_id)
             item_cost = item.item_cost
 
-            if points_available > item_cost:
+            if points_available >= item_cost:
                 user_prof.points = points_available - item_cost
                 wearing.item = item
 
@@ -317,12 +317,12 @@ def colour_shop_page(request):
             colour_obj = Colour.objects.get(colour_id=colour_id)
             colour_cost = colour_obj.colour_cost
 
-            if points_available > colour_cost:
+            if points_available >= colour_cost:
                 user_prof.points = points_available - colour_cost
                 if request.POST.get('eye_colour') == "true":
-                    cat_obj.eye_colour = colour_id
+                    cat_obj.eye_colour = colour_obj
                 elif request.POST.get('fur_colour') == "true":
-                    cat_obj.fur_colour = colour_id
+                    cat_obj.fur_colour = colour_obj
 
                 user_prof.save()
                 cat_obj.save()
@@ -529,11 +529,13 @@ def return_leaderboard():
     for i in top_profiles:
         username = i.user.username
         points = i.points
-        creature_colour = i.creature.colour
+        creature_eye_colour = i.creature.eye_colour
+        creature_fur_colour = i.creature.fur_colour
         temp_dictionary = {
             "username": username,
             "points": points,
-            "creature": creature_colour
+            "creature_eye_colour": creature_eye_colour,
+            "creature_fur_colour": creature_fur_colour
         }
         leaderboard_output.append(temp_dictionary)
     return leaderboard_output
