@@ -206,6 +206,7 @@ body{
 @keyframes blink-outer {
     5% {
         transform: scaleY(0.05);
+        opacity: 0.5;
     }
     15% {
         transform: scaleY(1);
