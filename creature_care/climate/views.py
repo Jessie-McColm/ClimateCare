@@ -500,17 +500,18 @@ def validate_location(coordinates, location_type):
     print("not within distance")
     return False  # if no valid location is found, this is returned (may need error display)
 
-'''
-Retrieves up to the top 20 players in terms of lifetime points
 
-Authors: Laurie
-
-Args: None
-
-Returns: a list of dictionaries, each dictionary represents
-an entry in the leaderboards.
-'''
 def return_leaderboard():
+    '''
+    Retrieves up to the top 20 players in terms of lifetime points
+
+    Authors: Laurie
+
+    Args: None
+
+    Returns: a list of dictionaries, each dictionary represents
+    an entry in the leaderboards.
+    '''
     leaderboard_output = [] #this is the ouput data, a list of dictionaries
     max_items = len(list(Profile.objects.all()))
     if max_items > 20: #ensures no more than 20 items are retrieved
@@ -529,16 +530,17 @@ def return_leaderboard():
         leaderboard_output.append(temp_dictionary)
     return leaderboard_output
 
-'''
-Simple linear search algorithm to find the user's place in the profile's database.
 
-Authors: Laurie
-
-Args: the User object of the user that has logged into the system
-
-Returns: the user's rank, starting at 1 and moving upwards.
-'''
 def return_ranking(username_required):
+    '''
+    Simple linear search algorithm to find the user's place in the profile's database.
+
+    Authors: Laurie
+
+    Args: the User object of the user that has logged into the system
+
+    Returns: the user's rank, starting at 1 and moving upwards.
+    '''
     all_profiles = list(Profile.objects.all())
     user_found = False
     search_count = 0
@@ -548,37 +550,43 @@ def return_ranking(username_required):
         search_count = search_count + 1
     return search_count
 
-'''
-A function to start a pause on a user. The function edits the database to reflect that the user
-has actually paused, and stores when the user paused.
 
-Authors: Laurie
-
-Args: the Profile object of the user that is sending the request to start the pause
-'''
 def start_pause(user_prof):
+    '''
+    A function to start a pause on a user. The function edits the database to reflect that the user
+    has actually paused, and stores when the user paused.
+
+    Authors: Laurie
+
+    Args: the Profile object of the user that is sending the request to start the pause
+    '''
     user_prof.paused = True
     user_prof.pause_time = timezone.now()
     user_prof.save()
 
-'''
-A function to fairly return a user from pause to normal gameplay. This function uses the time
-the user paused and the last time they fed/watered/cleaned their kitty to update the kitty's
-data in a way that reflects how it was left.
 
-Authors: Laurie
-
-Args: the Profile object of the user that is sending the request to end the pause
-'''
 def end_pause(user_prof):
+    '''
+    A function to fairly return a user from pause to normal gameplay. This function uses the time
+    the user paused and the last time they fed/watered/cleaned their kitty to update the kitty's
+    data in a way that reflects how it was left.
+
+    Authors: Laurie
+
+    Args: the Profile object of the user that is sending the request to end the pause
+    '''
     user_prof.paused = False
     current_time = timezone.now()
     cat_data = user_prof.creature
+
     water_time_difference = user_prof.pause_time - cat_data.last_thirst_refill
     cat_data.last_thirst_refill = current_time - water_time_difference
+
     litter_time_difference = user_prof.pause_time - cat_data.last_litter_refill
     cat_data.last_litter_refill = current_time - litter_time_difference
+
     food_time_difference = user_prof.pause_time - cat_data.last_food_refill
     cat_data.last_food_refill = current_time - food_time_difference
+    
     cat_data.save()
     user_prof.save()
