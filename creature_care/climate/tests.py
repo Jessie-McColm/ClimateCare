@@ -791,7 +791,7 @@ class KittyIndexTests(TestCase):
         self.assertEqual(leaderboard_data[4]["points"],20)
         self.assertEqual(len(leaderboard_data), 6)
         self.assertEqual(response.status_code, 200)
-        #self.assertEqual(response.context['rank'], 6)
+        self.assertEqual(response.context['rank'], 6)
        
     def test_rank_in_first(self):
         """
@@ -833,7 +833,7 @@ class KittyIndexTests(TestCase):
         user_prof.save()
         response=client.get(path='/climate/leaderboard')
         self.assertEqual(response.status_code, 200)
-        #self.assertEqual(response.context['rank'], 1)
+        self.assertEqual(response.context['rank'], 1)
 
     def test_leaderboard_redirect(self):
         """

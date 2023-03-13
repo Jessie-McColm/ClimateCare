@@ -167,7 +167,8 @@ def leaderboard_page(request):
     
     leaderboard_data = return_leaderboard() #returns a list of dictionaries for 
     #rendering the full leaderboard
-    return render(request, 'leaderboard.html', {'data':leaderboard_data})
+    user_rank = return_ranking(request.user.username)
+    return render(request, 'leaderboard.html', {'data':leaderboard_data, 'rank':user_rank})
 
 
 @login_required(login_url='loginPage')
