@@ -14,6 +14,7 @@ urlpatterns = [
     path('leaderboard',views.leaderboard_page, name='leaderboard'),
     path('game_masters',views.game_master_page, name='game_masters'),
     path('colour_shop',views.kitty, name='colour_shop'),
+    path('settings',views.settings_page,name='settings'),
     
 ]
 

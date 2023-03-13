@@ -12,6 +12,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 from users.decorators import game_master
 from .models import Profile, Advice, LocationBin, LocationFountain
@@ -351,28 +352,35 @@ def add_friend(request):
 def settings_page(request):
     #in the request that the request.method is not a post, the button will have to be set to the right value
     #(paused or unpaused)
+    user_prof = Profile.objects.get(user=request.user)
+    user_obj = request.user
     if request.method == "POST":
-        pause_data = request.pause_data #this should be the data retrieved from the post function 
-        user_prof = Profile.objects.get(user=request.user)
-        user_obj = request.user
+        pause_data = request.POST.get('pause_data') #this should be the data retrieved from the post function 
+        print(pause_data)
         if pause_data == "False": #if the pause button is set to false
             if user_prof.paused == True: #filters for the case where the pause button started at
             #false and the user didn't touch it
                 end_pause(user_prof) #ends the pause if the user was previously paused
         elif pause_data == "True": #in the case that pause_data is True, maybe adjust later
             start_pause(user_prof)
-        if request.current_password != "": #if the user has attempted to set a new password
-            if request.current_password == user_obj.current_password: #if the user
+        if request.POST.get('current_password') != "": #if the user has attempted to set a new password
+            user = authenticate(username=user_obj.username, password=request.POST.get('current_password'))
+            if user is not None:
+                 #if the user
                 #has successfully entered their current password
-                user_obj.password = request.new_password
-                user_obj.save()
+                if (request.POST.get('new_password')==request.POST.get('new_password2')):
+                    user_obj.set_password(request.POST.get('new_password')) 
+                    user_obj.save()
+                else:
+                    print("passwords don't match")
             else: #if the user failed to enter their password successfully
                 print("Current password entered incorrectly")
-        if request.current_username != "": #if the user has set a new username
-            user_obj.username = request.current_username
+        if request.POST.get('current_username') != "": #if the user has set a new username
+            user_obj.username = request.POST.get('current_username')
             user_obj.save()
         #add functionality for handling location options
-    return render(request, 'base.html') #jessie this can be changed when we have 
+    context={"is_paused":user_prof.paused}
+    return render(request, 'settings.html',context) #jessie this can be changed when we have 
     #the settings page :)
 
 
