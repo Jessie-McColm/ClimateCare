@@ -377,7 +377,7 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.context['task'],"clean")
         self.assertEqual(response.status_code, 200)
 
-    '''
+    ''' #TODO remove this before submission!
     def test_post_clean_DB_update(self):
         """
         Test if database is updated correctly when a post request is sent to clean the kitty
@@ -983,9 +983,254 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.context["friend_recycle_num"],0)
         self.assertEqual(response.context["friend_creature"],"black")
         self.assertEqual(response.status_code, 200)
-        
 
-        
+    def test_start_pause_functionality(self):
+        '''
+        Checks that a user successfully adjusts their data
+        when they attempt to pause their game.
+
+        Authors: Laurie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        self.assertEqual(user_prof.paused, False)
+        client.post(path='/climate/settings', data={
+             "pause_data":"True",
+             "current_username": "",
+             "current_password":"",
+        })
+        user_prof = Profile.objects.get(user=user_obj)
+        self.assertEqual(user_prof.paused, True)
+        response = client.get(path='/climate/settings')
+        self.assertEqual(response.context["is_paused"],True)
+
+    def test_end_pause_functionality(self):
+        '''
+        Checks that a user successfully adjusts their data
+        when they attempt to end the pause on their game.
+
+        Authors: Laurie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.paused = True
+        user_prof.save()
+        client.post(path='/climate/settings', data={
+             "pause_data":"False",
+             "current_username": "",
+             "current_password":"",
+        })
+        user_prof = Profile.objects.get(user=user_obj)
+        self.assertEqual(user_prof.paused, False)
+        response = client.get(path='/climate/settings')
+        self.assertEqual(response.context["is_paused"],False)
+
+    def complex_pause_test(self):
+        '''
+        A more complex test for the settings page that checks the pause functionality
+        and whether it accurately returns the refill dates to the right times.
+
+        Authors: Laurie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        cat_data = user_prof.creature
+        currentTime = timezone.now()
+        user_prof.pause_time = currentTime-timedelta(days=3)
+        user_prof.paused = True
+        pastTime=currentTime-timedelta(days=5)
+        cat_data.last_food_refill = pastTime
+        cat_data.save()
+        user_prof.save()
+        client.post(path='/climate/settings', data={
+             "pause_data":"False",
+             "current_username": "",
+             "current_password":"",
+        })
+        user_prof = Profile.objects.get(user=user_obj)
+        cat_data = user_prof.creature
+        self.assertEqual(cat_data.last_food_refill, timezone.now()-timedelta(days=2))
+
+    def change_password_valid(self):
+        '''
+        Successfully changes a users password, and then allows
+        them to log into the system with the updated password.
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        client.post(path='/climate/settings', data={
+             "pause_data":"",
+             "current_username": "",
+             "current_password":"i_secretly_hate_kitties",
+             "new_password":"i_actually_love_kitties",
+             "new_password2":"i_actually_love_kitties",
+        })
+        client.logout()
+        response = client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_actually_love_kitties"
+        })
+        response2=client.get(path='/climate/kitty')
+        self.assertTrue(response2.context['user'].is_authenticated)
+        self.assertEqual(response2.status_code, 200)
+
+    def change_password_invalid_wrong_current(self):
+        '''
+        Unsuccessfully tries to change a user's password, due to current
+        password being incorrect. Fails a login with new password.
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        client.post(path='/climate/settings', data={
+             "pause_data":"",
+             "current_username": "",
+             "current_password":"i_openly_hate_kitties",
+             "new_password":"i_actually_love_kitties",
+             "new_password2":"i_actually_love_kitties",
+        })
+        client.logout()
+        response2 = client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_openly_love_kitties"
+        })
+        response2=client.get(path='/climate/kitty')
+        self.assertFalse(response2.context['user'].is_authenticated)
+        self.assertEqual(response2.status_code, 302)
+
+    def change_password_invalid_wrong_new(self):
+        '''
+        Unsuccessfully tries to change a user's password, due to different
+        passwords being entered for a new password. Fails a login with new password.
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        client.post(path='/climate/settings', data={
+             "pause_data":"",
+             "current_username": "",
+             "current_password":"i_secretly_hate_kitties",
+             "new_password":"i_actually_love_kitties",
+             "new_password2":"i_actually_adore_kitties",
+        })
+        client.logout()
+        response2 = client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_actually_love_kitties"
+        })
+        response2=client.get(path='/climate/kitty')
+        self.assertFalse(response2.context['user'].is_authenticated)
+        self.assertEqual(response2.status_code, 302)
+    
+    def change_username(self):
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        client.post(path='/climate/settings', data={
+             "pause_data":"",
+             "current_username": "kittyhater123",
+             "current_password":"",
+             "new_password":"",
+             "new_password2":"",
+        })
+        client.logout()
+        response2 = client.post(path='/users/login_user', data=
+        {
+            "username": "kittyhater123",
+            "password": "i_actually_love_kitties"
+        })
+        self.assertTrue(response2.context['user'].is_authenticated)
+        self.assertEqual(response2.status_code, 200)
 
     # def test_shop_view(self):
     #     """

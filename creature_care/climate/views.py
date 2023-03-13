@@ -380,8 +380,7 @@ def settings_page(request):
             user_obj.save()
         #add functionality for handling location options
     context={"is_paused":user_prof.paused}
-    return render(request, 'settings.html',context) #jessie this can be changed when we have 
-    #the settings page :)
+    return render(request, 'settings.html',context)
 
 
 # ---------Below this are functions for views, not views ----------------
