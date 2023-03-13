@@ -131,7 +131,10 @@ def kitty(request, type_of="none"):
     if type_of == "clean":
         info['cleaned'] = True
 
-    current_time = timezone.now()
+    if user_prof.paused == True:
+        current_time = user_prof.pause_time
+    else:
+        current_time = timezone.now()
 
     water_time_difference = current_time - cat_data.last_thirst_refill
     litter_time_difference = current_time - cat_data.last_litter_refill
@@ -344,9 +347,33 @@ def add_friend(request):
         #context["friend_requests"].append(item.requester.username)
     return render(request, 'friend_list.html', context)
     
-        
-            
-    
+@login_required(login_url='loginPage')
+def settings_page(request):
+    #in the request that the request.method is not a post, the button will have to be set to the right value
+    #(paused or unpaused)
+    if request.method == "POST":
+        pause_data = request.pause_data #this should be the data retrieved from the post function 
+        user_prof = Profile.objects.get(user=request.user)
+        user_obj = request.user
+        if pause_data == "False": #if the pause button is set to false
+            if user_prof.paused == True: #filters for the case where the pause button started at
+            #false and the user didn't touch it
+                end_pause(user_prof) #ends the pause if the user was previously paused
+        elif pause_data == "True": #in the case that pause_data is True, maybe adjust later
+            start_pause(user_prof)
+        if request.current_password != "": #if the user has attempted to set a new password
+            if request.current_password == user_obj.current_password: #if the user
+                #has successfully entered their current password
+                user_obj.password = request.new_password
+                user_obj.save()
+            else: #if the user failed to enter their password successfully
+                print("Current password entered incorrectly")
+        if request.current_username != "": #if the user has set a new username
+            user_obj.username = request.current_username
+            user_obj.save()
+        #add functionality for handling location options
+    return render(request, 'base.html') #jessie this can be changed when we have 
+    #the settings page :)
 
 
 # ---------Below this are functions for views, not views ----------------
@@ -520,3 +547,38 @@ def return_ranking(username_required):
             user_found = True
         search_count = search_count + 1
     return search_count
+
+'''
+A function to start a pause on a user. The function edits the database to reflect that the user
+has actually paused, and stores when the user paused.
+
+Authors: Laurie
+
+Args: the Profile object of the user that is sending the request to start the pause
+'''
+def start_pause(user_prof):
+    user_prof.paused = True
+    user_prof.pause_time = timezone.now()
+    user_prof.save()
+
+'''
+A function to fairly return a user from pause to normal gameplay. This function uses the time
+the user paused and the last time they fed/watered/cleaned their kitty to update the kitty's
+data in a way that reflects how it was left.
+
+Authors: Laurie
+
+Args: the Profile object of the user that is sending the request to end the pause
+'''
+def end_pause(user_prof):
+    user_prof.paused = False
+    current_time = timezone.now()
+    cat_data = user_prof.creature
+    water_time_difference = user_prof.pause_time - cat_data.last_thirst_refill
+    cat_data.last_thirst_refill = current_time - water_time_difference
+    litter_time_difference = user_prof.pause_time - cat_data.last_litter_refill
+    cat_data.last_litter_refill = current_time - litter_time_difference
+    food_time_difference = user_prof.pause_time - cat_data.last_food_refill
+    cat_data.last_food_refill = current_time - food_time_difference
+    cat_data.save()
+    user_prof.save()
