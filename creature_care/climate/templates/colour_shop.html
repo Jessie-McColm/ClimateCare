@@ -182,6 +182,18 @@
 
 
 <script>
+    let balance = ' {{ points_available }}';
+    let current_fur_colour = '{{ fur_colour }}'; 
+    let current_eye_colour = '{{ eye_colour }}'; 
+    let equipped_eye_colour = '{{ eye_colour }}';
+
+    current_body_colour = current_fur_colour.split(",")[0];
+    current_patches = current_fur_colour.split(",")[1];
+    equipped_body_colour = current_fur_colour.split(",")[0];
+    equipped_patches = current_fur_colour.split(",")[1];
+    changeColour(current_body_colour, current_patches);
+    changeEyeColour(current_eye_colour);
+
     function changeColour(body_colour, patches) {
     /* 
         Changes the colours of the cat's fur based on the button clicked.
@@ -195,12 +207,14 @@
         });
         var styleElem = document.head.appendChild(document.createElement("style"));
         styleElem.innerHTML = ".face:before {border-bottom: 50px solid " + body_colour + ";}";
+        equipped_body_colour = body_colour;
 
         //Changing the colour of the patches.
 
         var styleElem = document.head.appendChild(document.createElement("style"));
         styleElem.innerHTML = ".face:after {border-bottom: 50px solid " + patches + ";}";
         document.getElementById("paw-l").style.backgroundColor = patches;
+        equipped_patches = patches;
     }
 
     function changeEyeColour(colour) {
@@ -214,6 +228,7 @@
         eye_colour.forEach(function (item, index) {
             document.getElementById(item).style.backgroundColor = colour;
         });
+
     }
 
     function buyNow() {
@@ -231,7 +246,29 @@
             alert("Oops! You don't have enough money to buy this.");
         } else {
             document.getElementById("balance").innerHTML = price - balance;
-            //Send post request back.
+            let csrftoken = '{{ csrf_token }}'
+            fur_colour = equipped_body_colour + "," + equipped_patches;
+            
+            var dictionary = {
+                'purchase_new_colour_eyes': 'true',
+                'purchase_new_colour_fur': 'true',
+                'fur_colour': fur_colour,
+                'eye_colour': equipped_eye_colour
+
+            }
+            
+            var url = "";
+            var request="purchase_new_colour_eyes=true&purchase_new_colour_fur=true&fur_colour="+fur_colour+"&eye_colour="+equipped_eye_colour;
+            fetch(url, {
+                credentials: 'include',
+                method: 'POST',
+                mode: 'same-origin',
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrftoken
+                },
+                body: request, 
+            });
         }
     }
 </script>

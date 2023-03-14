@@ -191,6 +191,7 @@
 </div>
 
 <script>
+let items = '{{ items }}';
 function changeHat(container, size) {
     /* 
         Changes the cat's hat.
@@ -221,7 +222,26 @@ function buyNow() {
             alert("Oops! You don't have enough money to buy this.");
         } else {
             document.getElementById("balance").innerHTML = price - balance;
-            //Send post request back.
+            let csrftoken = '{{ csrf_token }}'
+            /*
+            var dictionary = {
+                'price': price, 
+                'balance': balancecd
+            }
+            
+            var url = "";
+            var request="price="+price+"&balance="+balance;
+            fetch(url, {
+                credentials: 'include',
+                method: 'POST',
+                mode: 'same-origin',
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrftoken
+                },
+                body: request, 
+            });
+            */
         }
     }
 </script>
