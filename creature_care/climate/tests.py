@@ -962,6 +962,7 @@ class ColourShopTests(TestCase):
         user_prof.num_times_fed = 0
         user_prof.num_times_litter_cleared = 0
         user_prof.points = 10
+        user_obj.save()
         user_prof.save()
 
         former_player_balance = user_prof.points
@@ -969,6 +970,8 @@ class ColourShopTests(TestCase):
         kitty = user_prof.creature
         former_eye_colour = kitty.eye_colour
         former_eye_colour_name = former_eye_colour.colour_id
+        user_obj.save()
+        user_prof.save()
 
         client.post(path='/users/login_user', data={
             "username": "kittylover123",
@@ -976,11 +979,13 @@ class ColourShopTests(TestCase):
         })
 
         client.post(path='/climate/colour_shop', data={
-            'purchase_new_colour': 'true',
-            'colour_id': 'blue',
-            'eye_colour': 'true',
-            'fur_colour': 'false'
+            'purchase_new_colour_eyes': 'true',
+            'purcjase_new_colour_fur': 'false',
+            'eye_colour': '#95fdff,',
+            'fur_colour': ''
         })
+
+        kitty.save(update_fields=['eye_colour'])
 
         new_eye_colour = kitty.eye_colour
         new_eye_colour_name = new_eye_colour.colour_id
@@ -989,7 +994,7 @@ class ColourShopTests(TestCase):
         new_player_balance = user_prof.points
 
         self.assertNotEqual(former_eye_colour_name, new_eye_colour_name)
-        self.assertTrue(former_player_balance == new_player_balance-eye_colour_price)
+        self.assertEqual(former_player_balance, new_player_balance - eye_colour_price)
 
 
     # def test_shop_view(self):

@@ -16,7 +16,9 @@ Author:
 class Colour(models.Model):
     colour_id = models.CharField(primary_key=True, max_length=16)
     colour_hex_val = models.CharField(max_length=10)
+    colour_hex_val_patch = models.CharField(max_length=10, default="", null=True)
     colour_cost = models.IntegerField(null=False, default=0)
+
 
 """
 This class contains all the information regarding a "Creature" which is assigned to each user in a one-to-one

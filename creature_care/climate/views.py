@@ -290,12 +290,21 @@ def colour_shop_page(request):
     username = user_obj.get_username()
     user_prof = Profile.objects.get(user=user_obj)
     points_available = user_prof.points
+
     cat_obj = user_prof.creature
 
-    colours = Colour.objects.all()
-    colour_ids = ','.join(str(colour.colour_id) for colour in colours)
-    colour_hexs = ','.join(str(colour.colour_hex_val) for colour in colours)
-    colour_prices = ','.join(str(colour.colour_cost) for colour in colours)
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+
+    print("Fur colour: " + cat_obj.fur_colour.colour_id)
+    print("Hex 1: " + cat_obj.fur_colour.colour_hex_val)
+    print("Hex 2: " + cat_obj.fur_colour.colour_hex_val_patch)
 
     attempted_purchase = "false"
     successful_purchase = "false"
@@ -303,37 +312,62 @@ def colour_shop_page(request):
     info = {
         'username': username,
         'points_available': points_available,
-        'colour_ids': colour_ids,
-        'colour_hexs': colour_hexs,
-        'colour_prices': colour_prices,
+        'fur_colour': cat_fur_colour,
+        'eye_colour': cat_eye_colour,
         'attempted_purchase': attempted_purchase,
         'successful_purchase': successful_purchase
     }
 
     if request.method == "POST":
-        if request.POST.get('purchase_new_colour') == "true":
-            attempted_purchase = "true"
-            colour_id = request.POST.get('colour_id')
-            colour_obj = Colour.objects.get(colour_id=colour_id)
-            colour_cost = colour_obj.colour_cost
 
-            if points_available >= colour_cost:
-                user_prof.points = points_available - colour_cost
-                if request.POST.get('eye_colour') == "true":
-                    cat_obj.eye_colour = colour_obj
-                elif request.POST.get('fur_colour') == "true":
-                    cat_obj.fur_colour = colour_obj
+        print("Method is POST...")
 
-                user_prof.save()
-                cat_obj.save()
-
-                successful_purchase = "true"
+        if request.POST.get('purchase_new_colour_fur') == "true":
+            if points_available >= 10:
+                print("purchase_new_fur_colour == true...")
+                attempted_purchase = "true"
+                colour_hex_str = request.POST.get('fur_colour')
+                print("fur_colour retrieved...")
+                colour_hexs = colour_hex_str.split(",")
+                print("colour_hex_val is " + colour_hexs[0] + "...")
+                if colour_hexs[1] == "":
+                    print("colour_hex_val_patch is empty...")
+                else:
+                    print("colour_hex_val_patch is " + colour_hexs[1] + "...")
+                colour_obj = Colour.objects.get(
+                    colour_hex_val=colour_hexs[0],
+                    colour_hex_val_patch=colour_hexs[1]
+                )
+                cat_obj.fur_colour = colour_obj
+                cat_obj.save(update_fields=['fur_colour'])
 
             else:
                 successful_purchase = "false"
 
-            info['attempted_purchase'] = attempted_purchase
-            info['successful_purchase'] = successful_purchase
+        if request.POST.get('purchase_new_colour_eyes') == "true":
+            if points_available >= 10:
+                print("purchase_new_colour_eyes == true...")
+                attempted_purchase = "true"
+                colour_hex_str = request.POST.get('eye_colour')
+                print("eye_colour retrieved...")
+                colour_hexs = colour_hex_str.split(",")
+                print("colour_hex_val is " + colour_hexs[0] + "...")
+                if colour_hexs[1] == "":
+                    print("colour_hex_val_patch is empty...")
+                else:
+                    print("colour_hex_val_patch is " + colour_hexs[1] + "...")
+                colour_obj = Colour.objects.get(
+                    colour_hex_val=colour_hexs[0],
+                    colour_hex_val_patch=colour_hexs[1]
+                )
+                cat_obj.eye_colour = colour_obj
+                cat_obj.save(update_fields=['eye_colour'])
+
+            else:
+                successful_purchase = "false"
+
+    info['attempted_purchase'] = attempted_purchase
+    info['successful_purchase'] = successful_purchase
 
     return render(request, 'colour_shop.html', info)
 
