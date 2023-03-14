@@ -146,7 +146,7 @@
     <div class = "fur-colour" style = "background-color: #696969;" onclick="return changeColour('#696969', '#696969');"></div>
     <div class = "eye-colour" style = "background-color: #f1adff;" onclick="return changeEyeColour('#f1adff');"></div>
     <div class = "fur-colour" style = "background-color: #33292b;" onclick="return changeColour('#33292b', '#33292b');"></div>
-    <div class = "eye-colour" style = "background-color: red;" onclick="return changeEyeColour('red');"></div>
+    <div class = "eye-colour" style = "background-color: #ff0000;" onclick="return changeEyeColour('#ff0000');"></div>
     <div class = "fur-colour" style = "background-color: #33292b;"><div class = "semicircle" style = "background-color: #efdae9;" onclick="return changeColour('#33292b', '#efdae9');"></div>
 </div>
 <div class="container-1">
@@ -186,6 +186,8 @@
     let current_fur_colour = '{{ fur_colour }}'; 
     let current_eye_colour = '{{ eye_colour }}'; 
     let equipped_eye_colour = '{{ eye_colour }}';
+    balance = 20; //for testing
+    document.getElementById("balance").innerHTML = balance;
 
     current_body_colour = current_fur_colour.split(",")[0];
     current_patches = current_fur_colour.split(",")[1];
@@ -231,6 +233,7 @@
         eye_colour.forEach(function (item, index) {
             document.getElementById(item).style.backgroundColor = colour;
         });
+        equipped_eye_colour = colour;
 
     }
 
@@ -248,20 +251,31 @@
         if (balance < price) {
             alert("Oops! You don't have enough money to buy this.");
         } else {
-            document.getElementById("balance").innerHTML = price - balance;
+            document.getElementById("balance").innerHTML = balance - price;
             let csrftoken = '{{ csrf_token }}'
             fur_colour = equipped_body_colour + "," + equipped_patches;
+            
+            if ((current_body_colour == equipped_body_colour) && (current_patches == equipped_patches)) {
+                purchase_new_colour_fur = "false"
+            } else {
+                purchase_new_colour_fur = "true"
+            }
+
+            if (current_eye_colour == equipped_eye_colour) {
+                purchase_new_colour_eyes = "false"
+            } else {
+                purchase_new_colour_eyes = "true"
+            }
 
             var dictionary = {
-                'purchase_new_colour_eyes': 'true',
-                'purchase_new_colour_fur': 'true',
+                'purchase_new_colour_eyes': purchase_new_colour_eyes,
+                'purchase_new_colour_fur': purchase_new_colour_fur,
                 'fur_colour': fur_colour,
                 'eye_colour': equipped_eye_colour
-
             }
             
             var url = "";
-            var request="purchase_new_colour_eyes=true&purchase_new_colour_fur=true&fur_colour="+fur_colour+"&eye_colour="+equipped_eye_colour;
+            var cat="purchase_new_colour_eyes"+purchase_new_colour_fur+"&purchase_new_colour_fur="+purchase_new_colour_fur+"&fur_colour="+fur_colour+"&eye_colour="+equipped_eye_colour;
             fetch(url, {
                 credentials: 'include',
                 method: 'POST',
@@ -270,7 +284,7 @@
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'X-CSRFToken': csrftoken
                 },
-                body: request, 
+                body: cat, 
             });
         }
     }
