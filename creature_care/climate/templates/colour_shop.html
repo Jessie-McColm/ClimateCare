@@ -191,6 +191,9 @@
     current_patches = current_fur_colour.split(",")[1];
     equipped_body_colour = current_fur_colour.split(",")[0];
     equipped_patches = current_fur_colour.split(",")[1];
+    if (equipped_patches == "") {
+        equipped_patches = equipped_body_colour;
+    }
     changeColour(current_body_colour, current_patches);
     changeEyeColour(current_eye_colour);
 
@@ -248,7 +251,7 @@
             document.getElementById("balance").innerHTML = price - balance;
             let csrftoken = '{{ csrf_token }}'
             fur_colour = equipped_body_colour + "," + equipped_patches;
-            
+
             var dictionary = {
                 'purchase_new_colour_eyes': 'true',
                 'purchase_new_colour_fur': 'true',
