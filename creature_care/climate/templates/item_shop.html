@@ -179,19 +179,19 @@
 <button class = "buy" onclick = "return buyNow();">BUY NOW</button>
 <div id = "2" class="container-2" onclick = "return changeHat('2', '120');">
     {% load static %} 
-    <img width = "100", height = "100", src="{% static 'leaf-hat.svg' %}"/>  
+    <img width = "100", height = "100", src="{% static '1.svg' %}"/>  
 </div>
 <div id = "3" class="container-3" onclick = "return changeHat('3', '220');">
     {% load static %} 
-    <img width = "100", height = "100", src="{% static 'magician-hat.svg' %}"/>
+    <img width = "100", height = "100", src="{% static '3.svg' %}"/>
 </div>
 <div id = "4" class="container-4" onclick = "return changeHat('4', '240');">
     {% load static %} 
-    <img width = "100", height = "100", src="{% static 'wizard-hat.svg' %}"/>
+    <img width = "100", height = "100", src="{% static '2.svg' %}"/>
 </div>
 
 <script>
-let items = '{{ items }}';
+    //take in the user's current item equipped
 function changeHat(container, size) {
     /* 
         Changes the cat's hat.
@@ -215,6 +215,8 @@ function buyNow() {
         Authors:
             Des
     */
+        hat_name = document.getElementById("hat").src.split("static/")[1];
+        hat_name = hat_name.split(".svg")[0]
         balance = parseInt(document.getElementById("balance").innerHTML);
         price = parseInt(document.getElementById("price").innerHTML);
         
@@ -223,10 +225,10 @@ function buyNow() {
         } else {
             document.getElementById("balance").innerHTML = price - balance;
             let csrftoken = '{{ csrf_token }}'
-            /*
+            
             var dictionary = {
-                'price': price, 
-                'balance': balancecd
+                'purchase_new_item': "true", //change this to an if statement checking if the user is buying a new item
+                'item_id': hat_name
             }
             
             var url = "";
