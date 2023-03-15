@@ -88,6 +88,7 @@ class Item(models.Model):
     item_name = models.CharField(max_length=40)
     item_cost = models.IntegerField(null=False, default=0)
     item_class = models.CharField(max_length=25, null=False)
+    scale = models.IntegerField(default=120, null=False)
 
 
 """

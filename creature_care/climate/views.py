@@ -240,11 +240,13 @@ def item_shop_page(request):
     except ObjectDoesNotExist:
         wearing = Wearing.objects.create(creature=cat_obj)
 
-    currently_wearing_id = wearing.item
+    currently_wearing_id = wearing.item.item_id
     if not currently_wearing_id:
-        currently_wearing_id = '0'
+        currently_wearing_id = '0'  # denotes that the cat is not wearing anything
+        currently_wearing_scale = '0'
     else:
         currently_wearing_id = str(currently_wearing_id)
+        currently_wearing_scale = wearing.scale
 
     points_available = user_prof.points
 
@@ -265,6 +267,10 @@ def item_shop_page(request):
     item_price_2 = rand_item_2.item_cost
     item_price_3 = rand_item_3.item_cost
 
+    item_scale_1 = rand_item_1.scale
+    item_scale_2 = rand_item_2.scale
+    item_scale_3 = rand_item_3.scale
+
     attempted_purchase = "false"
     successful_purchase = "false"
 
@@ -283,12 +289,16 @@ def item_shop_page(request):
         'fur_colour': cat_fur_colour,
         'eye_colour': cat_eye_colour,
         'cat_item': currently_wearing_id,
+        'cat_item_scale': currently_wearing_scale,
         'item_id_1': item_id_1,
         'item_price_1': item_price_1,
+        'item_scale_1': item_scale_1,
         'item_id_2': item_id_2,
         'item_price_2': item_price_2,
+        'item_scale_2': item_scale_2,
         'item_id_3': item_id_3,
         'item_price_3': item_price_3,
+        'item_scale_3': item_scale_3,
         'attempted_purchase': attempted_purchase,
         'successful_purchase': successful_purchase
     }
@@ -312,7 +322,6 @@ def item_shop_page(request):
             else:
                 successful_purchase = "false"
 
-
     info['attempted_purchase'] = attempted_purchase
     info['successful_purchase'] = successful_purchase
 
@@ -331,11 +340,8 @@ def colour_shop_page(request):
         A http response.
     """
 
-    #obtain user data
     user_obj = request.user
-    #user_prof = Profile.objects.get(user=user_obj)
     username = user_obj.get_username()
-    #cat_data = user_prof.creature
 
     user_prof = Profile.objects.get(user=user_obj)
     points_available = user_prof.points
