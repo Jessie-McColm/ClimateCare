@@ -172,22 +172,22 @@
     </div>
 </div>
 <div class = "coins"> 
-    <a id = "price">10</a>
+    <a id = "price">0</a>
     {% load static %} 
     <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
 </div>
 <button class = "buy" onclick = "return buyNow();">BUY NOW</button>
-<div id = "2" class="container-2" onclick = "return changeHat('2', '120');">
+<div class="container-2">
     {% load static %} 
-    <img width = "100", height = "100", src="{% static '1.svg' %}"/>  
+    <img id = "1" width = "100", height = "100", src="{% static '1.svg' %}" onclick = "return changeHat(1);"/>  
 </div>
-<div id = "3" class="container-3" onclick = "return changeHat('3', '220');">
+<div class="container-3">
     {% load static %} 
-    <img width = "100", height = "100", src="{% static '3.svg' %}"/>
+    <img id = "2" width = "100", height = "100", src="{% static '3.svg' %}" onclick = "return changeHat(2);"/>
 </div>
-<div id = "4" class="container-4" onclick = "return changeHat('4', '240');">
+<div class="container-4">
     {% load static %} 
-    <img width = "100", height = "100", src="{% static '2.svg' %}"/>
+    <img id = "3" width = "100", height = "100", src="{% static '2.svg' %}" onclick = "return changeHat(3);"/>
 </div>
 
 <script>
@@ -196,6 +196,7 @@
     let current_eye_colour = '{{ eye_colour }}'; 
     let equipped_eye_colour = '{{ eye_colour }}';
     let currently_wearing = '{{ cat_item }}';
+    let current_size = '{{ cat_item_scale }}'
     current_body_colour = current_fur_colour.split(",")[0];
     current_patches = current_fur_colour.split(",")[1];
 
@@ -203,9 +204,11 @@
     document.getElementById("balance").innerHTML = balance;
     
     /* Get what the cat is currently wearing. */
-    // if (currently_wearing != 0) {
-    //     document.getElementById("hat").src = "/static/" + currently_wearing + ".svg";
-    // }
+    if (currently_wearing != 0) {
+         document.getElementById("hat").src = "/static/" + currently_wearing + ".svg";
+         document.getElementById("hat").width = current_size;
+        document.getElementById("hat").height = current_size;
+    }
 
     /* Change the cat's body and eye colours. */
     
@@ -228,25 +231,46 @@
     /* Load in the daily items */
     let item_id_1 = '{{ item_id_1 }}';
     let item_price_1 = '{{ item_price_1 }}';
+    let item_size_1 = '{{ item_scale_1 }}';
     let item_id_2 = '{{ item_id_2 }}';
     let item_price_2 = '{{ item_price_2 }}';
+    let item_size_2 = '{{ item_scale_2 }}';
     let item_id_3 = '{{ item_id_3 }}';
     let item_price_3 = '{{ item_price_3 }}';
-    document.getElementById("hat").src = "/static/" + currently_wearing + ".svg";
+    let item_size_3 = '{{ item_scale_3 }}';
+    document.getElementById("1").src = "/static/" + item_id_1 + ".svg";
+    document.getElementById("2").src = "/static/" + item_id_2 + ".svg";
+    document.getElementById("3").src = "/static/" + item_id_3 + ".svg";
 
-function changeHat(container, size) {
+function changeHat(item) {
     /* 
         Changes the cat's hat.
         
         Authors:
             Des
     */
-    var temp = document.getElementById(container).innerHTML.split("static/")[1];
+    var temp = document.getElementById(item).src.split("static/")[1];
     var hat_name = temp.split(".svg")[0];
+    switch(item) {
+        case 1:
+            document.getElementById("price").innerHTML = item_price_1;
+            size = item_size_1;
+            break;
+        case 2: 
+            document.getElementById("price").innerHTML = item_price_2;
+            size = item_size_2;
+            break;
+        case 3:
+            document.getElementById("price").innerHTML = item_price_3;
+            size = item_size_3;
+            break;
+    }
     document.getElementById("hat").src = "/static/" + hat_name + ".svg";
     document.getElementById("hat").width = size;
     document.getElementById("hat").height = size;
-
+    if (currently_wearing == hat_name) {
+        document.getElementById("price").innerHTML = 0;
+    }
 }
 
 function buyNow() {
@@ -293,6 +317,7 @@ function buyNow() {
                 },
                 body: request, 
             });
+            window.location.reload();
         }
     }
 </script>
