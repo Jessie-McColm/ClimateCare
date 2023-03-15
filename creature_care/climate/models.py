@@ -56,6 +56,7 @@ class Profile(models.Model):
     num_times_fed = models.IntegerField(default=0, null=False)
     num_times_litter_cleared = models.IntegerField(default=0, null=False)
     paused = models.BooleanField(default=False, null=False)
+    private = models.BooleanField(default=False, null=False)
     pause_time = models.DateTimeField(default=now)
 
     class Meta:

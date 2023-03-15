@@ -292,11 +292,28 @@ def friend(request, username="none"):
     """
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
+    context = {
+            "username": user_obj.get_username(),
+            "creature":(user_prof.creature).colour,
+            "bottle_num":user_prof.num_times_watered,
+            "article_num":user_prof.num_times_fed,
+            "recycle_num":user_prof.num_times_litter_cleared,
+            "friend_username":None,
+            "friend_bottle_num":0,
+            "friend_article_num":0,
+            "friend_recycle_num":0,
+            "friend_creature":"#ff0000"
+            }
     if username=="none":
         #get a random user from the database
-        profiles = list(Profile.objects.all())
+        profiles = list(Profile.objects.filter(private=False))
+        if user_prof.private==False:
+            profiles.remove(user_prof)
+        if len(profiles)==0:
+            return render(request, 'friends.html', context)
+            
         #exclude the current user from possibilities
-        profiles.remove(user_prof)
+        
         choice_range=len(profiles)-1
         choice=random.randint(0, choice_range)
         profile_choice=profiles[choice]
@@ -305,6 +322,8 @@ def friend(request, username="none"):
     else:
         user_choice = User.objects.get(username=username)
         profile_choice=Profile.objects.get(user = user_choice)
+        if profile_choice.private==True:
+            return render(request, 'friends.html', context)
         
      
     context = {
@@ -380,13 +399,13 @@ def settings_page(request):
             user_obj.save()
         privacy_setting = request.POST.get('privacy_setting')
         if privacy_setting=="True":
-             #change user profile to private
-             pass
+             user_prof.private=True
+             user_prof.save()
         else:
-            #change user progile to puplic
-            pass
+            user_prof.private=False
+            user_prof.save()
         
-    context={"is_paused":user_prof.paused,"is_private":False} #need to change once DB is updated
+    context={"is_paused":user_prof.paused,"is_private":user_prof.private} #need to change once DB is updated
     return render(request, 'settings.html',context)
 
 
