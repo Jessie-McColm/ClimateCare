@@ -418,7 +418,7 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.context['task'],"clean")
         self.assertEqual(response.status_code, 200)
 
-    '''
+    ''' #TODO remove this before submission!
     def test_post_clean_DB_update(self):
         """
         Test if database is updated correctly when a post request is sent to clean the kitty
@@ -916,11 +916,239 @@ class KittyIndexTests(TestCase):
             "username": "kittylover123",
             "password": "i_secretly_hate_kitties"
         })
-        response = client.get(path='/climate/my_stats')
-        self.assertEqual(response.context['username'], 'kittylover123')
-        self.assertEqual(response.context['bottle_num'], 27)
-        self.assertEqual(response.context['article_num'], 40)
-        self.assertEqual(response.context['recycle_num'], 13)
+        response=client.get(path='/climate/my_stats')
+        self.assertEqual(response.context['username'],'kittylover123')
+        self.assertEqual(response.context['bottle_num'],27)
+        self.assertEqual(response.context['article_num'],40)
+        self.assertEqual(response.context['recycle_num'],13)
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_friends_redirect(self):
+        """
+        Tests that the friends page redirects to the login page for an unauthorised user
+
+        Author:
+            Jessie, Laurie
+        """
+        client = Client()
+        response=client.get(path='/climate/friend')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/users/login_user?next=/climate/friend")
+
+    def test_friends_page(self):
+        """
+        Checks that the friends page returns data of a random user in the database (not of the currently logged in user)
+
+        Author:
+            Jessie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/register_user', data=
+        {
+            "username": "test",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.get(path='/climate/friend')
+        self.assertEqual(response.context["creature"],"black")
+        self.assertEqual(response.context["bottle_num"],0)
+        self.assertEqual(response.context["article_num"],0)
+        self.assertEqual(response.context["recycle_num"],0)
+        self.assertEqual(response.context["friend_username"],"test")
+        self.assertEqual(response.context["friend_bottle_num"],0)
+        self.assertEqual(response.context["friend_article_num"],0)
+        self.assertEqual(response.context["friend_recycle_num"],0)
+        self.assertEqual(response.context["friend_creature"],"black")
+        self.assertEqual(response.status_code, 200)
+
+    def test_friends_page_with_url(self):
+        """
+        Checks that the friends page returns the data of a user specified in the URL
+
+        Author:
+            Jessie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/register_user', data=
+        {
+            "username": "test",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/register_user', data=
+        {
+            "username": "test2",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.get(path='/climate/friend/test')
+        self.assertEqual(response.context["creature"],"black")
+        self.assertEqual(response.context["bottle_num"],0)
+        self.assertEqual(response.context["article_num"],0)
+        self.assertEqual(response.context["recycle_num"],0)
+        self.assertEqual(response.context["friend_username"],"test")
+        self.assertEqual(response.context["friend_bottle_num"],0)
+        self.assertEqual(response.context["friend_article_num"],0)
+        self.assertEqual(response.context["friend_recycle_num"],0)
+        self.assertEqual(response.context["friend_creature"],"black")
+        self.assertEqual(response.status_code, 200)
+
+    def test_friends_page_with_privacy(self):
+        """
+        Checks that the friends page doesnt return data on private profiles
+
+        Author:
+            Jessie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/register_user', data=
+        {
+            "username": "test",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="test")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.private=True
+        user_prof.save()
+
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.get(path='/climate/friend')
+        self.assertEqual(response.context["creature"],"black")
+        self.assertEqual(response.context["bottle_num"],0)
+        self.assertEqual(response.context["article_num"],0)
+        self.assertEqual(response.context["recycle_num"],0)
+        self.assertEqual(response.context["friend_username"],None)
+        self.assertEqual(response.context["friend_bottle_num"],0)
+        self.assertEqual(response.context["friend_article_num"],0)
+        self.assertEqual(response.context["friend_recycle_num"],0)
+        self.assertEqual(response.context["friend_creature"],"#ff0000")
+        self.assertEqual(response.status_code, 200)
+
+    def test_friends_page_with_private_url(self):
+        """
+        Checks that the friends page doesnt give user data if that user is private
+
+        Author:
+            Jessie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/register_user', data=
+        {
+            "username": "test",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/register_user', data=
+        {
+            "username": "test2",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="test")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.private=True
+        user_prof.save()
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.get(path='/climate/friend/test')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/climate/friend")
+
+    def test_start_pause_functionality(self):
+        '''
+        Checks that a user successfully adjusts their data
+        when they attempt to pause their game.
+
+        Authors: Laurie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        self.assertEqual(user_prof.paused, False)
+        client.post(path='/climate/settings', data={
+             "pause_data":"True",
+             "current_username": "",
+             "current_password":"",
+             "privacy_setting":"False"
+        })
+        user_prof = Profile.objects.get(user=user_obj)
+        self.assertEqual(user_prof.paused, True)
+        response = client.get(path='/climate/settings')
+        self.assertEqual(response.context["is_paused"],True)
 
 class ColourShopTests(TestCase):
     """
@@ -932,6 +1160,41 @@ class ColourShopTests(TestCase):
         Sets up the colour objects needed for foreign referencing when
         creating new cats. These are the colours needed for the default
         fields.
+    def test_end_pause_functionality(self):
+        '''
+        Checks that a user successfully adjusts their data
+        when they attempt to end the pause on their game.
+
+        Authors: Laurie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.paused = True
+        user_prof.save()
+        client.post(path='/climate/settings', data={
+             "pause_data":"False",
+             "current_username": "",
+             "current_password":"",
+             "privacy_setting":"False"
+        })
+        user_prof = Profile.objects.get(user=user_obj)
+        self.assertEqual(user_prof.paused, False)
+        response = client.get(path='/climate/settings')
+        self.assertEqual(response.context["is_paused"],False)
 
         Author:
             Nevan
@@ -998,6 +1261,293 @@ class ColourShopTests(TestCase):
         self.assertNotEqual(former_eye_colour_name, new_eye_colour_name)
         self.assertEqual(former_player_balance, new_player_balance - eye_colour_price)
 
+
+    def complex_pause_test(self):
+        '''
+        A more complex test for the settings page that checks the pause functionality
+        and whether it accurately returns the refill dates to the right times.
+
+        Authors: Laurie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        cat_data = user_prof.creature
+        currentTime = timezone.now()
+        user_prof.pause_time = currentTime-timedelta(days=3)
+        user_prof.paused = True
+        pastTime=currentTime-timedelta(days=5)
+        cat_data.last_food_refill = pastTime
+        cat_data.save()
+        user_prof.save()
+        client.post(path='/climate/settings', data={
+             "pause_data":"False",
+             "current_username": "",
+             "current_password":"",
+             "privacy_setting":"False"
+        })
+        user_prof = Profile.objects.get(user=user_obj)
+        cat_data = user_prof.creature
+        self.assertEqual(cat_data.last_food_refill, timezone.now()-timedelta(days=2))
+
+    def change_password_valid(self):
+        '''
+        Successfully changes a users password, and then allows
+        them to log into the system with the updated password.
+
+        Authors: Laurie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        client.post(path='/climate/settings', data={
+             "pause_data":"",
+             "current_username": "",
+             "current_password":"i_secretly_hate_kitties",
+             "new_password":"i_actually_love_kitties",
+             "new_password2":"i_actually_love_kitties",
+             "privacy_setting":"False"
+        })
+        client.logout()
+        response = client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_actually_love_kitties"
+        })
+        response2=client.get(path='/climate/kitty')
+        self.assertTrue(response2.context['user'].is_authenticated)
+        self.assertEqual(response2.status_code, 200)
+
+    def change_password_invalid_wrong_current(self):
+        '''
+        Unsuccessfully tries to change a user's password, due to current
+        password being incorrect. Fails a login with new password.
+
+        Authors: Laurie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        client.post(path='/climate/settings', data={
+             "pause_data":"",
+             "current_username": "",
+             "current_password":"i_openly_hate_kitties",
+             "new_password":"i_actually_love_kitties",
+             "new_password2":"i_actually_love_kitties",
+             "privacy_setting":"False"
+        })
+        client.logout()
+        response2 = client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_openly_love_kitties"
+        })
+        response2=client.get(path='/climate/kitty')
+        self.assertFalse(response2.context['user'].is_authenticated)
+        self.assertEqual(response2.status_code, 302)
+
+    def change_password_invalid_wrong_new(self):
+        '''
+        Unsuccessfully tries to change a user's password, due to different
+        passwords being entered for a new password. Fails a login with new password.
+
+        Authors: Laurie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        client.post(path='/climate/settings', data={
+             "pause_data":"",
+             "current_username": "",
+             "current_password":"i_secretly_hate_kitties",
+             "new_password":"i_actually_love_kitties",
+             "new_password2":"i_actually_adore_kitties",
+             "privacy_setting":"False"
+        })
+        client.logout()
+        response2 = client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_actually_love_kitties"
+        })
+        response2=client.get(path='/climate/kitty')
+        self.assertFalse(response2.context['user'].is_authenticated)
+        self.assertEqual(response2.status_code, 302)
+
+    def change_username(self):
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        client.post(path='/climate/settings', data={
+             "pause_data":"",
+             "current_username": "kittyhater123",
+             "current_password":"",
+             "new_password":"",
+             "new_password2":"",
+             "privacy_setting":"False"
+        })
+        client.logout()
+        response2 = client.post(path='/users/login_user', data=
+        {
+            "username": "kittyhater123",
+            "password": "i_actually_love_kitties"
+        })
+        self.assertTrue(response2.context['user'].is_authenticated)
+        self.assertEqual(response2.status_code, 200)
+
+    def test_make_private(self):
+        '''
+        Checks that a user successfully adjusts their data
+        when they attempt to make their profile private.
+
+        Authors: Jessie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        client.post(path='/climate/settings', data={
+             "pause_data":"False",
+             "current_username": "",
+             "current_password":"",
+             "privacy_setting":"True"
+        })
+        user_prof = Profile.objects.get(user=user_obj)
+        self.assertEqual(user_prof.private, True)
+        response = client.get(path='/climate/settings')
+        self.assertEqual(response.context["is_private"],True)
+
+    def test_check_private_default(self):
+        '''
+        Checks that a user profile is automatically set to public
+
+        Authors: Jessie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="kittylover123")
+
+        user_prof = Profile.objects.get(user=user_obj)
+        self.assertEqual(user_prof.private, False)
+        response = client.get(path='/climate/settings')
+        self.assertEqual(response.context["is_private"],False)
+
+    def test_make_public(self):
+        '''
+        Checks that a user successfully adjusts their data
+        when they attempt to make their profile private.
+
+        Authors: Jessie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.private=True
+        user_prof.save()
+        client.post(path='/climate/settings', data={
+             "pause_data":"False",
+             "current_username": "",
+             "current_password":"",
+             "privacy_setting":"False"
+        })
+        user_prof = Profile.objects.get(user=user_obj)
+        self.assertEqual(user_prof.private, False)
+        response = client.get(path='/climate/settings')
+        self.assertEqual(response.context["is_private"],False)
 
     # def test_shop_view(self):
     #     """

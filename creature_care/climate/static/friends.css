@@ -1,0 +1,254 @@
+/* CSS by Lucia */
+*{
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Fredoka One for numbers??*/
+
+.main_column{
+
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    text-align: center;
+    width: 60%;
+    margin: 0 auto;
+    
+}
+
+.speech1{
+    position:relative;
+    width: 5em;
+    height: 2em;
+    right: 6em;
+    bottom: 10em;
+    transform: scaleX(-1);
+    text-align: center;
+    color: white;
+    font-size: 1.5em;
+    animation: speak 4s infinite ease-out;
+}
+
+.speech2{
+    position:relative;
+    width: 5em;
+    height: 2em;
+    right: 6em;
+    bottom: 8em;
+    text-align: center;
+    color: white;
+    font-size: 1.5em;
+    animation: speak 4s -2s infinite ease-out;
+}
+
+.card_section{
+
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    position: relative;
+    /*margin auto puts in middle of page */
+    margin: auto;
+
+    padding: 2em;
+
+    height: 80%;
+    width: 80%;
+
+}
+
+.container-1{
+    background-color: transparent;
+}
+
+.cat_box{
+
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    position: relative;
+    /*margin auto puts in middle of page */
+    margin: auto;
+
+    height: 100%;
+    width: 50%;
+
+    margin-top: 5vh;
+
+}
+
+.cat{
+    /* change border size as otherwsie huge */
+    height:14em;
+    width:14em;
+    
+}
+
+#cat1{
+    transform: scaleX(-1) scale(0.8) ;
+}
+#cat2{
+    transform: scale(0.8) ;
+}
+
+.cat_section{
+
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-evenly;
+   
+    position: relative;
+    /*margin auto puts in middle of page */
+    margin: auto;
+    /* scales with screen page - could check min height and width */
+    /*height: 20vh;
+    width: 35vw;*/
+    height: 15em;
+    width: 80%;
+    
+    margin-top: 1vh;
+    
+
+}
+
+.player_card{
+    /* control how items are displayed in the div using flex */
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-evenly;
+   
+    position: relative;
+    /*margin auto puts in middle of page */
+    margin: auto;
+    /* scales with screen page - could check min height and width */
+    /*height: 20vh;
+    width: 35vw;*/
+    height: 50em;
+    width: 20em;
+    min-width: 15em;
+    
+    padding: 2em;
+
+    /* margin top is distance between card and the player box */
+    /*margin-top: 0vh;*/
+
+    background: rgb(238, 241, 238);
+    box-shadow: -1em 1em 0.5em 0em rgba(65, 71, 65, 0.467);
+    border-radius: 3em;
+    top: 1.5vh;
+    bottom: 2vh;
+    z-index: -0.5;
+
+}
+
+.stat_line{
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    margin:auto;
+    width: 90%;
+    height: 10%;
+}
+
+.stat{
+
+    display: flex;
+    margin:auto;
+    align-items:center;
+    justify-content:center;
+
+    height: 100%;
+    width: 25%;
+
+    font-weight: 400;
+    font-size: 3em;
+    color: #409843;
+
+}
+
+.stat_name{
+    
+    display: flex;
+    margin:auto;
+    align-items:center;
+    justify-content:center;
+
+    height: 100%;
+    width: 60%;
+
+    font-size: 1.5em;
+    color: #353a3f;
+
+}
+
+.username_box{
+
+    display: flex;
+    margin:auto;
+    align-items:center;
+    justify-content:center;
+
+    height: 10%;
+    width: 90%;
+
+    font-size: 2em;
+    color: #353a3f;
+    text-decoration: overline;
+
+}
+
+.refresh-btn{
+
+    margin:auto;
+    align-items:center;
+    margin-top: 8vh;
+    margin-bottom: 8vh;
+    height: 5em;
+    width:16em;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    background: transparent;
+    border: solid #ffffff 2px;
+    border-radius: 4em;
+
+}
+
+.button-text{
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+
+
+@keyframes speak {
+    0% {
+		font-size: 0em;
+        color: #409843;
+	}
+    50%{
+        font-size: 0.7em;
+        color: #409843;
+    }
+    80%{
+        font-size: 1.5em;
+        color: white;
+    }
+	100% {
+		font-size: 1.5em;
+	}
+}
+
+
+

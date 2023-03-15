@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+Settings
+{% endblock %}
+
+{% block head %}
+  <!-- Placeholder favicon -->
+  <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
+
+  <style>                                     
+      body {
+          background-color: #649756;
+      }
+      div.row {
+          height: 25%;
+      }
+      form {
+        margin: 0 auto; 
+        width:250px;
+      }
+
+      #advice {
+  text-align: center;
+  width: 30em;
+  margin: 0 auto;
+  padding: 3em;
+  z-index: 1;
+}
+      
+  </style>
+{% endblock %}
+{% block content %}
+<div id="settings" class="col-6"></div>
+<form method="POST" action="">
+{% csrf_token %}
+<label for="current_username" class="form-label">New Username</label><br>
+<input id="current_username" name="current_username" ></input> <br>
+<label for="current_password" class="form-label">Current password</label><br>
+<input id="current_password" name="current_password" ></input> <br>
+<label for="new_password" class="form-label">New password</label><br>
+<input id="new_password" name="new_password" ></input> <br>
+<input id="new_password2" name="new_password2" ></input> <br>
+<input type="radio" id="Pause" name="pause_data" value="True">
+<label for="pause_data" class="form-label">Pause</label>
+<input type="radio" id="Unpause" name="pause_data" value="False">
+<label for="pause_data" class="form-label">Unpause</label><br>
+<input type="radio" id="Private" name="privacy_setting" value="True">
+<label for="privacy_setting" class="form-label">Private</label>
+<input type="radio" id="Public" name="privacy_setting" value="False">
+<label for="privacy_setting" class="form-label">Public</label><br>
+<input type="submit" value="Submit">
+</form> 
+</div>
+<script>
+    let is_paused = '{{ is_paused }}'; 
+    if (is_paused=="True"){
+        document.getElementById("Pause").click();;
+    }
+    else{
+        document.getElementById("Unpause").click();
+    }
+    let is_private = '{{ is_private }}'; 
+    if (is_private=="True"){
+        document.getElementById("Private").click();;
+    }
+    else{
+        document.getElementById("Public").click();
+    }
+</script>
+
+{% endblock %}

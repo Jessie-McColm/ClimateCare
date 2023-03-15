@@ -1,0 +1,155 @@
+<!-- Page created by Lucia -->
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Friends
+{% endblock %}
+
+{% block head %}
+    <!-- Placeholder favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'recycling_bin.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'tupperware.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'waterbottle.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'advice.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'my_stats.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'friends.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet"/> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet"/> 
+
+    <style>                                     
+        body {
+            background-color: #649756;
+        }
+        div.row {
+            height: 25%;
+        }
+        
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<div class='main_column'>
+    <div class = 'text-box'>
+        <p class = "title">FRIENDS</p>
+        <p>Meet some fellow enviromentalists!</p>
+    </div>
+
+    <div class="cat_section">
+        <div class="cat_box">
+            <div class="container-1">
+                <div class="cat" id="cat1">
+                    <div class="face">
+                        <div class="inner-l"></div>
+                        <div class="inner-r"></div>
+                        <div class="eye-l">
+                            <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                        </div>
+                        <div class="eye-r">
+                            <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                        </div>
+                        <div class="nose">
+                            <div class="l1"></div>
+                            <div class="l2"></div>
+                        </div>
+                        <div class="speech1">meow</div>
+                    </div>
+                    <div class="body">
+                        <div class="paw-l"></div>
+                        <div class="paw-r"></div>
+                        <div class="tail"></div>
+                    </div>
+                    <div class="shadow"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cat_box">
+            <div class="container-1">
+                <div class="cat" id="cat2"> 
+                    <div class="face">
+                        <div class="inner-l"></div>
+                        <div class="inner-r"></div>
+                        <div class="eye-l">
+                            <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                        </div>
+                        <div class="eye-r">
+                            <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                        </div>
+                        <div class="nose">
+                            <div class="l1"></div>
+                            <div class="l2"></div>
+                        </div>
+                        <div class="speech2">meow</div>
+                    </div>
+                    <div class="body">
+                        <div class="paw-l"></div>
+                        <div class="paw-r"></div>
+                        <div class="tail"></div>
+                    </div>
+                    <div class="shadow"></div>
+                </div>
+            </div>      
+
+
+
+        </div>
+
+    </div>
+
+    <div class="card_section">
+
+        <div class="player_card">
+            
+            <div class="username_box">{{username}}</div>
+            
+            <div class="stat_line">
+                <div class="stat_name">bottles</div>
+                <div class="stat">{{bottle_num}}</div>   
+            </div>
+            <div class="stat_line">
+                <div class="stat_name">articles</div>
+                <div class="stat">{{article_num}}</div>   
+            </div>
+            <div class="stat_line">
+                <div class="stat_name">recycles</div>
+                <div class="stat">{{recycle_num}}</div>   
+            </div>
+        </div>
+
+        <div class="player_card">
+            
+            <div class="username_box">{{friend_username}}</div>
+            
+            <div class="stat_line">
+                <div class="stat_name">bottles</div>
+                <div class="stat">{{friend_bottle_num}}</div>   
+            </div>
+            <div class="stat_line">
+                <div class="stat_name">articles</div>
+                <div class="stat">{{friend_article_num}}</div>   
+            </div>
+            <div class="stat_line">
+                <div class="stat_name">recycles</div>
+                <div class="stat">{{friend_recycle_num}}</div>   
+            </div>
+        </div>
+    </div>
+
+    
+    <a class="refresh-btn" href="{% url 'friend' %}">
+            <p class="button-text">&#8635; New Friend</p>
+    </a>
+
+
+    
+
+
+</div> 
+
+{% endblock %}
