@@ -1,0 +1,306 @@
+/* Leaderboard CSS by Sanchi */
+
+:root {
+    --c: #33292b;
+}
+* {
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Leaderboard layout */
+body {
+    background-color: #649756;
+}
+h1 {
+    font-family: "Montserrat", sans-serif;
+    text-shadow: 3px 3px 5px #3e3d3d;
+}
+#own-rank {
+    text-align: center;
+}
+table {
+    border-collapse: collapse;
+}
+td, th, tr {
+    padding: 1%;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+}
+tr:nth-child(n+1) {
+    border-bottom: 3px solid rgba(25, 90, 5, 0.5);
+}
+.first {
+    margin-top: 11%;
+    margin-bottom: 5%;
+}
+
+/* Crowns */
+@keyframes pulse {
+    0% {
+      transform: scale(1, 1);
+    }
+    50% {
+      transform: scale(1.3, 1.3);
+    }
+    100% {
+      transform: scale(1, 1);
+    }
+}
+.crown {
+    padding: 0%;
+    width: max-content;
+    height: fit-content;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    animation: pulse 4s ease infinite;
+}
+.crown-point {
+    margin: auto;
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 15px solid;
+}
+.gold {
+    border-bottom: 10px solid #FFD700;
+    z-index: 1;
+}
+.silver {
+    border-bottom: 10px solid #C0C0C0;
+    z-index: 1;
+}
+.bronze {
+    border-bottom: 10px solid #b8712a;
+    z-index: 1;
+}
+.gold2 {
+    border-bottom: 10px solid #ffe137;
+    z-index: 0;
+}
+.silver2 {
+    border-bottom: 10px solid #d8d7d7;
+    z-index: 0;
+}
+.bronze2 {
+    border-bottom: 10px solid #bb7a39;
+    z-index: 0;
+}
+._1 {
+    transform: scale(1.95, 1.5);
+    transform-origin: bottom;
+}
+._2 {
+    transform: scale(1.95, 2);
+    transform-origin: bottom;
+}
+._3 {
+    transform: scale(1.95, 2.5);
+    transform-origin: bottom;
+}
+._4 {
+    transform: scale(1.95, 2);
+    transform-origin: bottom;
+}
+._5 {
+    transform: scale(1.95, 1.5);
+    transform-origin: bottom;
+}
+
+/* Cats */
+.cat-icon {
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    padding-top: 9%;
+    padding-bottom: 4%;
+}
+.face {
+    background-color: #33292b;
+    height: 90px;
+    width: 140px;
+    border-radius: 50px;
+    position: relative;
+}
+.face:before, .face:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    border-bottom: 50px solid #33292b;
+    border-color: var(--c);
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    z-index: -2;
+}
+.face:before {
+    bottom: 70px;
+    left: 1px; /* correctly positions the black part of the left ear */
+    transform: rotate(-30deg);
+    animation: ear-l 10s infinite;
+}
+@keyframes ear-l {
+    90%, 94% {
+        transform: rotate(-30deg);
+        transform-origin: 50% 50%;
+    }
+    95%, 96% {
+        transform: rotate(-40deg);
+        transform-origin: 50% 70%;
+    }
+    97%, 98% {
+        transform: rotate(-30deg);
+        transform-origin: 50% 50%;
+    }
+    99% {
+        transform: rotate(-40deg);
+        transform-origin: 50% 70%;
+    }
+}
+.face:after {
+    bottom: 70px;
+    left: 100px;
+    transform: rotate(30deg);
+}
+.inner-l {
+    width: 0;
+    height: 0;
+    border-bottom: 50px solid #d36149;
+    border-right: 25px solid transparent;
+    position:relative;
+    z-index: -1;
+    bottom: 26px;
+    left: 8px;
+    animation: inner-ear-l 10s infinite;
+}
+@keyframes inner-ear-l {
+    90%, 94% {
+        transform: rotate(0deg)
+    }
+    95%, 96% {
+        transform: rotate(-20deg);
+        transform-origin: 50% 70%;
+    }
+    97%, 98% {
+        transform: rotate(0deg);
+        transform-origin: 50% 50%;
+    }
+    99% {
+        transform: rotate(-20deg);
+        transform-origin: 50% 70%;
+    }
+}
+.inner-r {
+    bottom: 76px;
+    left: 108px;
+    width: 0;
+    height: 0;
+    border-bottom: 50px solid #d36149;
+    border-left: 25px solid transparent;
+    position:relative;
+    z-index: -1;
+}
+.eye-l,.eye-r {
+    background-color: #95fdff;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+}
+.eye-l {
+    bottom: 75px;
+    left: 18px;
+    animation: blink-outer 5s infinite;
+}
+.eye-r {
+    bottom: 115px;
+    left: 83px;
+    animation: blink-outer 5s infinite;
+}
+.eyeball {
+    background-color: #262626;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    position: relative;
+    top: 4px;
+    left: 4px;
+    animation: blink 5s infinite;
+}
+.eyeshine {
+    background-color: #eaeaea;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 1px;
+    animation: eyeshine-rotate 1s infinite;
+}
+.eyeshine2 {
+    background-color: #eaeaea;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    left: 18px;
+    animation: eyeshine-rotate 1s infinite;
+}
+@keyframes eyeshine-rotate {
+    50% {
+        transform: rotate(-15deg);
+        transform-origin: 70% 70%;
+    }
+}
+@keyframes blink-outer {
+    5% {
+        transform: scaleY(0.05);
+        background-color: #1b1b1b;
+    }
+    15% {
+        transform: scaleY(1);
+        opacity: 1;
+        background-color: #95fdff;
+    }
+}
+@keyframes blink {
+    5% {
+        transform: scaleY(0.1);
+        opacity: 0;
+    }
+    15% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+.nose {
+    height: 0px;
+    width: 0px;
+    border-top: 8px solid #d36149;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-radius: 30%;
+    position: relative;
+    bottom: 125px;
+    left: 65px;
+
+}
+.l1,.l2 {
+    background-color: #d36149;
+    height: 8px;
+    width: 1px;
+    position: relative;
+}
+.l1 {
+    transform: rotate(45deg);
+    right: 3.5px;
+    bottom: 1.5px;
+}
+.l2 {
+    transform: rotate(-45deg);
+    bottom: 9.5px;
+    left: 2px;
+}

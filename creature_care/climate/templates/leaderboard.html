@@ -1,4 +1,5 @@
 <!-- Page created by Des -->
+<!-- Leaderboard by Sanchi -->
 
 {% extends "base.html" %}
 
@@ -12,17 +13,96 @@
     <!-- Placeholder favicon -->
     <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
 
-    <style>                                     
-        body {
-            background-color: #649756;
-        }
-        div.row {
-            height: 25%;
-        }
-        
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'leaderboard.css' %}">
 {% endblock %}
 
 {% block content %}
-<p>aye aye</p>
+    <br>
+    <h1 id="own-rank">You're in rank #{{ rank }}!</h1>
+    <br>
+
+    <table class="container" id="leaderboard">
+        <tr> 
+            <th></th>
+            <th>Rank</th>
+            <th>Points</th>
+            <th>Username</th>
+        </tr>
+
+        {% for row in data %}
+            <tr>
+                <th>
+                    <div class="first">
+                        {% if forloop.counter == 1 %}
+                            <div class="crown">
+                                <div class="gold crown-point _1"></div>
+                                <div class="gold2 crown-point _2"></div>
+                                <div class="gold crown-point _3"></div>
+                                <div class="gold2 crown-point _4"></div>
+                                <div class="gold crown-point _5"></div>
+                            </div>
+                        {% endif %}
+
+                        {% if forloop.counter == 2 %}
+                            <div class="crown">
+                                <div class="silver crown-point _1"></div>
+                                <div class="silver2 crown-point _2"></div>
+                                <div class="silver crown-point _3"></div>
+                                <div class="silver2 crown-point _4"></div>
+                                <div class="silver crown-point _5"></div>
+                            </div>
+                        {% endif %}
+
+                        {% if forloop.counter == 3 %}
+                            <div class="crown">
+                                <div class="bronze crown-point _1"></div>
+                                <div class="bronze2 crown-point _2"></div>
+                                <div class="bronze crown-point _3"></div>
+                                <div class="bronze2 crown-point _4"></div>
+                                <div class="bronze crown-point _5"></div>
+                            </div>
+                        {% endif %}
+                        <div class="cat-icon" id="cat{{ forloop.counter }}">
+                            <div class="face" id="face{{ forloop.counter }}" data-colour="{{ row.creature }}">
+                                <div class="inner-l"></div>
+                                <div class="inner-r"></div>
+                                <div class="eye-l">
+                                    <div class="eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                                </div>
+                                <div class="eye-r">
+                                    <div class="eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                                </div>
+                                <div class="nose">
+                                    <div class="l1"></div>
+                                    <div class="l2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+                <th>
+                    #{{ forloop.counter }}
+                </th>
+
+                <th>{{ row.points }}</th>
+
+                <th>{{ row.username }}</th>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <script>
+        var rows = document.getElementById("leaderboard").rows.length - 1; // Excludes header row
+        // Sets the colour of each user's cat on the leaderboard
+        for (var i=1; i<=rows; i++) {
+            var currentCat = document.getElementById("cat"+i);
+            var currentCatFace = document.getElementById("face"+i);
+            var colour = currentCatFace.dataset.colour;
+            currentCatFace.style.backgroundColor = colour;
+            currentCat.style.setProperty('--c', colour);
+        }
+    </script>
 {% endblock %}
