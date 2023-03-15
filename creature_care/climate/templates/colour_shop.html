@@ -186,7 +186,6 @@
     let current_fur_colour = '{{ fur_colour }}'; 
     let current_eye_colour = '{{ eye_colour }}'; 
     let equipped_eye_colour = '{{ eye_colour }}';
-    balance = 20; //for testing
     document.getElementById("balance").innerHTML = balance;
 
     current_body_colour = current_fur_colour.split(",")[0];
@@ -275,7 +274,7 @@
             }
             
             var url = "";
-            var cat="purchase_new_colour_eyes"+purchase_new_colour_eyes+"&purchase_new_colour_fur="+purchase_new_colour_fur+"&fur_colour="+fur_colour+"&eye_colour="+equipped_eye_colour;
+            var cat="purchase_new_colour_eyes="+purchase_new_colour_eyes+"&purchase_new_colour_fur="+purchase_new_colour_fur+"&fur_colour="+fur_colour+"&eye_colour="+equipped_eye_colour;
             fetch(url, {
                 credentials: 'include',
                 method: 'POST',
