@@ -351,13 +351,8 @@ def colour_shop_page(request):
                 print("eye_colour retrieved...")
                 colour_hexs = colour_hex_str.split(",")
                 print("colour_hex_val is " + colour_hexs[0] + "...")
-                if colour_hexs[1] == "":
-                    print("colour_hex_val_patch is empty...")
-                else:
-                    print("colour_hex_val_patch is " + colour_hexs[1] + "...")
                 colour_obj = Colour.objects.get(
-                    colour_hex_val=colour_hexs[0],
-                    colour_hex_val_patch=colour_hexs[1]
+                    colour_hex_val=colour_hexs[0]
                 )
                 cat_obj.eye_colour = colour_obj
                 cat_obj.save(update_fields=['eye_colour'])
