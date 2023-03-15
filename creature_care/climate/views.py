@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
 from users.decorators import game_master
-from .models import Profile, Advice, LocationBin, LocationFountain
+from .models import Profile, Advice, LocationBin, LocationFountain, Wearing, Item, Colour
 import random
 
 
@@ -218,7 +218,7 @@ def my_stats_page(request):
     return render(request, 'my_stats.html', info)
 
 @login_required(login_url='loginPage')
-def shop_page(request):
+def item_shop_page(request):
     """
     This function handles POST requests from the item shop, and provides functionality
     for allowing users to purchase new items and equip their cat with these items.
@@ -485,15 +485,15 @@ def friend(request, username="none"):
     user_prof = Profile.objects.get(user=user_obj)
     context = {
             "username": user_obj.get_username(),
-            "creature":(user_prof.creature).colour,
-            "bottle_num":user_prof.num_times_watered,
-            "article_num":user_prof.num_times_fed,
-            "recycle_num":user_prof.num_times_litter_cleared,
-            "friend_username":None,
-            "friend_bottle_num":0,
-            "friend_article_num":0,
-            "friend_recycle_num":0,
-            "friend_creature":"#ff0000"
+            "creature": user_prof.creature.colour,
+            "bottle_num": user_prof.num_times_watered,
+            "article_num": user_prof.num_times_fed,
+            "recycle_num": user_prof.num_times_litter_cleared,
+            "friend_username": None,
+            "friend_bottle_num": 0,
+            "friend_article_num": 0,
+            "friend_recycle_num": 0,
+            "friend_creature": "#ff0000"
             }
     if username=="none":
         #get a random user from the database

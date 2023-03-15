@@ -35,12 +35,6 @@ class Creature(models.Model):
     creature_id = models.AutoField(primary_key=True)
     name = models.CharField(default="Creature", max_length=50)
 
-    # colour = models.CharField(
-    #     default="black",
-    #     max_length=16,
-    #     null=False  # colour names should be converted to hex values at some point
-    # )
-
     eye_colour = models.ForeignKey(Colour, on_delete=models.SET_DEFAULT, default="blue", related_name="eye_colour")
     fur_colour = models.ForeignKey(Colour, on_delete=models.SET_DEFAULT, default="black", related_name="fur_colour")
 

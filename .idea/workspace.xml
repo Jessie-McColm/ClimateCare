@@ -6,6 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="modified item_shop_page so that a number of points equal to the cost of the purchased item is deducted from the user's point balance.&#10;&#10;yet to be tested.&#10;&#10;-n">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/migrations/0012_profile_pause_time_profile_paused.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/migrations/0012_remove_creature_colour_creature_eye_colour_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/migrations/0013_colour_colour_hex_val_patch_alter_wearing_item.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/migrations/0013_profile_private.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/migrations/0014_alter_colour_colour_hex_val_patch.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/migrations/0016_remove_item_item_img_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
