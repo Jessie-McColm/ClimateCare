@@ -302,10 +302,6 @@ def colour_shop_page(request):
 
     cat_eye_colour = cat_eye_colour_obj.colour_hex_val
 
-    print("Fur colour: " + cat_obj.fur_colour.colour_id)
-    print("Hex 1: " + cat_obj.fur_colour.colour_hex_val)
-    print("Hex 2: " + cat_obj.fur_colour.colour_hex_val_patch)
-
     attempted_purchase = "false"
     successful_purchase = "false"
 
@@ -321,6 +317,7 @@ def colour_shop_page(request):
     if request.method == "POST":
 
         print("Method is POST...")
+        print("purchase_new_colour_eyes == " + request.POST.get('purchase_new_colour_eyes'))
 
         if request.POST.get('purchase_new_colour_fur') == "true":
             if points_available >= 10:
@@ -340,11 +337,13 @@ def colour_shop_page(request):
                 )
                 cat_obj.fur_colour = colour_obj
                 cat_obj.save(update_fields=['fur_colour'])
+                print("Fur colour saved!")
 
             else:
                 successful_purchase = "false"
 
         if request.POST.get('purchase_new_colour_eyes') == "true":
+            print("purchase_new_colour_eyes == true...")
             if points_available >= 10:
                 print("purchase_new_colour_eyes == true...")
                 attempted_purchase = "true"
@@ -362,6 +361,7 @@ def colour_shop_page(request):
                 )
                 cat_obj.eye_colour = colour_obj
                 cat_obj.save(update_fields=['eye_colour'])
+                print("Eye colour saved!")
 
             else:
                 successful_purchase = "false"

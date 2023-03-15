@@ -32,11 +32,13 @@ class UserModelTests(TestCase):
         Colour.objects.create(
             colour_id="black",
             colour_hex_val="#000000",
+            colour_hex_val_patch="#000000",
             colour_cost=10
         )
         Colour.objects.create(
             colour_id="blue",
-            colour_hex_val="#2196f3",
+            colour_hex_val="#95fdff",
+            colour_hex_val_patch="#95fdff",
             colour_cost=10
         )
 
@@ -980,8 +982,8 @@ class ColourShopTests(TestCase):
 
         client.post(path='/climate/colour_shop', data={
             'purchase_new_colour_eyes': 'true',
-            'purcjase_new_colour_fur': 'false',
-            'eye_colour': '#95fdff,',
+            'purchase_new_colour_fur': 'false',
+            'eye_colour': '#95fdff,#95fdff',
             'fur_colour': ''
         })
 

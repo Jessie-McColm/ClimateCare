@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="wrote some tests, broke all the tests, fixed the tests, and overall did more or less nothing&#10;&#10;-nevan">
-      <change afterPath="$PROJECT_DIR$/creature_care/climate/migrations/0013_colour_colour_hex_val_patch_alter_wearing_item.py" afterDir="false" />
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="follow-up push for migrated changes to database; patch colour can now be null.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/climate/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/climate/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/management/commands/add_colour.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/management/commands/add_colour.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/templates/colour_shop.html" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/templates/colour_shop.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/climate/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/climate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/db.sqlite3" afterDir="false" />
@@ -196,7 +195,21 @@
       <option name="project" value="LOCAL" />
       <updated>1678720749397</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="pair programming sesh with des to work on the colour shop. amended views, worked on getting POST requests send to the back end, and modified context vars.&#10;&#10;-nevan">
+      <created>1678822157250</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1678822157250</updated>
+    </task>
+    <task id="LOCAL-00018" summary="follow-up push for migrated changes to database; patch colour can now be null.">
+      <created>1678822226106</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1678822226106</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -228,6 +241,8 @@
     <MESSAGE value="reverted database changes, and reflected back-end URL name changes for the shop pages in the front-end&#10;&#10;-n" />
     <MESSAGE value="fixed an error where the item shop view would crash due to an ObjectDoesNotExist exception being thrown whenever trying to access non-existent &quot;Wearing&quot; objects&#10;&#10;-nevan" />
     <MESSAGE value="wrote some tests, broke all the tests, fixed the tests, and overall did more or less nothing&#10;&#10;-nevan" />
-    <option name="LAST_COMMIT_MESSAGE" value="wrote some tests, broke all the tests, fixed the tests, and overall did more or less nothing&#10;&#10;-nevan" />
+    <MESSAGE value="pair programming sesh with des to work on the colour shop. amended views, worked on getting POST requests send to the back end, and modified context vars.&#10;&#10;-nevan" />
+    <MESSAGE value="follow-up push for migrated changes to database; patch colour can now be null." />
+    <option name="LAST_COMMIT_MESSAGE" value="follow-up push for migrated changes to database; patch colour can now be null." />
   </component>
 </project>
