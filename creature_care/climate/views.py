@@ -240,11 +240,12 @@ def item_shop_page(request):
     except ObjectDoesNotExist:
         wearing = Wearing.objects.create(creature=cat_obj)
 
-    currently_wearing_id = wearing.item.item_id
-    if not currently_wearing_id:
+    wearing_item_obj = wearing.item
+    if not wearing_item_obj:
         currently_wearing_id = '0'  # denotes that the cat is not wearing anything
         currently_wearing_scale = '0'
     else:
+        currently_wearing_id = wearing.item.item_id
         currently_wearing_id = str(currently_wearing_id)
         currently_wearing_scale = wearing.scale
 
