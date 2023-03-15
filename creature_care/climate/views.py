@@ -247,7 +247,7 @@ def item_shop_page(request):
     else:
         currently_wearing_id = wearing.item.item_id
         currently_wearing_id = str(currently_wearing_id)
-        currently_wearing_scale = wearing.scale
+        currently_wearing_scale = wearing.item.scale
 
     points_available = user_prof.points
 
