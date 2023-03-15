@@ -149,13 +149,13 @@
 
 <div class="container-1">
     <div class="cat">
-        <div class="face">
+        <div class="face" id="face">
             <div class="inner-l"></div>
             <div class="inner-r"></div>
-            <div class="eye-l">
+            <div class="eye-l" id = "eye-l">
                 <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
             </div>
-            <div class="eye-r">
+            <div class="eye-r" id = "eye-r">
                 <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
             </div>
             <div class="nose">
@@ -163,10 +163,10 @@
                 <div class="l2"></div>
             </div>
         </div>
-        <div class="body">
-            <div class="paw-l"></div>
-            <div class="paw-r"></div>
-            <div class="tail"></div>
+        <div class="body" id="body">
+            <div class="paw-l" id="paw-l"></div>
+            <div class="paw-r" id="paw-r"></div>
+            <div class="tail" id="tail"></div>
         </div>
         <div class="shadow"></div>
     </div>
@@ -191,7 +191,49 @@
 </div>
 
 <script>
-    //take in the user's current item equipped
+    let balance = ' {{ points_available }}';
+    let current_fur_colour = '{{ fur_colour }}'; 
+    let current_eye_colour = '{{ eye_colour }}'; 
+    let equipped_eye_colour = '{{ eye_colour }}';
+    let currently_wearing = '{{ cat_item }}';
+    current_body_colour = current_fur_colour.split(",")[0];
+    current_patches = current_fur_colour.split(",")[1];
+
+    /* Change the balance */
+    document.getElementById("balance").innerHTML = balance;
+    
+    /* Get what the cat is currently wearing. */
+    // if (currently_wearing != 0) {
+    //     document.getElementById("hat").src = "/static/" + currently_wearing + ".svg";
+    // }
+
+    /* Change the cat's body and eye colours. */
+    
+    var colour = ["face", "body", "tail", "paw-r"];
+    colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = current_body_colour;
+    });
+    var styleElem = document.head.appendChild(document.createElement("style"));
+    styleElem.innerHTML = ".face:before {border-bottom: 50px solid " + current_body_colour + ";}";
+
+    var styleElem = document.head.appendChild(document.createElement("style"));
+    styleElem.innerHTML = ".face:after {border-bottom: 50px solid " + current_patches + ";}";
+    document.getElementById("paw-l").style.backgroundColor = current_patches;
+
+    var eye_colour = ["eye-l", "eye-r"];
+    eye_colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = current_eye_colour;
+    });
+
+    /* Load in the daily items */
+    let item_id_1 = '{{ item_id_1 }}';
+    let item_price_1 = '{{ item_price_1 }}';
+    let item_id_2 = '{{ item_id_2 }}';
+    let item_price_2 = '{{ item_price_2 }}';
+    let item_id_3 = '{{ item_id_3 }}';
+    let item_price_3 = '{{ item_price_3 }}';
+    document.getElementById("hat").src = "/static/" + currently_wearing + ".svg";
+
 function changeHat(container, size) {
     /* 
         Changes the cat's hat.
@@ -217,22 +259,30 @@ function buyNow() {
     */
         hat_name = document.getElementById("hat").src.split("static/")[1];
         hat_name = hat_name.split(".svg")[0]
+        if (hat_name == "blank-hat.png") {
+            hat_name = 0;
+        }
         balance = parseInt(document.getElementById("balance").innerHTML);
         price = parseInt(document.getElementById("price").innerHTML);
         
         if (balance < price) {
             alert("Oops! You don't have enough money to buy this.");
         } else {
-            document.getElementById("balance").innerHTML = price - balance;
+            document.getElementById("balance").innerHTML = balance - price;
             let csrftoken = '{{ csrf_token }}'
+            if (currently_wearing == hat_name) {
+                purchase = "false";
+            } else {
+                purchase = "true";
+            }
             
             var dictionary = {
-                'purchase_new_item': "true", //change this to an if statement checking if the user is buying a new item
+                'purchase_new_item': purchase,
                 'item_id': hat_name
             }
             
             var url = "";
-            var request="price="+price+"&balance="+balance;
+            var request="purchase_new_item="+purchase+"&item_id="+hat_name;
             fetch(url, {
                 credentials: 'include',
                 method: 'POST',
