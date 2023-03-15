@@ -90,7 +90,6 @@ class Item(models.Model):
     item_id = models.AutoField(primary_key=True)
     item_name = models.CharField(max_length=40)
     item_cost = models.IntegerField(null=False, default=0)
-    item_img = models.FileField()  # reconsider later, may need to do CSS files instead of jpg/png/whatever
     item_class = models.CharField(max_length=25, null=False)
 
 

@@ -224,27 +224,62 @@ def item_shop_page(request):
     user_obj = request.user
     username = user_obj.get_username()
     user_prof = Profile.objects.get(user=user_obj)
-    user_cat = user_prof.creature
+    cat_obj = user_prof.creature
 
     try:
-        wearing = Wearing.objects.get(creature=user_cat)
+        wearing = Wearing.objects.get(creature=cat_obj)
     except ObjectDoesNotExist:
-        wearing = Wearing.objects.create(creature=user_cat)
+        wearing = Wearing.objects.create(creature=cat_obj)
+
+    currently_wearing_id = wearing.item
+    if not currently_wearing_id:
+        currently_wearing_id = '0'
+    else:
+        currently_wearing_id = str(currently_wearing_id)
 
     points_available = user_prof.points
 
     items = Item.objects.all()
-    item_ids = ','.join(str(item.item_id) for item in items)
-    item_prices = ','.join(str(item.item_cost) for item in items)
+    rand_items = random.sample(list(items), k=3)
+
+    rand_item_1 = rand_items[0]
+    rand_item_2 = rand_items[1]
+    rand_item_3 = rand_items[2]
+
+    item_id_1 = rand_item_1.item_id
+    item_id_2 = rand_item_2.item_id
+    item_id_3 = rand_item_3.item_id
+
+    print("Item IDs: " + str(item_id_1) + ", " + str(item_id_2) + ", " + str(item_id_3))
+
+    item_price_1 = rand_item_1.item_cost
+    item_price_2 = rand_item_2.item_cost
+    item_price_3 = rand_item_3.item_cost
 
     attempted_purchase = "false"
     successful_purchase = "false"
 
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+
     info = {
         'username': username,
         'points_available': points_available,
-        'item_ids': item_ids,
-        'item_prices': item_prices,
+        'fur_colour': cat_fur_colour,
+        'eye_colour': cat_eye_colour,
+        'cat_item': currently_wearing_id,
+        'item_id_1': item_id_1,
+        'item_price_1': item_price_1,
+        'item_id_2': item_id_2,
+        'item_price_2': item_price_2,
+        'item_id_3': item_id_3,
+        'item_price_3': item_price_3,
         'attempted_purchase': attempted_purchase,
         'successful_purchase': successful_purchase
     }
@@ -268,8 +303,9 @@ def item_shop_page(request):
             else:
                 successful_purchase = "false"
 
-            info['attempted_purchase'] = attempted_purchase
-            info['successful_purchase'] = successful_purchase
+
+    info['attempted_purchase'] = attempted_purchase
+    info['successful_purchase'] = successful_purchase
 
     return render(request, 'item_shop.html', info)
 
@@ -293,23 +329,14 @@ def colour_shop_page(request):
 
     cat_obj = user_prof.creature
 
-    cat_fur_colour_obj = cat_obj.fur_colour
-    cat_eye_colour_obj = cat_obj.eye_colour
-
-    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
-    cat_fur_colour += ","
-    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
-
-    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
-
     attempted_purchase = "false"
     successful_purchase = "false"
 
     info = {
         'username': username,
         'points_available': points_available,
-        'fur_colour': cat_fur_colour,
-        'eye_colour': cat_eye_colour,
+        'fur_colour': "",
+        'eye_colour': "",
         'attempted_purchase': attempted_purchase,
         'successful_purchase': successful_purchase
     }
@@ -338,6 +365,9 @@ def colour_shop_page(request):
                 cat_obj.fur_colour = colour_obj
                 cat_obj.save(update_fields=['fur_colour'])
                 print("Fur colour saved!")
+                user_prof.points -= 10
+                user_prof.save(update_fields=['points'])
+                print("Points updated!")
 
             else:
                 successful_purchase = "false"
@@ -357,10 +387,24 @@ def colour_shop_page(request):
                 cat_obj.eye_colour = colour_obj
                 cat_obj.save(update_fields=['eye_colour'])
                 print("Eye colour saved!")
+                user_prof.points -= 10
+                user_prof.save(update_fields=['points'])
+                print("Points updated!")
 
             else:
                 successful_purchase = "false"
 
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+
+    info['fur_colour'] = cat_fur_colour
+    info['eye_colour'] = cat_eye_colour
     info['attempted_purchase'] = attempted_purchase
     info['successful_purchase'] = successful_purchase
 
