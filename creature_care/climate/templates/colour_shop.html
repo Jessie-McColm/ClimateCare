@@ -174,7 +174,7 @@
     </div>
 </div>
 <div class = "coins"> 
-    <a id = "price">10</a>
+    <a id = "price">0</a>
     {% load static %} 
     <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
 </div>
@@ -182,6 +182,8 @@
 
 
 <script>
+    colour_price = 0;
+    eye_price = 0;
     let balance = ' {{ points_available }}';
     let current_fur_colour = '{{ fur_colour }}'; 
     let current_eye_colour = '{{ eye_colour }}'; 
@@ -219,6 +221,12 @@
         styleElem.innerHTML = ".face:after {border-bottom: 50px solid " + patches + ";}";
         document.getElementById("paw-l").style.backgroundColor = patches;
         equipped_patches = patches;
+        if ((current_body_colour == equipped_body_colour) && (current_patches == equipped_patches)) {
+            colour_price = 0;
+        } else {
+            colour_price = 10;
+        }
+        document.getElementById("price").innerHTML = colour_price + eye_price;
     }
 
     function changeEyeColour(colour) {
@@ -233,7 +241,12 @@
             document.getElementById(item).style.backgroundColor = colour;
         });
         equipped_eye_colour = colour;
-
+        if (current_eye_colour == equipped_eye_colour) {
+            eye_price = 0;
+        } else {
+            eye_price = 10;
+        }
+        document.getElementById("price").innerHTML = colour_price + eye_price;
     }
 
     function buyNow() {
@@ -251,7 +264,6 @@
             alert("Oops! You don't have enough money to buy this.");
         } else {
             document.getElementById("balance").innerHTML = balance - price;
-            let csrftoken = '{{ csrf_token }}'
             fur_colour = equipped_body_colour + "," + equipped_patches;
             
             if ((current_body_colour == equipped_body_colour) && (current_patches == equipped_patches)) {
@@ -265,6 +277,7 @@
             } else {
                 purchase_new_colour_eyes = "true"
             }
+            let csrftoken = '{{ csrf_token }}'
 
             var dictionary = {
                 'purchase_new_colour_eyes': purchase_new_colour_eyes,
@@ -285,6 +298,7 @@
                 },
                 body: cat, 
             });
+            window.location.reload();
         }
     }
 </script>
