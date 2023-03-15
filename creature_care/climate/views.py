@@ -7,7 +7,7 @@ import re
 import haversine as hs
 from haversine import Unit
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -323,7 +323,7 @@ def friend(request, username="none"):
         user_choice = User.objects.get(username=username)
         profile_choice=Profile.objects.get(user = user_choice)
         if profile_choice.private==True:
-            return render(request, 'friends.html', context)
+            return redirect('friend')
         
      
     context = {

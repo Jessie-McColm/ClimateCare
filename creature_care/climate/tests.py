@@ -1071,16 +1071,8 @@ class KittyIndexTests(TestCase):
         })
 
         response=client.get(path='/climate/friend/test')
-        self.assertEqual(response.context["creature"],"black")
-        self.assertEqual(response.context["bottle_num"],0)
-        self.assertEqual(response.context["article_num"],0)
-        self.assertEqual(response.context["recycle_num"],0)
-        self.assertEqual(response.context["friend_username"],None)
-        self.assertEqual(response.context["friend_bottle_num"],0)
-        self.assertEqual(response.context["friend_article_num"],0)
-        self.assertEqual(response.context["friend_recycle_num"],0)
-        self.assertEqual(response.context["friend_creature"],"#ff0000")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/climate/friend")
 
     def test_start_pause_functionality(self):
         '''
