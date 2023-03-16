@@ -490,9 +490,11 @@ def friend(request, username="none"):
     """
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
+
+    # why two contexts???
     context = {
             "username": user_obj.get_username(),
-            "creature": user_prof.creature.colour,
+            "creature": user_prof.creature.fur_colour,
             "bottle_num": user_prof.num_times_watered,
             "article_num": user_prof.num_times_fed,
             "recycle_num": user_prof.num_times_litter_cleared,
@@ -502,6 +504,7 @@ def friend(request, username="none"):
             "friend_recycle_num": 0,
             "friend_creature": "#ff0000"
             }
+
     if username == "none":
         # get a random user from the database
         profiles = list(Profile.objects.filter(private=False))
@@ -524,9 +527,34 @@ def friend(request, username="none"):
             return redirect('friend')
 
 
+    cat_obj = user_prof.creature
+    f_cat_obj = profile_choice.creature
+
+    # gets users cat colours
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+
+    # get friends cat colours
+    f_cat_fur_colour_obj = f_cat_obj.fur_colour
+    f_cat_eye_colour_obj = f_cat_obj.eye_colour
+
+    f_cat_fur_colour = f_cat_fur_colour_obj.colour_hex_val
+    f_cat_fur_colour += ","
+    f_cat_fur_colour += f_cat_fur_colour_obj.colour_hex_val_patch
+
+    f_cat_eye_colour = f_cat_eye_colour_obj.colour_hex_val
+
+
     context = {
         "username": user_obj.get_username(),
-        "creature": (user_prof.creature).colour,
+        'fur_colour': cat_fur_colour,
+        'eye_colour': cat_eye_colour,
         "bottle_num": user_prof.num_times_watered,
         "article_num": user_prof.num_times_fed,
         "recycle_num": user_prof.num_times_litter_cleared,
@@ -534,7 +562,8 @@ def friend(request, username="none"):
         "friend_bottle_num": profile_choice.num_times_watered,
         "friend_article_num": profile_choice.num_times_fed,
         "friend_recycle_num": profile_choice.num_times_litter_cleared,
-        "friend_creature": profile_choice.creature.colour
+        'f_fur_colour': f_cat_fur_colour,
+        'f_eye_colour': f_cat_eye_colour
     }
     return render(request, 'friends.html', context)
 

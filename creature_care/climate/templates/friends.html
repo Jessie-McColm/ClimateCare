@@ -146,10 +146,38 @@
             <p class="button-text">&#8635; New Friend</p>
     </a>
 
-
-    
-
-
 </div> 
+
+<script>
+
+    let u_fur_colour = '{{ fur_colour }}'; 
+    let u_eye_colour = '{{ eye_colour }}'; 
+
+    u_body_colour = u_fur_colour.split(",")[0];
+    u_patches = u_fur_colour.split(",")[1];
+
+    var colour = ["face", "body", "tail", "paw-r"];
+    colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = u_body_colour;
+    });
+
+    var eye_colour = ["eye-l", "eye-r"];
+    eye_colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = u_eye_colour;
+    });
+
+    var styleElem = document.head.appendChild(document.createElement("style"));
+    styleElem.innerHTML = ".face:before {border-bottom: 50px solid " + u_body_colour + ";}";
+
+    var styleElem = document.head.appendChild(document.createElement("style"));
+    styleElem.innerHTML = ".face:after {border-bottom: 50px solid " + u_patches + ";}";
+    document.getElementById("paw-l").style.backgroundColor = u_patches;
+
+    var eye_colour = ["eye-l", "eye-r"];
+    eye_colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = u_eye_colour;
+    });
+
+</script>
 
 {% endblock %}
