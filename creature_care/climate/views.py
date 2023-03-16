@@ -202,6 +202,17 @@ def my_stats_page(request):
     username = user_obj.get_username()
     #cat_data = user_prof.creature
 
+    cat_obj = user_prof.creature
+
+    # gets users cat colours
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
 
     bottle_num = user_prof.num_times_watered
     article_num = user_prof.num_times_fed
@@ -212,7 +223,8 @@ def my_stats_page(request):
         'bottle_num': bottle_num,
         'article_num': article_num,
         'recycle_num': recycle_num,
-
+        'fur_colour': cat_fur_colour,
+        'eye_colour': cat_eye_colour,
     }
 
     return render(request, 'my_stats.html', info)

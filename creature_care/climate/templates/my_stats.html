@@ -109,16 +109,16 @@
     </div>
 </div>
 
-<div class="cat">
-    <div class="face">
-        <div class="ear-l"></div>
-        <div class="ear-r"></div>
+<div class="cat" id="cat1">
+    <div class="face" id="u_face">
+        <div class="ear-l" id = "u_ear-l"></div>
+        <div class="ear-r" id="u_ear-r"></div>
         <div class="inner-l"></div>
         <div class="inner-r"></div>
-        <div class="eye-l">
+        <div class="eye-l" id="u_eye-l">
             <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
         </div>
-        <div class="eye-r">
+        <div class="eye-r" id="u_eye-r">
             <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
         </div>
         <div class="nose">
@@ -126,10 +126,10 @@
             <div class="l2"></div>
         </div>
     </div>
-    <div class="body">
-        <div class="paw-l"></div>
-        <div class="paw-r"></div>
-        <div class="tail"></div>
+    <div class="body" id="u_body">
+        <div class="paw-l" id="u_paw-l"></div>
+        <div class="paw-r" id="u_paw-r"></div>
+        <div class="tail" id="u_tail"></div>
     </div>
     <div class="shadow"></div>
 </div>
@@ -148,6 +148,27 @@
     let valDisplays = document.querySelectorAll(".num");
     // overall time taken
     let interval = 1500;
+
+    let u_fur_colour = '{{ fur_colour }}'; 
+    let u_eye_colour = '{{ eye_colour }}'; 
+
+    u_body_colour = u_fur_colour.split(",")[0];
+    u_patches = u_fur_colour.split(",")[1];
+
+    // change user cat body colour
+    var colour = ["u_face", "u_body", "u_tail", "u_paw-r"];
+    colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = u_body_colour;
+    });
+
+    var eye_colour = ["u_eye-l", "u_eye-r"];
+    eye_colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = u_eye_colour;
+    });
+
+    document.getElementById("u_ear-l").style.borderBottom = "50px solid " + u_body_colour;
+    document.getElementById("u_ear-r").style.borderBottom = "50px solid " + u_patches;
+    document.getElementById("u_paw-l").style.backgroundColor = u_patches;
 
     // for all the numbers on the page
     valDisplays.forEach((valDisplay) =>{
@@ -172,6 +193,7 @@
             startValue+=1;
         }, duration);
     });
+
 
 </script>
 
