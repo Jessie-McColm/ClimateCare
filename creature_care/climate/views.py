@@ -502,12 +502,12 @@ def friend(request, username="none"):
             "friend_recycle_num": 0,
             "friend_creature": "#ff0000"
             }
-    if username=="none":
-        #get a random user from the database
+    if username == "none":
+        # get a random user from the database
         profiles = list(Profile.objects.filter(private=False))
-        if user_prof.private==False:
+        if not user_prof.private:
             profiles.remove(user_prof)
-        if len(profiles)==0:
+        if len(profiles) == 0:
             return render(request, 'friends.html', context)
 
         #exclude the current user from possibilities
@@ -519,22 +519,22 @@ def friend(request, username="none"):
 
     else:
         user_choice = User.objects.get(username=username)
-        profile_choice=Profile.objects.get(user = user_choice)
-        if profile_choice.private==True:
+        profile_choice=Profile.objects.get(user=user_choice)
+        if profile_choice.private:
             return redirect('friend')
 
 
     context = {
         "username": user_obj.get_username(),
-        "creature":(user_prof.creature).colour,
-        "bottle_num":user_prof.num_times_watered,
-        "article_num":user_prof.num_times_fed,
-        "recycle_num":user_prof.num_times_litter_cleared,
-        "friend_username":username,
-        "friend_bottle_num":profile_choice.num_times_watered,
-        "friend_article_num":profile_choice.num_times_fed,
-        "friend_recycle_num":profile_choice.num_times_litter_cleared,
-        "friend_creature":(profile_choice.creature).colour
+        "creature": (user_prof.creature).colour,
+        "bottle_num": user_prof.num_times_watered,
+        "article_num": user_prof.num_times_fed,
+        "recycle_num": user_prof.num_times_litter_cleared,
+        "friend_username": username,
+        "friend_bottle_num": profile_choice.num_times_watered,
+        "friend_article_num": profile_choice.num_times_fed,
+        "friend_recycle_num": profile_choice.num_times_litter_cleared,
+        "friend_creature": profile_choice.creature.colour
     }
     return render(request, 'friends.html', context)
 
