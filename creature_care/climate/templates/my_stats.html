@@ -163,13 +163,11 @@
         
         // at set intervals we increment the numbers on the page
         let counter = setInterval(function(){
-            startValue+=1;
             valDisplay.textContent = startValue;
-
             if (startValue == endValue){
                 clearInterval(counter);
             }
-
+            startValue+=1;
         }, duration);
     });
 
