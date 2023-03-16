@@ -45,6 +45,8 @@
             <div class="container-1">
                 <div class="cat" id="cat1">
                     <div class="face" id="u_face">
+                        <div class="ear-l" id = "u_ear-l"></div>
+                        <div class="ear-r" id="u_ear-r"></div>
                         <div class="inner-l"></div>
                         <div class="inner-r"></div>
                         <div class="eye-l" id="u_eye-l">
@@ -73,6 +75,8 @@
             <div class="container-1">
                 <div class="cat" id="cat2"> 
                     <div class="face">
+                        <div class="ear-l"></div>
+                        <div class="ear-r"></div>
                         <div class="inner-l"></div>
                         <div class="inner-r"></div>
                         <div class="eye-l">
@@ -169,11 +173,8 @@
         document.getElementById(item).style.backgroundColor = u_eye_colour;
     });
 
-    var styleElem = document.head.appendChild(document.createElement("style"));
-    styleElem.innerHTML = ".face:before {border-bottom: 50px solid " + u_body_colour + ";}";
-
-    var styleElem = document.head.appendChild(document.createElement("style"));
-    styleElem.innerHTML = ".face:after {border-bottom: 50px solid " + u_patches + ";}";
+    document.getElementById("u_ear-l").style.borderBottom = "50px solid " + u_body_colour;
+    document.getElementById("u_ear-r").style.borderBottom = "50px solid " + u_patches;
     document.getElementById("u_paw-l").style.backgroundColor = u_patches;
 
     var eye_colour = ["eye-l", "eye-r"];

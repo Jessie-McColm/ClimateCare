@@ -367,9 +367,10 @@ def colour_shop_page(request):
         print("purchase_new_colour_eyes == " + request.POST.get('purchase_new_colour_eyes'))
 
         if request.POST.get('purchase_new_colour_fur') == "true":
+            attempted_purchase = "true"
             if points_available >= 10:
+                successful_purchase = "true"
                 print("purchase_new_fur_colour == true...")
-                attempted_purchase = "true"
                 colour_hex_str = request.POST.get('fur_colour')
                 print("fur_colour retrieved...")
                 colour_hexs = colour_hex_str.split(",")
@@ -394,9 +395,10 @@ def colour_shop_page(request):
 
         if request.POST.get('purchase_new_colour_eyes') == "true":
             print("purchase_new_colour_eyes == true...")
+            attempted_purchase = "true"
             if points_available >= 10:
+                successful_purchase = "true"
                 print("purchase_new_colour_eyes == true...")
-                attempted_purchase = "true"
                 colour_hex_str = request.POST.get('eye_colour')
                 print("eye_colour retrieved...")
                 colour_hexs = colour_hex_str.split(",")

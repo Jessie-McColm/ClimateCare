@@ -152,6 +152,8 @@
 <div class="container-1">
     <div class="cat">
         <div class="face" id = "face">
+            <div class = "ear-l" id="ear-l"></div>
+            <div class = "ear-r" id="ear-r"></div>
             <div class="inner-l"></div>
             <div class="inner-r"></div>
             <div class="eye-l" id = "eye-l">
@@ -211,14 +213,11 @@
         colour.forEach(function (item, index) {
             document.getElementById(item).style.backgroundColor = body_colour;
         });
-        var styleElem = document.head.appendChild(document.createElement("style"));
-        styleElem.innerHTML = ".face:before {border-bottom: 50px solid " + body_colour + ";}";
+        document.getElementById("ear-l").style.borderBottom = "50px solid " + body_colour;
         equipped_body_colour = body_colour;
 
         //Changing the colour of the patches.
-
-        var styleElem = document.head.appendChild(document.createElement("style"));
-        styleElem.innerHTML = ".face:after {border-bottom: 50px solid " + patches + ";}";
+        document.getElementById("ear-r").style.borderBottom = "50px solid " + patches;
         document.getElementById("paw-l").style.backgroundColor = patches;
         equipped_patches = patches;
         if ((current_body_colour == equipped_body_colour) && (current_patches == equipped_patches)) {

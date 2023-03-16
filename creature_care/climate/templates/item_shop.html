@@ -150,6 +150,8 @@
 <div class="container-1">
     <div class="cat">
         <div class="face" id="face">
+            <div class = "ear-l" id="ear-l"></div>
+            <div class = "ear-r" id="ear-r"></div>
             <div class="inner-l"></div>
             <div class="inner-r"></div>
             <div class="eye-l" id = "eye-l">
@@ -216,11 +218,8 @@
     colour.forEach(function (item, index) {
         document.getElementById(item).style.backgroundColor = current_body_colour;
     });
-    var styleElem = document.head.appendChild(document.createElement("style"));
-    styleElem.innerHTML = ".face:before {border-bottom: 50px solid " + current_body_colour + ";}";
-
-    var styleElem = document.head.appendChild(document.createElement("style"));
-    styleElem.innerHTML = ".face:after {border-bottom: 50px solid " + current_patches + ";}";
+    document.getElementById("ear-l").style.borderBottom = "50px solid " + current_body_colour;
+    document.getElementById("ear-r").style.borderBottom = "50px solid " + current_patches;
     document.getElementById("paw-l").style.backgroundColor = current_patches;
 
     var eye_colour = ["eye-l", "eye-r"];
