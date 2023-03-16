@@ -78,16 +78,20 @@ p{
 
 .source{
     font-size: 0.75em;
-
+    width:100%;
 }
 
 .title{
     font-size: 3em;
     text-decoration: overline;
+    width: 100%;
 }
 
 #source-box{
     top: 5em;
+    padding:0em;
+    text-align: center;
+    width: 80%;
 }
 
 .num{
@@ -177,7 +181,6 @@ p{
 
     /*align the cat */
     left: 1em;
-
 
 }
 
