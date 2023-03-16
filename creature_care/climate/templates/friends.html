@@ -150,6 +150,9 @@
 
 <script>
 
+    var styleElem = document.head.appendChild(document.createElement("style"));
+    styleElem.innerHTML = ".face:before {right: 100px;}";
+
     let u_fur_colour = '{{ fur_colour }}'; 
     let u_eye_colour = '{{ eye_colour }}'; 
 
