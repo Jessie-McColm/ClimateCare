@@ -361,6 +361,8 @@ def colour_shop_page(request):
         'successful_purchase': successful_purchase
     }
 
+    print(request.method)
+
     if request.method == "POST":
 
         print("Method is POST...")
