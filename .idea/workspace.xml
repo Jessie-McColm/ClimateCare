@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="modified item_shop_page so that a number of points equal to the cost of the purchased item is deducted from the user's point balance.&#10;&#10;yet to be tested.&#10;&#10;-n">
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="fixed colour vals in the database, as some data was somehow lost&#10;&#10;-nevan">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/creature_care/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +18,7 @@
     <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="item_shops" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -163,7 +164,35 @@
       <option name="project" value="LOCAL" />
       <updated>1677700432970</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="pushing migration file&#10;&#10;-nevan">
+      <created>1678912415221</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1678912415221</updated>
+    </task>
+    <task id="LOCAL-00015" summary="updated context vars for the item shop view to pass forward info about the scales of the items. to supplement this, also updated and migrated the Item model to include scales of items&#10;&#10;-nevan">
+      <created>1678913291229</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1678913291229</updated>
+    </task>
+    <task id="LOCAL-00016" summary="fix for AttributeError caused by previous commit&#10;&#10;-nevan">
+      <created>1678914033225</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1678914033225</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fixed colour vals in the database, as some data was somehow lost&#10;&#10;-nevan">
+      <created>1678914340948</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1678914340948</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -192,6 +221,10 @@
     <MESSAGE value="linted climate/views.py and users/views.py" />
     <MESSAGE value="wrote some doc strings and attributed code to authors&#10;&#10;- n" />
     <MESSAGE value="fixed a bug to do with litter verification" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed a bug to do with litter verification" />
+    <MESSAGE value="pushing migration file&#10;&#10;-nevan" />
+    <MESSAGE value="updated context vars for the item shop view to pass forward info about the scales of the items. to supplement this, also updated and migrated the Item model to include scales of items&#10;&#10;-nevan" />
+    <MESSAGE value="fix for AttributeError caused by previous commit&#10;&#10;-nevan" />
+    <MESSAGE value="fixed colour vals in the database, as some data was somehow lost&#10;&#10;-nevan" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed colour vals in the database, as some data was somehow lost&#10;&#10;-nevan" />
   </component>
 </project>

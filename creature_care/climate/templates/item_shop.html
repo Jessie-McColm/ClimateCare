@@ -1,0 +1,325 @@
+<!-- Page created by Des 
+    NOT FINISHED AT ALL -->
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Shop
+{% endblock %}
+
+{% block head %}
+    <!-- Placeholder favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
+
+    <style>                                     
+        body {
+            background-color: #649756;
+        }
+        div.row {
+            height: 25%;
+        }
+        .container-2, .container-3, .container-4{
+            height: 120px;
+            width: 120px;
+            position: absolute;
+            margin: auto;
+            border-radius: 20%;
+            border: 3px solid white;
+            top: 65%;
+            bottom: 0;
+            display: flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .container-2{
+            left: 0;
+            right: 50%;
+        }
+
+        .container-3{
+            left: 0;
+            right: 0;
+        }
+
+        .container-4{
+            left: 50%;
+            right: 0;
+        }
+
+        .coin {
+            width: 50px;
+        }
+
+        img {
+            display: inline-block;
+            margin: 10px 5px;
+        }
+
+        .balance {
+            width: 500px;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            bottom: 470px;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            display: flex;
+            align-items:center;
+            justify-content:right;
+            color: white;
+            font-size: 25px;
+        }
+
+        .hat-container {
+            height:300px;
+            width: 300px;
+            position: absolute;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            bottom: 280px;
+            left: 0;
+            right: 115px;
+            z-index: -1;
+        }
+        .buy {
+            height: 40px;
+            width: 100px;
+            background-color: #649756;
+            border-radius: 7%;
+            border: 3px solid white;
+            position: absolute;
+            margin: auto;
+            top: 270px;
+            bottom: 0;
+            left: 100px;
+            right: 0;
+            z-index: 2;
+            display: inline-block;
+            justify-content:center;
+            color: white;
+            font-size: 15px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        .buy:hover {
+            background-color: white;
+            color: #649756;
+        }
+
+        .coins {
+            height: 70px;
+            width: 140px;
+            position: absolute;
+            margin: auto;
+            top: 270px;
+            bottom: 0;
+            left: 0;
+            right: 100px;
+            z-index: 2;
+            display: flex;
+            align-items:center;
+            justify-content:center;
+            color: white;
+            font-size: 25px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class = "balance">
+    <a>Balance:&nbsp</a>
+    <a id = "balance">10</a>
+    {% load static %} 
+    <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
+</div>
+
+<div id = "hat-container" class="hat-container">
+    {% load static %} 
+    <img id = "hat" width = '220', height = '220' src = "{% static 'blank-hat.png' %}">
+</div>
+
+<div class="container-1">
+    <div class="cat">
+        <div class="face" id="face">
+            <div class="inner-l"></div>
+            <div class="inner-r"></div>
+            <div class="eye-l" id = "eye-l">
+                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+            </div>
+            <div class="eye-r" id = "eye-r">
+                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+            </div>
+            <div class="nose">
+                <div class="l1"></div>
+                <div class="l2"></div>
+            </div>
+        </div>
+        <div class="body" id="body">
+            <div class="paw-l" id="paw-l"></div>
+            <div class="paw-r" id="paw-r"></div>
+            <div class="tail" id="tail"></div>
+        </div>
+        <div class="shadow"></div>
+    </div>
+</div>
+<div class = "coins"> 
+    <a id = "price">0</a>
+    {% load static %} 
+    <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
+</div>
+<button class = "buy" onclick = "return buyNow();">BUY NOW</button>
+<div class="container-2">
+    {% load static %} 
+    <img id = "1" width = "100", height = "100", src="{% static '1.svg' %}" onclick = "return changeHat(1);"/>  
+</div>
+<div class="container-3">
+    {% load static %} 
+    <img id = "2" width = "100", height = "100", src="{% static '3.svg' %}" onclick = "return changeHat(2);"/>
+</div>
+<div class="container-4">
+    {% load static %} 
+    <img id = "3" width = "100", height = "100", src="{% static '2.svg' %}" onclick = "return changeHat(3);"/>
+</div>
+
+<script>
+    let balance = ' {{ points_available }}';
+    let current_fur_colour = '{{ fur_colour }}'; 
+    let current_eye_colour = '{{ eye_colour }}'; 
+    let equipped_eye_colour = '{{ eye_colour }}';
+    let currently_wearing = '{{ cat_item }}';
+    let current_size = '{{ cat_item_scale }}'
+    current_body_colour = current_fur_colour.split(",")[0];
+    current_patches = current_fur_colour.split(",")[1];
+
+    /* Change the balance */
+    document.getElementById("balance").innerHTML = balance;
+    
+    /* Get what the cat is currently wearing. */
+    if (currently_wearing != 0) {
+         document.getElementById("hat").src = "/static/" + currently_wearing + ".svg";
+         document.getElementById("hat").width = current_size;
+        document.getElementById("hat").height = current_size;
+    }
+
+    /* Change the cat's body and eye colours. */
+    
+    var colour = ["face", "body", "tail", "paw-r"];
+    colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = current_body_colour;
+    });
+    var styleElem = document.head.appendChild(document.createElement("style"));
+    styleElem.innerHTML = ".face:before {border-bottom: 50px solid " + current_body_colour + ";}";
+
+    var styleElem = document.head.appendChild(document.createElement("style"));
+    styleElem.innerHTML = ".face:after {border-bottom: 50px solid " + current_patches + ";}";
+    document.getElementById("paw-l").style.backgroundColor = current_patches;
+
+    var eye_colour = ["eye-l", "eye-r"];
+    eye_colour.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = current_eye_colour;
+    });
+
+    /* Load in the daily items */
+    let item_id_1 = '{{ item_id_1 }}';
+    let item_price_1 = '{{ item_price_1 }}';
+    let item_size_1 = '{{ item_scale_1 }}';
+    let item_id_2 = '{{ item_id_2 }}';
+    let item_price_2 = '{{ item_price_2 }}';
+    let item_size_2 = '{{ item_scale_2 }}';
+    let item_id_3 = '{{ item_id_3 }}';
+    let item_price_3 = '{{ item_price_3 }}';
+    let item_size_3 = '{{ item_scale_3 }}';
+    document.getElementById("1").src = "/static/" + item_id_1 + ".svg";
+    document.getElementById("2").src = "/static/" + item_id_2 + ".svg";
+    document.getElementById("3").src = "/static/" + item_id_3 + ".svg";
+
+function changeHat(item) {
+    /* 
+        Changes the cat's hat.
+        
+        Authors:
+            Des
+    */
+    var temp = document.getElementById(item).src.split("static/")[1];
+    var hat_name = temp.split(".svg")[0];
+    switch(item) {
+        case 1:
+            document.getElementById("price").innerHTML = item_price_1;
+            size = item_size_1;
+            break;
+        case 2: 
+            document.getElementById("price").innerHTML = item_price_2;
+            size = item_size_2;
+            break;
+        case 3:
+            document.getElementById("price").innerHTML = item_price_3;
+            size = item_size_3;
+            break;
+    }
+    document.getElementById("hat").src = "/static/" + hat_name + ".svg";
+    document.getElementById("hat").width = size;
+    document.getElementById("hat").height = size;
+    if (currently_wearing == hat_name) {
+        document.getElementById("price").innerHTML = 0;
+    }
+}
+
+function buyNow() {
+    /* 
+        Checks if the user balance is greater than the cost of the item they're trying to buy.
+        If it's greater, sends a post request.
+        
+        Authors:
+            Des
+    */
+        hat_name = document.getElementById("hat").src.split("static/")[1];
+        hat_name = hat_name.split(".svg")[0]
+        if (hat_name == "blank-hat.png") {
+            hat_name = 0;
+        }
+        balance = parseInt(document.getElementById("balance").innerHTML);
+        price = parseInt(document.getElementById("price").innerHTML);
+        
+        if (balance < price) {
+            alert("Oops! You don't have enough money to buy this.");
+        } else {
+            document.getElementById("balance").innerHTML = balance - price;
+            let csrftoken = '{{ csrf_token }}'
+            if (currently_wearing == hat_name) {
+                purchase = "false";
+            } else {
+                purchase = "true";
+            }
+            
+            var dictionary = {
+                'purchase_new_item': purchase,
+                'item_id': hat_name
+            }
+            
+            var url = "";
+            var request="purchase_new_item="+purchase+"&item_id="+hat_name;
+            fetch(url, {
+                credentials: 'include',
+                method: 'POST',
+                mode: 'same-origin',
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrftoken
+                },
+                body: request, 
+            });
+            window.location.reload();
+        }
+    }
+</script>
+
+{% endblock %}

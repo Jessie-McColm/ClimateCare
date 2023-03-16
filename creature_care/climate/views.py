@@ -11,11 +11,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
 from users.decorators import game_master
-from .models import Profile, Advice, LocationBin, LocationFountain
+from .models import Profile, Advice, LocationBin, LocationFountain, Wearing, Item, Colour
 import random
 
 
@@ -31,7 +32,7 @@ def kitty(request, type_of="none"):
     functionality to verify whether a user is within a sensible distance from a fountain/bin
 
     Authors:
-        Jessie and Laurie
+        Jessie, Laurie, Nevan
 
     Args:
         request(HTTP request): the http request send by a front end client viewing the url
@@ -51,7 +52,14 @@ def kitty(request, type_of="none"):
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
     cat_data = user_prof.creature
-    time_limit=3600
+
+    eye_colour_obj = cat_data.eye_colour
+    eye_colour = eye_colour_obj.colour_hex_val
+
+    fur_colour_obj = cat_data.fur_colour
+    fur_colour = fur_colour_obj.colour_hex_val
+
+    time_limit = 3600
     # ----------------------------------------------------------------------------------
 
     # calculating the time difference to determine how stinky/thirsty/ etc the kitty is
@@ -62,7 +70,8 @@ def kitty(request, type_of="none"):
         'watered': False,
         'cleaned': False,
         'fed': False,
-        'colour': cat_data.colour,
+        'fur_colour': fur_colour,
+        'eye_colour': eye_colour,
         'name': cat_data.name,
         'task': "none",
         'message': "",
@@ -110,7 +119,7 @@ def kitty(request, type_of="none"):
             food_time_difference = current_time - cat_data.last_food_refill
             food_time_difference_seconds = food_time_difference.total_seconds()
             if food_time_difference_seconds >time_limit:
-                cat_data.last_food_refill = current_time 
+                cat_data.last_food_refill = current_time
                 cat_data.save()
                 user_prof.points = user_prof.points + 1
                 user_prof.num_times_fed = user_prof.num_times_fed + 1
@@ -163,13 +172,13 @@ def leaderboard_page(request):
     Displays a leaderboard
 
     Authors: Lucia, Laurie
-        
+
 
     Returns:
         A http response.
     """
-    
-    leaderboard_data = return_leaderboard() #returns a list of dictionaries for 
+
+    leaderboard_data = return_leaderboard() #returns a list of dictionaries for
     #rendering the full leaderboard
     user_rank = return_ranking(request.user.username)
     return render(request, 'leaderboard.html', {'data':leaderboard_data, 'rank':user_rank})
@@ -186,13 +195,13 @@ def my_stats_page(request):
     Returns:
         A http response.
     """
-    
+
     #obtain user data
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
     username = user_obj.get_username()
     #cat_data = user_prof.creature
-    
+
 
     bottle_num = user_prof.num_times_watered
     article_num = user_prof.num_times_fed
@@ -209,34 +218,223 @@ def my_stats_page(request):
     return render(request, 'my_stats.html', info)
 
 @login_required(login_url='loginPage')
-def shop_page(request):
+def item_shop_page(request):
     """
-    Just for testing the shop page for front-end :)
+    This function handles POST requests from the item shop, and provides functionality
+    for allowing users to purchase new items and equip their cat with these items.
 
     Authors:
-        Lucia, Des
+        Nevan
 
     Returns:
         A http response.
     """
-    
-    #obtain user data
+
     user_obj = request.user
-    #user_prof = Profile.objects.get(user=user_obj)
     username = user_obj.get_username()
-    #cat_data = user_prof.creature
-    
+    user_prof = Profile.objects.get(user=user_obj)
+    cat_obj = user_prof.creature
+
+    try:
+        wearing = Wearing.objects.get(creature=cat_obj)
+    except ObjectDoesNotExist:
+        wearing = Wearing.objects.create(creature=cat_obj)
+
+    wearing_item_obj = wearing.item
+    if not wearing_item_obj:
+        currently_wearing_id = '0'  # denotes that the cat is not wearing anything
+        currently_wearing_scale = '0'
+    else:
+        currently_wearing_id = wearing.item.item_id
+        currently_wearing_id = str(currently_wearing_id)
+        currently_wearing_scale = wearing.item.scale
+
+    points_available = user_prof.points
+
+    items = Item.objects.all()
+    rand_items = random.sample(list(items), k=3)
+
+    rand_item_1 = rand_items[0]
+    rand_item_2 = rand_items[1]
+    rand_item_3 = rand_items[2]
+
+    item_id_1 = rand_item_1.item_id
+    item_id_2 = rand_item_2.item_id
+    item_id_3 = rand_item_3.item_id
+
+    print("Item IDs: " + str(item_id_1) + ", " + str(item_id_2) + ", " + str(item_id_3))
+
+    item_price_1 = rand_item_1.item_cost
+    item_price_2 = rand_item_2.item_cost
+    item_price_3 = rand_item_3.item_cost
+
+    item_scale_1 = rand_item_1.scale
+    item_scale_2 = rand_item_2.scale
+    item_scale_3 = rand_item_3.scale
+
+    attempted_purchase = "false"
+    successful_purchase = "false"
+
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
 
     info = {
-        'username': username
+        'username': username,
+        'points_available': points_available,
+        'fur_colour': cat_fur_colour,
+        'eye_colour': cat_eye_colour,
+        'cat_item': currently_wearing_id,
+        'cat_item_scale': currently_wearing_scale,
+        'item_id_1': item_id_1,
+        'item_price_1': item_price_1,
+        'item_scale_1': item_scale_1,
+        'item_id_2': item_id_2,
+        'item_price_2': item_price_2,
+        'item_scale_2': item_scale_2,
+        'item_id_3': item_id_3,
+        'item_price_3': item_price_3,
+        'item_scale_3': item_scale_3,
+        'attempted_purchase': attempted_purchase,
+        'successful_purchase': successful_purchase
     }
 
-    return render(request, 'shop.html', info)
+    if request.method == "POST":
+        if request.POST.get('purchase_new_item') == "true":
+            attempted_purchase = "true"
+            item_id = request.POST.get('item_id')
+            item = Item.objects.get(item_id=item_id)
+            item_cost = item.item_cost
+
+            if points_available >= item_cost:
+                user_prof.points = points_available - item_cost
+                wearing.item = item
+
+                user_prof.save()
+                wearing.save()
+
+                successful_purchase = "true"
+
+            else:
+                successful_purchase = "false"
+
+    info['attempted_purchase'] = attempted_purchase
+    info['successful_purchase'] = successful_purchase
+
+    return render(request, 'item_shop.html', info)
+
+@login_required(login_url='loginPage')
+def colour_shop_page(request):
+    """
+    This function handles POST requests from the colours shop, and provides functionality
+    for allowing users to purchase new items and stylize their cat with these new colours.
+
+    Authors:
+        Nevan
+
+    Returns:
+        A http response.
+    """
+
+    user_obj = request.user
+    username = user_obj.get_username()
+
+    user_prof = Profile.objects.get(user=user_obj)
+    points_available = user_prof.points
+
+    cat_obj = user_prof.creature
+
+    attempted_purchase = "false"
+    successful_purchase = "false"
+
+    info = {
+        'username': username,
+        'points_available': points_available,
+        'fur_colour': "",
+        'eye_colour': "",
+        'attempted_purchase': attempted_purchase,
+        'successful_purchase': successful_purchase
+    }
+
+    if request.method == "POST":
+
+        print("Method is POST...")
+        print("purchase_new_colour_eyes == " + request.POST.get('purchase_new_colour_eyes'))
+
+        if request.POST.get('purchase_new_colour_fur') == "true":
+            if points_available >= 10:
+                print("purchase_new_fur_colour == true...")
+                attempted_purchase = "true"
+                colour_hex_str = request.POST.get('fur_colour')
+                print("fur_colour retrieved...")
+                colour_hexs = colour_hex_str.split(",")
+                print("colour_hex_val is " + colour_hexs[0] + "...")
+                if colour_hexs[1] == "":
+                    print("colour_hex_val_patch is empty...")
+                else:
+                    print("colour_hex_val_patch is " + colour_hexs[1] + "...")
+                colour_obj = Colour.objects.get(
+                    colour_hex_val=colour_hexs[0],
+                    colour_hex_val_patch=colour_hexs[1]
+                )
+                cat_obj.fur_colour = colour_obj
+                cat_obj.save(update_fields=['fur_colour'])
+                print("Fur colour saved!")
+                user_prof.points -= 10
+                user_prof.save(update_fields=['points'])
+                print("Points updated!")
+
+            else:
+                successful_purchase = "false"
+
+        if request.POST.get('purchase_new_colour_eyes') == "true":
+            print("purchase_new_colour_eyes == true...")
+            if points_available >= 10:
+                print("purchase_new_colour_eyes == true...")
+                attempted_purchase = "true"
+                colour_hex_str = request.POST.get('eye_colour')
+                print("eye_colour retrieved...")
+                colour_hexs = colour_hex_str.split(",")
+                print("colour_hex_val is " + colour_hexs[0] + "...")
+                colour_obj = Colour.objects.get(
+                    colour_hex_val=colour_hexs[0]
+                )
+                cat_obj.eye_colour = colour_obj
+                cat_obj.save(update_fields=['eye_colour'])
+                print("Eye colour saved!")
+                user_prof.points -= 10
+                user_prof.save(update_fields=['points'])
+                print("Points updated!")
+
+            else:
+                successful_purchase = "false"
+
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+
+    info['fur_colour'] = cat_fur_colour
+    info['eye_colour'] = cat_eye_colour
+    info['attempted_purchase'] = attempted_purchase
+    info['successful_purchase'] = successful_purchase
+
+    return render(request, 'colour_shop.html', info)
+
 
 @login_required(login_url='loginPage')
 # @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 @game_master
-def game_master_page(request): 
+def game_master_page(request):
     """
     Redirects an authorised user to the game master's page.
 
@@ -257,8 +455,8 @@ def game_master_page(request):
             content=request.POST.get('content')
             source=request.POST.get('source')
             Advice.objects.create(content=content, source=source)
-        
-    
+
+
     return render(request, 'temp_game_master.html')
 
 
@@ -288,21 +486,21 @@ def friend(request, username="none"):
         request(HTTP request): the http request send by a front end client viewing the url
         username(string): the username provided in the ULR
     Returns:
-        render(request, 'friends.html', context) 
+        render(request, 'friends.html', context)
     """
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
     context = {
             "username": user_obj.get_username(),
-            "creature":(user_prof.creature).colour,
-            "bottle_num":user_prof.num_times_watered,
-            "article_num":user_prof.num_times_fed,
-            "recycle_num":user_prof.num_times_litter_cleared,
-            "friend_username":None,
-            "friend_bottle_num":0,
-            "friend_article_num":0,
-            "friend_recycle_num":0,
-            "friend_creature":"#ff0000"
+            "creature": user_prof.creature.colour,
+            "bottle_num": user_prof.num_times_watered,
+            "article_num": user_prof.num_times_fed,
+            "recycle_num": user_prof.num_times_litter_cleared,
+            "friend_username": None,
+            "friend_bottle_num": 0,
+            "friend_article_num": 0,
+            "friend_recycle_num": 0,
+            "friend_creature": "#ff0000"
             }
     if username=="none":
         #get a random user from the database
@@ -311,21 +509,21 @@ def friend(request, username="none"):
             profiles.remove(user_prof)
         if len(profiles)==0:
             return render(request, 'friends.html', context)
-            
+
         #exclude the current user from possibilities
-        
+
         choice_range=len(profiles)-1
         choice=random.randint(0, choice_range)
         profile_choice=profiles[choice]
         username = profile_choice.user.username
-        
+
     else:
         user_choice = User.objects.get(username=username)
         profile_choice=Profile.objects.get(user = user_choice)
         if profile_choice.private==True:
             return redirect('friend')
-        
-     
+
+
     context = {
         "username": user_obj.get_username(),
         "creature":(user_prof.creature).colour,
@@ -346,7 +544,7 @@ def add_friend(request):
     context={"exists":True,"friend_requests":[]}
     user_obj = request.user
     if request.method == "POST":
-       
+
         friend = request.POST.get('username')
         try:
             user_choice = User.objects.get(username=friend)
@@ -359,14 +557,14 @@ def add_friend(request):
                     pass
         except User.DoesNotExist:
             context["exists"]=False
-                
-        
-        
+
+
+
     #requests=list(friend_requests.objects.get(requestee=user_obj))
     #for item in requests:
         #context["friend_requests"].append(item.requester.username)
     return render(request, 'friend_list.html', context)
-    
+
 @login_required(login_url='loginPage')
 def settings_page(request):
     #in the request that the request.method is not a post, the button will have to be set to the right value
@@ -374,7 +572,7 @@ def settings_page(request):
     user_prof = Profile.objects.get(user=request.user)
     user_obj = request.user
     if request.method == "POST":
-        pause_data = request.POST.get('pause_data') #this should be the data retrieved from the post function 
+        pause_data = request.POST.get('pause_data') #this should be the data retrieved from the post function
         print(pause_data)
         if pause_data == "False": #if the pause button is set to false
             if user_prof.paused == True: #filters for the case where the pause button started at
@@ -388,7 +586,7 @@ def settings_page(request):
                  #if the user
                 #has successfully entered their current password
                 if (request.POST.get('new_password')==request.POST.get('new_password2')):
-                    user_obj.set_password(request.POST.get('new_password')) 
+                    user_obj.set_password(request.POST.get('new_password'))
                     user_obj.save()
                 else:
                     print("passwords don't match")
@@ -404,7 +602,7 @@ def settings_page(request):
         else:
             user_prof.private=False
             user_prof.save()
-        
+
     context={"is_paused":user_prof.paused,"is_private":user_prof.private} #need to change once DB is updated
     return render(request, 'settings.html',context)
 
@@ -549,16 +747,18 @@ def return_leaderboard():
     max_items = len(list(Profile.objects.all()))
     if max_items > 20: #ensures no more than 20 items are retrieved
         max_items = 20
-    top_profiles = list(Profile.objects.all())[0:max_items] #retrieves the 
+    top_profiles = list(Profile.objects.all())[0:max_items] #retrieves the
     #first (up to or below) 20 objects of an already ordered database
     for i in top_profiles:
         username = (i.user).username
         points = i.points
-        creature_colour = (i.creature).colour
+        creature_eye_colour = i.creature.eye_colour
+        creature_fur_colour = i.creature.fur_colour
         temp_dictionary = {
-            "username":username,
-            "points":points,
-            "creature":creature_colour
+            "username": username,
+            "points": points,
+            "creature_eye_colour": creature_eye_colour,
+            "creature_fur_colour": creature_fur_colour
         }
         leaderboard_output.append(temp_dictionary)
     return leaderboard_output
@@ -620,6 +820,6 @@ def end_pause(user_prof):
 
     food_time_difference = user_prof.pause_time - cat_data.last_food_refill
     cat_data.last_food_refill = current_time - food_time_difference
-    
+
     cat_data.save()
     user_prof.save()
