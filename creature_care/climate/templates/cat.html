@@ -136,17 +136,23 @@
     <div class = "bubble2"></div>
     <div class = "bubble3"></div>
 </div>
+
+<div id = "hat-container" class="hat-container">
+    {% load static %} 
+    <img id = "hat" width = '220', height = '220' src = "{% static 'blank-hat.png' %}">
+</div>
+
 <div class="container-1">
     <div class="cat">
-        <div class="face">
-            <div class = "ear-l"></div>
-            <div class = "ear-r"></div>
+        <div class="face" id="face">
+            <div class = "ear-l" id="ear-l"></div>
+            <div class = "ear-r" id="ear-r"></div>
             <div class="inner-l"></div>
             <div class="inner-r"></div>
-            <div class="eye-l">
+            <div class="eye-l" id="eye-l">
                 <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
             </div>
-            <div class="eye-r">
+            <div class="eye-r" id="eye-r">
                 <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
             </div>
             <div class="nose">
@@ -155,10 +161,10 @@
             </div>
             <div class="tear" id = "tear"></div>
         </div>
-        <div class="body">
-            <div class="paw-l"></div>
-            <div class="paw-r"></div>
-            <div class="tail"></div>
+        <div class="body" id="body">
+            <div class="paw-l" id="paw-l"></div>
+            <div class="paw-r" id="paw-r"></div>
+            <div class="tail" id="tail"></div>
         </div>
         <div class="shadow"></div>
     </div>
@@ -348,5 +354,37 @@
         if (stinky == 'False') {
             document.getElementById("poop").style.display = "none";
         }
+
+        /* Load in cat colours and cat items. */
+
+        let current_fur_colour = '{{ fur_colour }}'; 
+        let current_eye_colour = '{{ eye_colour }}'; 
+        let equipped_eye_colour = '{{ eye_colour }}';
+        let currently_wearing = '{{ cat_item }}';
+        let current_size = '{{ cat_item_scale }}'
+        current_body_colour = current_fur_colour.split(",")[0];
+        current_patches = current_fur_colour.split(",")[1];
+
+        /* Get what the cat is currently wearing. */
+        if (currently_wearing != 0) {
+            document.getElementById("hat").src = "/static/" + currently_wearing + ".svg";
+            document.getElementById("hat").width = current_size;
+            document.getElementById("hat").height = current_size;
+        }
+
+        /* Change the cat's body and eye colours. */
+        
+        var colour = ["face", "body", "tail", "paw-r"];
+        colour.forEach(function (item, index) {
+            document.getElementById(item).style.backgroundColor = current_body_colour;
+        });
+        document.getElementById("ear-l").style.borderBottom = "50px solid " + current_body_colour;
+        document.getElementById("ear-r").style.borderBottom = "50px solid " + current_patches;
+        document.getElementById("paw-l").style.backgroundColor = current_patches;
+
+        var eye_colour = ["eye-l", "eye-r"];
+        eye_colour.forEach(function (item, index) {
+            document.getElementById(item).style.backgroundColor = current_eye_colour;
+        });
     </script>
 {% endblock %}

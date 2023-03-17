@@ -389,3 +389,18 @@ body{
     height: 20px;
     position: relative;
 }
+
+.hat-container {
+    height:300px;
+    width: 300px;
+    position: absolute;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 280px;
+    left: 0;
+    right: 115px;
+    z-index: -1;
+}
