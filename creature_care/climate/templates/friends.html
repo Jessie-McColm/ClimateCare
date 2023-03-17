@@ -1,4 +1,5 @@
-<!-- Page created by Lucia -->
+<!-- Page created by Lucia 
+    Minor edits done by Des -->
 {% extends "base.html" %}
 
 {% load static %}
@@ -43,6 +44,10 @@
     <div class="cat_section">
         <div class="cat_box">
             <div class="container-1">
+                <div id = "hat-container" class="hat-container" style = "top: 55px; left: 72px;">
+                    {% load static %} 
+                    <img id = "u_hat" width = '176', height = '176' src = "{% static 'blank-hat.png' %}">
+                </div>
                 <div class="cat" id="cat1">
                     <div class="face" id="u_face">
                         <div class="ear-l" id = "u_ear-l"></div>
@@ -73,6 +78,10 @@
         
         <div class="cat_box">
             <div class="container-1">
+                <div id = "hat-container" class="hat-container" style = "right: 40px; top: 55px;">
+                    {% load static %} 
+                    <img id = "f_hat" width = '176', height = '176' src = "{% static 'blank-hat.png' %}">
+                </div>
                 <div class="cat" id="cat2"> 
                     <div class="face" id="f_face">
                         <div class="ear-l" id = "f_ear-l"></div>
@@ -163,6 +172,23 @@
     let f_fur_colour = '{{ f_fur_colour }}'; 
     let f_eye_colour = '{{ f_eye_colour }}'; 
 
+    let u_currently_wearing = '{{ cat_item }}';
+    let u_current_size = '{{ cat_item_scale }}';
+
+    let f_currently_wearing = '{{ f_cat_item }}';
+    let f_current_size = '{{ f_cat_item_scale }}';
+
+    if (u_currently_wearing != 0) {
+            document.getElementById("u_hat").src = "/static/" + u_currently_wearing + ".svg";
+            document.getElementById("u_hat").width = u_current_size;
+            document.getElementById("u_hat").height = u_current_size;
+    }
+
+    if (f_currently_wearing != 0) {
+            document.getElementById("f_hat").src = "/static/" + f_currently_wearing + ".svg";
+            document.getElementById("f_hat").width = f_current_size;
+            document.getElementById("f_hat").height = f_current_size;
+    }
 
     u_body_colour = u_fur_colour.split(",")[0];
     u_patches = u_fur_colour.split(",")[1];

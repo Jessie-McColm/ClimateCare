@@ -1,4 +1,5 @@
-<!-- Page created by Lucia -->
+<!-- Page created by Lucia 
+    Minor edits done by Des -->
 {% extends "base.html" %}
 
 {% load static %}
@@ -109,6 +110,11 @@
     </div>
 </div>
 
+<div>
+<div id = "hat-container" class="hat-container" style = "height: 10px; position: relative; top: 110px; left: 387px; margin: 0;">
+    {% load static %} 
+    <img id = "hat" width = '220', height = '220' src = "{% static 'blank-hat.png' %}">
+</div>
 <div class="cat" id="cat1">
     <div class="face" id="u_face">
         <div class="ear-l" id = "u_ear-l"></div>
@@ -133,6 +139,7 @@
     </div>
     <div class="shadow"></div>
 </div>
+</div>
 
 
 <div class = 'text-box' id="source-box">
@@ -151,6 +158,14 @@
 
     let u_fur_colour = '{{ fur_colour }}'; 
     let u_eye_colour = '{{ eye_colour }}'; 
+    let currently_wearing = '{{ cat_item }}';
+    let current_size = '{{ cat_item_scale }}';
+
+    if (currently_wearing != 0) {
+            document.getElementById("hat").src = "/static/" + currently_wearing + ".svg";
+            document.getElementById("hat").width = current_size;
+            document.getElementById("hat").height = current_size;
+    }
 
     u_body_colour = u_fur_colour.split(",")[0];
     u_patches = u_fur_colour.split(",")[1];
