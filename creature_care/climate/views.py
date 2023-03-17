@@ -308,21 +308,38 @@ def item_shop_page(request):
         if request.POST.get('purchase_new_item') == "true":
             attempted_purchase = "true"
             item_id = request.POST.get('item_id')
-            item = Item.objects.get(item_id=item_id)
-            item_cost = item.item_cost
 
-            if points_available >= item_cost:
-                user_prof.points = points_available - item_cost
-                wearing.item = item
+            if item_id != '0':
+                item = Item.objects.get(item_id=item_id)
+                item_cost = item.item_cost
 
+                if points_available >= item_cost:
+                    user_prof.points = points_available - item_cost
+                    wearing.item = item
+
+                    user_prof.save()
+                    wearing.save()
+
+                    successful_purchase = "true"
+
+                else:
+                    successful_purchase = "false"
+            else:
+                wearing.item = None
                 user_prof.save()
                 wearing.save()
 
-                successful_purchase = "true"
+    wearing_item_obj = wearing.item
+    if not wearing_item_obj:
+        currently_wearing_id = '0'
+        currently_wearing_scale = '0'
+    else:
+        currently_wearing_id = wearing.item.item_id
+        currently_wearing_id = str(currently_wearing_id)
+        currently_wearing_scale = wearing.item.scale
 
-            else:
-                successful_purchase = "false"
-
+    info['cat_item'] = currently_wearing_id
+    info['cat_item_scale'] = currently_wearing_scale
     info['attempted_purchase'] = attempted_purchase
     info['successful_purchase'] = successful_purchase
 
@@ -367,6 +384,7 @@ def colour_shop_page(request):
 
         print("Method is POST...")
         print("purchase_new_colour_eyes == " + request.POST.get('purchase_new_colour_eyes'))
+        print("purchase_new_colour_fur == " + request.POST.get('purchase_new_colour_fur'))
 
         if request.POST.get('purchase_new_colour_fur') == "true":
             attempted_purchase = "true"
@@ -392,6 +410,18 @@ def colour_shop_page(request):
                 user_prof.save(update_fields=['points'])
                 print("Points updated!")
 
+                cat_fur_colour_obj = cat_obj.fur_colour
+                cat_eye_colour_obj = cat_obj.eye_colour
+
+                cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+                cat_fur_colour += ","
+                cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+                cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+
+                info['fur_colour'] = cat_fur_colour
+                info['eye_colour'] = cat_eye_colour
+
             else:
                 successful_purchase = "false"
 
@@ -415,20 +445,21 @@ def colour_shop_page(request):
                 user_prof.save(update_fields=['points'])
                 print("Points updated!")
 
+                cat_fur_colour_obj = cat_obj.fur_colour
+                cat_eye_colour_obj = cat_obj.eye_colour
+
+                cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+                cat_fur_colour += ","
+                cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+                cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+
+                info['fur_colour'] = cat_fur_colour
+                info['eye_colour'] = cat_eye_colour
+
             else:
                 successful_purchase = "false"
 
-    cat_fur_colour_obj = cat_obj.fur_colour
-    cat_eye_colour_obj = cat_obj.eye_colour
-
-    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
-    cat_fur_colour += ","
-    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
-
-    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
-
-    info['fur_colour'] = cat_fur_colour
-    info['eye_colour'] = cat_eye_colour
     info['attempted_purchase'] = attempted_purchase
     info['successful_purchase'] = successful_purchase
 
@@ -529,7 +560,6 @@ def friend(request, username="none"):
         profile_choice=Profile.objects.get(user=user_choice)
         if profile_choice.private:
             return redirect('friend')
-
 
     cat_obj = user_prof.creature
     f_cat_obj = profile_choice.creature
