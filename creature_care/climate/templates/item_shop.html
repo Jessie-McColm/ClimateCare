@@ -89,7 +89,7 @@
             right: 115px;
             z-index: -1;
         }
-        .buy {
+        button {
             height: 40px;
             width: 100px;
             background-color: #649756;
@@ -97,10 +97,6 @@
             border: 3px solid white;
             position: absolute;
             margin: auto;
-            top: 270px;
-            bottom: 0;
-            left: 100px;
-            right: 0;
             z-index: 2;
             display: inline-block;
             justify-content:center;
@@ -109,8 +105,21 @@
             transition-duration: 0.4s;
             cursor: pointer;
         }
+        .buy {
+            top: 270px;
+            bottom: 0;
+            left: 100px;
+            right: 0;
+        }
 
-        .buy:hover {
+        .unequip {
+            top: 0;
+            bottom: 320px;
+            left: 250px;
+            right: 0;
+        }
+
+        button:hover {
             background-color: white;
             color: #649756;
         }
@@ -131,6 +140,21 @@
             color: white;
             font-size: 25px;
         }
+
+        .warning {
+            color: white;
+            font-size: 13px;
+            display: flex;
+            align-items:center;
+            justify-content:center;
+            top: 500px;
+            position: absolute;
+            margin: auto;
+            top: 350px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
     </style>
 {% endblock %}
 
@@ -146,6 +170,8 @@
     {% load static %} 
     <img id = "hat" width = '220', height = '220' src = "{% static 'blank-hat.png' %}">
 </div>
+
+<button class = "unequip" onclick = "return unequip();">UNEQUIP</button>
 
 <div class="container-1">
     <div class="cat">
@@ -178,6 +204,7 @@
     {% load static %} 
     <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
 </div>
+<div class = "warning" id = "warning">Warning: If you click 'Buy Now' without a hat equipped, you will lose the hat you're currently wearing.</div>
 <button class = "buy" onclick = "return buyNow();">BUY NOW</button>
 <div class="container-2">
     {% load static %} 
@@ -193,6 +220,7 @@
 </div>
 
 <script>
+    document.getElementById("warning").style.display = "none";
     let balance = ' {{ points_available }}';
     let current_fur_colour = '{{ fur_colour }}'; 
     let current_eye_colour = '{{ eye_colour }}'; 
@@ -248,6 +276,7 @@ function changeHat(item) {
         Authors:
             Des
     */
+    document.getElementById("warning").style.display = "none";
     var temp = document.getElementById(item).src.split("static/")[1];
     var hat_name = temp.split(".svg")[0];
     switch(item) {
@@ -269,6 +298,13 @@ function changeHat(item) {
     document.getElementById("hat").height = size;
     if (currently_wearing == hat_name) {
         document.getElementById("price").innerHTML = 0;
+    }
+}
+
+function unequip() {
+    document.getElementById("hat").src = "/static/blank-hat.png";
+    if (currently_wearing != 0) {
+        document.getElementById("warning").style.display = "";
     }
 }
 
