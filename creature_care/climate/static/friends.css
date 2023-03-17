@@ -17,6 +17,17 @@
     
 }
 
+.title{
+    font-size: 3em;
+    text-decoration: overline;
+    width: 100%;
+    
+}
+
+.text-box{
+    padding:0em;
+}
+
 .speech1{
     position:relative;
     width: 5em;

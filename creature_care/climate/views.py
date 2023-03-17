@@ -202,6 +202,17 @@ def my_stats_page(request):
     username = user_obj.get_username()
     #cat_data = user_prof.creature
 
+    cat_obj = user_prof.creature
+
+    # gets users cat colours
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
 
     bottle_num = user_prof.num_times_watered
     article_num = user_prof.num_times_fed
@@ -212,7 +223,8 @@ def my_stats_page(request):
         'bottle_num': bottle_num,
         'article_num': article_num,
         'recycle_num': recycle_num,
-
+        'fur_colour': cat_fur_colour,
+        'eye_colour': cat_eye_colour,
     }
 
     return render(request, 'my_stats.html', info)
@@ -600,33 +612,6 @@ def friend(request, username="none"):
         'f_eye_colour': f_cat_eye_colour
     }
     return render(request, 'friends.html', context)
-
-
-@login_required(login_url='loginPage')
-def add_friend(request):
-    context={"exists":True,"friend_requests":[]}
-    user_obj = request.user
-    if request.method == "POST":
-
-        friend = request.POST.get('username')
-        try:
-            user_choice = User.objects.get(username=friend)
-            #need to see if there's another way to do this
-            try:
-                accept=request.POST.get('accept')
-                #need to create an entry in the friends database including user_obj and friend
-            except:
-                    #add friend and user_obj to the friend request table
-                    pass
-        except User.DoesNotExist:
-            context["exists"]=False
-
-
-
-    #requests=list(friend_requests.objects.get(requestee=user_obj))
-    #for item in requests:
-        #context["friend_requests"].append(item.requester.username)
-    return render(request, 'friend_list.html', context)
 
 @login_required(login_url='loginPage')
 def settings_page(request):

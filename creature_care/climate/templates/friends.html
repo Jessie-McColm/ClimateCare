@@ -74,15 +74,15 @@
         <div class="cat_box">
             <div class="container-1">
                 <div class="cat" id="cat2"> 
-                    <div class="face">
-                        <div class="ear-l"></div>
-                        <div class="ear-r"></div>
+                    <div class="face" id="f_face">
+                        <div class="ear-l" id = "f_ear-l"></div>
+                        <div class="ear-r" id = "f_ear-r"></div>
                         <div class="inner-l"></div>
                         <div class="inner-r"></div>
-                        <div class="eye-l">
+                        <div class="eye-l" id="f_eye-l">
                             <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
                         </div>
-                        <div class="eye-r">
+                        <div class="eye-r" id="f_eye-r">
                             <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
                         </div>
                         <div class="nose">
@@ -91,10 +91,10 @@
                         </div>
                         <div class="speech2">meow</div>
                     </div>
-                    <div class="body">
-                        <div class="paw-l"></div>
-                        <div class="paw-r"></div>
-                        <div class="tail"></div>
+                    <div class="body" id="f_body">
+                        <div class="paw-l" id="f_paw-l"></div>
+                        <div class="paw-r" id="f_paw-r"></div>
+                        <div class="tail" id="f_tail"></div>
                     </div>
                     <div class="shadow"></div>
                 </div>
@@ -160,27 +160,42 @@
     let u_fur_colour = '{{ fur_colour }}'; 
     let u_eye_colour = '{{ eye_colour }}'; 
 
+    let f_fur_colour = '{{ f_fur_colour }}'; 
+    let f_eye_colour = '{{ f_eye_colour }}'; 
+
+
     u_body_colour = u_fur_colour.split(",")[0];
     u_patches = u_fur_colour.split(",")[1];
 
+    f_body_colour = f_fur_colour.split(",")[0];
+    f_patches = f_fur_colour.split(",")[1];
+
+    // change user cat body colour
     var colour = ["u_face", "u_body", "u_tail", "u_paw-r"];
     colour.forEach(function (item, index) {
         document.getElementById(item).style.backgroundColor = u_body_colour;
+    });
+    var colour_2 = ["f_face", "f_body", "f_tail", "f_paw-r"];
+    colour_2.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = f_body_colour;
     });
 
     var eye_colour = ["u_eye-l", "u_eye-r"];
     eye_colour.forEach(function (item, index) {
         document.getElementById(item).style.backgroundColor = u_eye_colour;
     });
+    var eye_colour_2 = ["f_eye-l", "f_eye-r"];
+    eye_colour_2.forEach(function (item, index) {
+        document.getElementById(item).style.backgroundColor = f_eye_colour;
+    });
 
     document.getElementById("u_ear-l").style.borderBottom = "50px solid " + u_body_colour;
     document.getElementById("u_ear-r").style.borderBottom = "50px solid " + u_patches;
     document.getElementById("u_paw-l").style.backgroundColor = u_patches;
 
-    var eye_colour = ["eye-l", "eye-r"];
-    eye_colour.forEach(function (item, index) {
-        document.getElementById(item).style.backgroundColor = u_eye_colour;
-    });
+    document.getElementById("f_ear-l").style.borderBottom = "50px solid " + f_body_colour;
+    document.getElementById("f_ear-r").style.borderBottom = "50px solid " + f_patches;
+    document.getElementById("f_paw-l").style.backgroundColor = f_patches;
 
 </script>
 
