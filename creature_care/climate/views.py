@@ -422,18 +422,6 @@ def colour_shop_page(request):
                 user_prof.save(update_fields=['points'])
                 print("Points updated!")
 
-                cat_fur_colour_obj = cat_obj.fur_colour
-                cat_eye_colour_obj = cat_obj.eye_colour
-
-                cat_fur_colour = cat_fur_colour_obj.colour_hex_val
-                cat_fur_colour += ","
-                cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
-
-                cat_eye_colour = cat_eye_colour_obj.colour_hex_val
-
-                info['fur_colour'] = cat_fur_colour
-                info['eye_colour'] = cat_eye_colour
-
             else:
                 successful_purchase = "false"
 
@@ -457,20 +445,20 @@ def colour_shop_page(request):
                 user_prof.save(update_fields=['points'])
                 print("Points updated!")
 
-                cat_fur_colour_obj = cat_obj.fur_colour
-                cat_eye_colour_obj = cat_obj.eye_colour
-
-                cat_fur_colour = cat_fur_colour_obj.colour_hex_val
-                cat_fur_colour += ","
-                cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
-
-                cat_eye_colour = cat_eye_colour_obj.colour_hex_val
-
-                info['fur_colour'] = cat_fur_colour
-                info['eye_colour'] = cat_eye_colour
-
             else:
                 successful_purchase = "false"
+
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+
+    info['fur_colour'] = cat_fur_colour
+    info['eye_colour'] = cat_eye_colour
 
     info['attempted_purchase'] = attempted_purchase
     info['successful_purchase'] = successful_purchase
