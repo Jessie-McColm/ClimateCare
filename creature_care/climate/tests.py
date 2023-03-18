@@ -178,7 +178,8 @@ class KittyIndexTests(TestCase):
         self.assertEqual(profile.num_times_fed, 1)
         self.assertEqual(response.context['task'],"feed")
         self.assertEqual(response.status_code, 200)
-    '''  
+
+    '''
     def test_post_articles_DB_update(self):
         """
         Test if database is updated correctly when a post request is sent to get articles/feed the kitty
@@ -195,29 +196,38 @@ class KittyIndexTests(TestCase):
             "password1": "i_secretly_hate_kitties",
             "password2": "i_secretly_hate_kitties"
         })
-        user = User.objects.get(username='kittylover123')
+        
         new_advice = Advice(content="example advice", source ="example")
         new_advice.save()
-        user_prof = Profile.objects.get(user=user)
-        cat_data = user_prof.creature
+        
+        
+        
         pastTime=timezone.now()-timedelta(seconds=5)
         setattr(cat_data, "last_food_refill", pastTime)
         cat_data.save()
+        
+        
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
             "password": "i_secretly_hate_kitties"
         })
+        sleep(5)
         response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"feed"})
-        
+        user = User.objects.get(username='kittylover123')
+        user_prof = Profile.objects.get(user=user)
+        cat_data = user_prof.creature
         current_time=timezone.now()
+        print(cat_data.last_food_refill)
+        print(current_time)
         food_time_difference = current_time - cat_data.last_food_refill
         food_time_difference_seconds = food_time_difference.total_seconds()
         self.assertTrue(food_time_difference_seconds<4.0)
         self.assertEqual(response.status_code, 200)
     '''
+        
     def test_post_not_articles(self):
         """
         Test if valid response is given when a post request is sent to get articles/feed the kitty
@@ -332,7 +342,8 @@ class KittyIndexTests(TestCase):
         response=client.post(path='/climate/kitty', data=
                              {"coordinates":"0,0",
                               "task":"water"})
-        print(cat_data.last_thirst_refill)
+        
+        print(cat_data2.last_thirst_refill)
         current_time=timezone.now()
         
         water_time_difference = current_time - cat_data.last_thirst_refill
@@ -340,6 +351,7 @@ class KittyIndexTests(TestCase):
         self.assertTrue(water_time_difference_seconds<4)
         self.assertEqual(response.status_code, 200)
     '''
+    
     def test_post_not_water(self):
         """
         Test if valid response is given when a post request is sent to water the kitty
@@ -966,7 +978,8 @@ class KittyIndexTests(TestCase):
         })
 
         response=client.get(path='/climate/friend')
-        self.assertEqual(response.context["creature"],"black")
+        self.assertEqual(response.context["fur_colour"],"#000000,")
+        self.assertEqual(response.context['eye_colour'],'#2196f3')
         self.assertEqual(response.context["bottle_num"],0)
         self.assertEqual(response.context["article_num"],0)
         self.assertEqual(response.context["recycle_num"],0)
@@ -974,7 +987,8 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.context["friend_bottle_num"],0)
         self.assertEqual(response.context["friend_article_num"],0)
         self.assertEqual(response.context["friend_recycle_num"],0)
-        self.assertEqual(response.context["friend_creature"],"black")
+        self.assertEqual(response.context["f_fur_colour"],"#000000,")
+        self.assertEqual(response.context['f_eye_colour'],'#2196f3')
         self.assertEqual(response.status_code, 200)
 
     def test_friends_page_with_url(self):
@@ -1014,7 +1028,8 @@ class KittyIndexTests(TestCase):
         })
 
         response=client.get(path='/climate/friend/test')
-        self.assertEqual(response.context["creature"],"black")
+        self.assertEqual(response.context["fur_colour"],"#000000,")
+        self.assertEqual(response.context['eye_colour'],'#2196f3')
         self.assertEqual(response.context["bottle_num"],0)
         self.assertEqual(response.context["article_num"],0)
         self.assertEqual(response.context["recycle_num"],0)
@@ -1022,7 +1037,8 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.context["friend_bottle_num"],0)
         self.assertEqual(response.context["friend_article_num"],0)
         self.assertEqual(response.context["friend_recycle_num"],0)
-        self.assertEqual(response.context["friend_creature"],"black")
+        self.assertEqual(response.context["f_fur_colour"],"#000000,")
+        self.assertEqual(response.context['f_eye_colour'],'#2196f3')
         self.assertEqual(response.status_code, 200)
 
     def test_friends_page_with_privacy(self):
@@ -1058,9 +1074,10 @@ class KittyIndexTests(TestCase):
             "username": "kittylover123",
             "password": "i_secretly_hate_kitties"
         })
-
+        
         response=client.get(path='/climate/friend')
-        self.assertEqual(response.context["creature"],"black")
+        self.assertEqual(response.context["fur_colour"],"#000000,")
+        self.assertEqual(response.context['eye_colour'],'#2196f3')
         self.assertEqual(response.context["bottle_num"],0)
         self.assertEqual(response.context["article_num"],0)
         self.assertEqual(response.context["recycle_num"],0)
@@ -1068,7 +1085,8 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.context["friend_bottle_num"],0)
         self.assertEqual(response.context["friend_article_num"],0)
         self.assertEqual(response.context["friend_recycle_num"],0)
-        self.assertEqual(response.context["friend_creature"],"#ff0000")
+        self.assertEqual(response.context["f_fur_colour"],"#ff0000")
+        self.assertEqual(response.context['f_eye_colour'],"#ff0000")
         self.assertEqual(response.status_code, 200)
 
     def test_friends_page_with_private_url(self):
@@ -1235,8 +1253,7 @@ class ColourShopTests(TestCase):
         kitty = user_prof.creature
         former_eye_colour = kitty.eye_colour
         former_eye_colour_name = former_eye_colour.colour_id
-        user_obj.save()
-        user_prof.save()
+        
 
         client.post(path='/users/login_user', data={
             "username": "kittylover123",
@@ -1246,12 +1263,13 @@ class ColourShopTests(TestCase):
         client.post(path='/climate/colour_shop', data={
             'purchase_new_colour_eyes': 'true',
             'purchase_new_colour_fur': 'false',
-            'eye_colour': '#95fdff,#95fdff',
+            'eye_colour': '#000000,#000000',
             'fur_colour': ''
         })
 
-        kitty.save(update_fields=['eye_colour'])
-
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        kitty = user_prof.creature
         new_eye_colour = kitty.eye_colour
         new_eye_colour_name = new_eye_colour.colour_id
         eye_colour_price = new_eye_colour.colour_cost
@@ -1259,7 +1277,7 @@ class ColourShopTests(TestCase):
         new_player_balance = user_prof.points
 
         self.assertNotEqual(former_eye_colour_name, new_eye_colour_name)
-        self.assertEqual(former_player_balance, new_player_balance - eye_colour_price)
+        self.assertEqual(former_player_balance - eye_colour_price, new_player_balance )
 
 
     def complex_pause_test(self):

@@ -527,9 +527,25 @@ def friend(request, username="none"):
     user_prof = Profile.objects.get(user=user_obj)
 
     # why two contexts???
+
+    cat_obj = user_prof.creature
+    
+
+    # gets users cat colours
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+    
+    #item here too
     context = {
             "username": user_obj.get_username(),
-            "creature": user_prof.creature.fur_colour,
+            'fur_colour': cat_fur_colour,
+            'eye_colour': cat_eye_colour,
             "bottle_num": user_prof.num_times_watered,
             "article_num": user_prof.num_times_fed,
             "recycle_num": user_prof.num_times_litter_cleared,
@@ -537,7 +553,8 @@ def friend(request, username="none"):
             "friend_bottle_num": 0,
             "friend_article_num": 0,
             "friend_recycle_num": 0,
-            "friend_creature": "#ff0000"
+            'f_fur_colour': "#ff0000",
+            'f_eye_colour': "#ff0000"
             }
 
     if username == "none":
@@ -561,19 +578,8 @@ def friend(request, username="none"):
         if profile_choice.private:
             return redirect('friend')
 
-    cat_obj = user_prof.creature
+    
     f_cat_obj = profile_choice.creature
-
-    # gets users cat colours
-    cat_fur_colour_obj = cat_obj.fur_colour
-    cat_eye_colour_obj = cat_obj.eye_colour
-
-    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
-    cat_fur_colour += ","
-    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
-
-    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
-
     # get friends cat colours
     f_cat_fur_colour_obj = f_cat_obj.fur_colour
     f_cat_eye_colour_obj = f_cat_obj.eye_colour
@@ -584,6 +590,7 @@ def friend(request, username="none"):
 
     f_cat_eye_colour = f_cat_eye_colour_obj.colour_hex_val
 
+    
 
     context = {
         "username": user_obj.get_username(),
