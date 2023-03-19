@@ -1,38 +1,74 @@
 /* Leaderboard CSS by Sanchi */
 
 :root {
-    --c: #33292b;
+    --fc: #33292b;
+    --ec: #95fdff;
 }
 * {
     font-family: "Montserrat", sans-serif;
+    color: #f0f0f0;
+}
+.title {
+    font-size: 2.5rem;
+    text-decoration: overline;
+    color: #f0f0f0;
+    text-align: center;
+    width: 100%;
 }
 
 /* Leaderboard layout */
 body {
     background-color: #649756;
 }
-h1 {
+p, h2 {
     font-family: "Montserrat", sans-serif;
-    text-shadow: 3px 3px 5px #3e3d3d;
+    width: 100%;
+    padding: 0%;
+    margin: auto;
 }
-#own-rank {
+.own-rank {
     text-align: center;
+    color: #f0f0f0;
+}
+.header {
+    font-size: 1em;
+}
+.table-data {
+    font-size: 75%;
+    width: min-content;
+    margin: 0;
 }
 table {
     border-collapse: collapse;
+    table-layout: auto;
 }
 td, th, tr {
     padding: 1%;
     text-align: center;
     font-family: "Montserrat", sans-serif;
     font-weight: normal;
+    height: 50%;
 }
-tr:nth-child(n+1) {
-    border-bottom: 3px solid rgba(25, 90, 5, 0.5);
+th {
+    margin: auto;
 }
-.first {
-    margin-top: 11%;
-    margin-bottom: 5%;
+tr {
+    height: min-content;
+    border-bottom: 2.5px solid rgb(25, 90, 5);
+}
+tr:first-child {
+    border-top: 2.5px solid rgb(25, 90, 5);
+}
+.first-col {
+    margin-top: 5%;
+    margin-bottom: 2.5%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    transform: scale(0.60);
+}
+#rank {
+    width: 10%;
 }
 
 /* Crowns */
@@ -49,14 +85,14 @@ tr:nth-child(n+1) {
 }
 .crown {
     padding: 0%;
-    width: max-content;
+    width: min-content;
     height: fit-content;
     display: inline-flex;
     flex-wrap: nowrap;
     animation: pulse 4s ease infinite;
 }
 .crown-point {
-    margin: auto;
+    margin: auto, 0;
     width: 0; 
     height: 0; 
     border-left: 10px solid transparent;
@@ -111,10 +147,9 @@ tr:nth-child(n+1) {
 /* Cats */
 .cat-icon {
     margin: auto;
-    width: fit-content;
-    height: fit-content;
-    padding-top: 9%;
-    padding-bottom: 4%;
+    width: max-content;
+    height: max-content;
+    padding-top: 15%;
 }
 .face {
     background-color: #33292b;
@@ -129,14 +164,14 @@ tr:nth-child(n+1) {
     width: 0;
     height: 0;
     border-bottom: 50px solid #33292b;
-    border-color: var(--c);
+    border-color: var(--fc); /* Cat fur colour is customisable for each user */
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     z-index: -2;
 }
 .face:before {
     bottom: 70px;
-    left: 1px; /* correctly positions the black part of the left ear */
+    left: 1px; /* Correctly positions the black part of the left ear */
     transform: rotate(-30deg);
     animation: ear-l 10s infinite;
 }
@@ -202,7 +237,7 @@ tr:nth-child(n+1) {
     z-index: -1;
 }
 .eye-l,.eye-r {
-    background-color: #95fdff;
+    background-color: #95fdff; /* Cat eye colour is customisable for each user */
     height: 40px;
     width: 40px;
     border-radius: 50%;
@@ -258,12 +293,12 @@ tr:nth-child(n+1) {
 @keyframes blink-outer {
     5% {
         transform: scaleY(0.05);
-        background-color: #1b1b1b;
+        /* background-color: #1b1b1b; */
     }
     15% {
         transform: scaleY(1);
         opacity: 1;
-        background-color: #95fdff;
+        /* background-color: var(--ec); */
     }
 }
 @keyframes blink {

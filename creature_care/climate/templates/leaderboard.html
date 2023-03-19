@@ -17,22 +17,18 @@
 {% endblock %}
 
 {% block content %}
-    <br>
-    <h1 id="own-rank">You're in rank #{{ rank }}!</h1>
-    <br>
-
-    <table class="container" id="leaderboard">
-        <tr> 
-            <th></th>
-            <th>Rank</th>
-            <th>Points</th>
-            <th>Username</th>
-        </tr>
+<div class="container-fluid">
+    <br><br>
+    <p class="title">LEADERBOARD</p>
+    <br><br>
+    <h2 class="own-rank">You're in rank #{{ rank }}!</h2>
+    <br><br>
+    <table class="container-fluid" id="leaderboard">
 
         {% for row in data %}
             <tr>
                 <th>
-                    <div class="first">
+                    <div class="first-col">
                         {% if forloop.counter == 1 %}
                             <div class="crown">
                                 <div class="gold crown-point _1"></div>
@@ -62,14 +58,14 @@
                                 <div class="bronze crown-point _5"></div>
                             </div>
                         {% endif %}
-                        <div class="cat-icon" id="cat{{ forloop.counter }}">
-                            <div class="face" id="face{{ forloop.counter }}" data-colour="{{ row.creature }}">
+                        <div class="cat-icon">
+                            <div class="face" id="face{{ forloop.counter }}" data-fur-colour="{{ row.creature_fur_colour }}">
                                 <div class="inner-l"></div>
                                 <div class="inner-r"></div>
-                                <div class="eye-l">
+                                <div class="eye-l" id="eye-l-{{ forloop.counter }}" data-eye-colour="{{ row.creature_eye_colour }}">
                                     <div class="eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
                                 </div>
-                                <div class="eye-r">
+                                <div class="eye-r" id="eye-r-{{ forloop.counter }}">
                                     <div class="eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
                                 </div>
                                 <div class="nose">
@@ -81,28 +77,40 @@
                     </div>
                 </th>
 
-                <th>
+                <th class="table-data" id="rank">
                     #{{ forloop.counter }}
                 </th>
 
-                <th>{{ row.points }}</th>
+                <th class="table-data">{{ row.points }} points</th>
 
-                <th>{{ row.username }}</th>
+                <th class="table-data">{{ row.username }}</th>
             </tr>
         {% endfor %}
     </table>
-
     <br>
+</div>
 
-    <script>
-        var rows = document.getElementById("leaderboard").rows.length - 1; // Excludes header row
-        // Sets the colour of each user's cat on the leaderboard
-        for (var i=1; i<=rows; i++) {
-            var currentCat = document.getElementById("cat"+i);
-            var currentCatFace = document.getElementById("face"+i);
-            var colour = currentCatFace.dataset.colour;
-            currentCatFace.style.backgroundColor = colour;
-            currentCat.style.setProperty('--c', colour);
-        }
-    </script>
+<script>
+    var rows = document.getElementById("leaderboard").rows.length - 1; // Excludes header row
+    // Displays each user's cat on the leaderboard
+    for (var i=1; i<=rows; i++) {
+        // Get the user's cat's colours
+        var currentCatFace = document.getElementById("face"+i);
+        var furColour = currentCatFace.dataset.furColour;
+
+        var currentCatEyeL = document.getElementById("eye-l-"+i);
+        var currentCatEyeR = document.getElementById("eye-r-"+i);
+        var eyeColour = currentCatEyeL.dataset.eyeColour;
+
+        // Set the user's cat's fur and eye colours
+        currentCatFace.style.backgroundColor = furColour;
+        currentCatFace.style.setProperty('--fc', furColour);
+
+        currentCatEyeL.style.backgroundColor = eyeColour;
+        currentCatEyeR.style.backgroundColor = eyeColour;
+        currentCatFace.style.setProperty('--ec', eyeColour);
+        currentCatFace.style.setProperty('--ec', eyeColour);
+
+    }
+</script>
 {% endblock %}
