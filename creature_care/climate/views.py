@@ -32,7 +32,7 @@ def kitty(request, type_of="none"):
     functionality to verify whether a user is within a sensible distance from a fountain/bin
 
     Authors:
-        Jessie, Laurie, Nevan
+        Jessie, Laurie, Nevan, Lucia
 
     Args:
         request(HTTP request): the http request send by a front end client viewing the url
@@ -59,6 +59,20 @@ def kitty(request, type_of="none"):
     fur_colour_obj = cat_data.fur_colour
     fur_colour = fur_colour_obj.colour_hex_val
 
+    try:
+        wearing = Wearing.objects.get(creature=cat_data)
+    except ObjectDoesNotExist:
+        wearing = Wearing.objects.create(creature=cat_data)
+
+    wearing_item_obj = wearing.item
+    if not wearing_item_obj:
+        currently_wearing_id = '0'  # denotes that the cat is not wearing anything
+        currently_wearing_scale = '0'
+    else:
+        currently_wearing_id = wearing.item.item_id
+        currently_wearing_id = str(currently_wearing_id)
+        currently_wearing_scale = wearing.item.scale
+
     time_limit = 3600
     # ----------------------------------------------------------------------------------
 
@@ -72,6 +86,8 @@ def kitty(request, type_of="none"):
         'fed': False,
         'fur_colour': fur_colour,
         'eye_colour': eye_colour,
+        'cat_item': currently_wearing_id,
+        'cat_item_scale': currently_wearing_scale,
         'name': cat_data.name,
         'task': "none",
         'message': "",
@@ -162,6 +178,7 @@ def kitty(request, type_of="none"):
 
     elif food_time_difference_seconds > three_days:
         info['hungry'] = True
+    
 
     return render(request, 'cat.html', info)
 
@@ -214,6 +231,20 @@ def my_stats_page(request):
 
     cat_eye_colour = cat_eye_colour_obj.colour_hex_val
 
+    try:
+        wearing = Wearing.objects.get(creature=cat_obj)
+    except ObjectDoesNotExist:
+        wearing = Wearing.objects.create(creature=cat_obj)
+
+    wearing_item_obj = wearing.item
+    if not wearing_item_obj:
+        currently_wearing_id = '0'  # denotes that the cat is not wearing anything
+        currently_wearing_scale = '0'
+    else:
+        currently_wearing_id = wearing.item.item_id
+        currently_wearing_id = str(currently_wearing_id)
+        currently_wearing_scale = wearing.item.scale
+
     bottle_num = user_prof.num_times_watered
     article_num = user_prof.num_times_fed
     recycle_num = user_prof.num_times_litter_cleared
@@ -225,6 +256,8 @@ def my_stats_page(request):
         'recycle_num': recycle_num,
         'fur_colour': cat_fur_colour,
         'eye_colour': cat_eye_colour,
+        'cat_item': currently_wearing_id,
+        'cat_item_scale': currently_wearing_scale,
     }
 
     return render(request, 'my_stats.html', info)
@@ -422,18 +455,6 @@ def colour_shop_page(request):
                 user_prof.save(update_fields=['points'])
                 print("Points updated!")
 
-                cat_fur_colour_obj = cat_obj.fur_colour
-                cat_eye_colour_obj = cat_obj.eye_colour
-
-                cat_fur_colour = cat_fur_colour_obj.colour_hex_val
-                cat_fur_colour += ","
-                cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
-
-                cat_eye_colour = cat_eye_colour_obj.colour_hex_val
-
-                info['fur_colour'] = cat_fur_colour
-                info['eye_colour'] = cat_eye_colour
-
             else:
                 successful_purchase = "false"
 
@@ -457,20 +478,20 @@ def colour_shop_page(request):
                 user_prof.save(update_fields=['points'])
                 print("Points updated!")
 
-                cat_fur_colour_obj = cat_obj.fur_colour
-                cat_eye_colour_obj = cat_obj.eye_colour
-
-                cat_fur_colour = cat_fur_colour_obj.colour_hex_val
-                cat_fur_colour += ","
-                cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
-
-                cat_eye_colour = cat_eye_colour_obj.colour_hex_val
-
-                info['fur_colour'] = cat_fur_colour
-                info['eye_colour'] = cat_eye_colour
-
             else:
                 successful_purchase = "false"
+
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+
+    info['fur_colour'] = cat_fur_colour
+    info['eye_colour'] = cat_eye_colour
 
     info['attempted_purchase'] = attempted_purchase
     info['successful_purchase'] = successful_purchase
@@ -537,11 +558,40 @@ def friend(request, username="none"):
     """
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
+    cat_obj = user_prof.creature
 
-    # why two contexts???
+    try:
+        wearing = Wearing.objects.get(creature=cat_obj)
+    except ObjectDoesNotExist:
+        wearing = Wearing.objects.create(creature=cat_obj)
+
+    wearing_item_obj = wearing.item
+    if not wearing_item_obj:
+        currently_wearing_id = '0'  # denotes that the cat is not wearing anything
+        currently_wearing_scale = '0'
+    else:
+        currently_wearing_id = wearing.item.item_id
+        currently_wearing_id = str(currently_wearing_id)
+        currently_wearing_scale = wearing.item.scale
+    
+
+    # gets users cat colours
+    cat_fur_colour_obj = cat_obj.fur_colour
+    cat_eye_colour_obj = cat_obj.eye_colour
+
+    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
+    cat_fur_colour += ","
+    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
+
+    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
+    
+    #item here too
     context = {
             "username": user_obj.get_username(),
-            "creature": user_prof.creature.fur_colour,
+            'fur_colour': cat_fur_colour,
+            'eye_colour': cat_eye_colour,
+            'cat_item': currently_wearing_id,
+            'cat_item_scale': currently_wearing_scale,
             "bottle_num": user_prof.num_times_watered,
             "article_num": user_prof.num_times_fed,
             "recycle_num": user_prof.num_times_litter_cleared,
@@ -549,7 +599,8 @@ def friend(request, username="none"):
             "friend_bottle_num": 0,
             "friend_article_num": 0,
             "friend_recycle_num": 0,
-            "friend_creature": "#ff0000"
+            'f_fur_colour': "#ff0000",
+            'f_eye_colour': "#ff0000"
             }
 
     if username == "none":
@@ -573,19 +624,8 @@ def friend(request, username="none"):
         if profile_choice.private:
             return redirect('friend')
 
-    cat_obj = user_prof.creature
+    
     f_cat_obj = profile_choice.creature
-
-    # gets users cat colours
-    cat_fur_colour_obj = cat_obj.fur_colour
-    cat_eye_colour_obj = cat_obj.eye_colour
-
-    cat_fur_colour = cat_fur_colour_obj.colour_hex_val
-    cat_fur_colour += ","
-    cat_fur_colour += cat_fur_colour_obj.colour_hex_val_patch
-
-    cat_eye_colour = cat_eye_colour_obj.colour_hex_val
-
     # get friends cat colours
     f_cat_fur_colour_obj = f_cat_obj.fur_colour
     f_cat_eye_colour_obj = f_cat_obj.eye_colour
@@ -596,11 +636,29 @@ def friend(request, username="none"):
 
     f_cat_eye_colour = f_cat_eye_colour_obj.colour_hex_val
 
+    try:
+        f_wearing = Wearing.objects.get(creature=f_cat_obj)
+    except ObjectDoesNotExist:
+        f_wearing = Wearing.objects.create(creature=f_cat_obj)
+
+    f_wearing_item_obj = f_wearing.item
+    if not f_wearing_item_obj:
+        f_currently_wearing_id = '0'  # denotes that the cat is not wearing anything
+        f_currently_wearing_scale = '0'
+    else:
+        f_currently_wearing_id = f_wearing.item.item_id
+        f_currently_wearing_id = str(f_currently_wearing_id)
+        f_currently_wearing_scale = f_wearing.item.scale
+    
 
     context = {
         "username": user_obj.get_username(),
         'fur_colour': cat_fur_colour,
         'eye_colour': cat_eye_colour,
+        'cat_item': currently_wearing_id,
+        'cat_item_scale': currently_wearing_scale,
+        'f_cat_item': f_currently_wearing_id,
+        'f_cat_item_scale': f_currently_wearing_scale,
         "bottle_num": user_prof.num_times_watered,
         "article_num": user_prof.num_times_fed,
         "recycle_num": user_prof.num_times_litter_cleared,
@@ -612,6 +670,7 @@ def friend(request, username="none"):
         'f_eye_colour': f_cat_eye_colour
     }
     return render(request, 'friends.html', context)
+
 
 @login_required(login_url='loginPage')
 def settings_page(request):
