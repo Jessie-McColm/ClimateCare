@@ -605,7 +605,7 @@ def friend(request, username="none"):
 
     if username == "none":
         # get a random user from the database
-        profiles = list(Profile.objects.filter(private=False))
+        profiles = list(Profile.objects.filter(private=False).exclude(access_level=3))
         if not user_prof.private:
             profiles.remove(user_prof)
         if len(profiles) == 0:
@@ -621,7 +621,7 @@ def friend(request, username="none"):
     else:
         user_choice = User.objects.get(username=username)
         profile_choice=Profile.objects.get(user=user_choice)
-        if profile_choice.private:
+        if profile_choice.private or profile_choice.access_level == 3:
             return redirect('friend')
 
     
