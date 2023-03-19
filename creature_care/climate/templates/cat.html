@@ -110,6 +110,7 @@
 {% endblock %}
 
 {% block content %}
+<div class = "page-container">
 <div id = "pop-up" class = "pop-up">
     <h3 class="locating">
         <span>l</span>
@@ -128,9 +129,9 @@
 <div id = "bubble" class = "container">
     <div class = "bubble">
         <div class = "allspeech">
-            <span id = "message" class = "speech"></span>
-            <span id = "content" class = "speech1"></span>
-            <span id = "source" class = "speech2"></span>
+            <a id = "content" class = "speech1"></a>
+            <a id = "link" class = "speech1" href = "#"></a>
+            <a id = "source" class = "speech2"></a>
         </div>
     </div>
     <div class = "bubble2"></div>
@@ -181,6 +182,7 @@
         <div class="poop-3"></div>
     </div>
 </div>
+</div>
 
     <div class="fixed-bottom">
         <div class="row">
@@ -226,7 +228,7 @@
                                 <div class="cap">
                                     <div class="hole"></div>
                                 </div>
-                                <div class="box-top-line"></divE>
+                                <div class="box-top-line"></div>
                                 <div class="box">
                                     <span id = "symbol" class="recycling-symbol">&#9851;</span>
                                 </div>
@@ -287,16 +289,9 @@
             Author:
                 Des
             */
-            sendPostRequest([0,0],'feed');
-            alert("You have fed your cat!");
             document.getElementById("bubble").style.display = "";
-            let message = '{{ message }}';
-            let content = '{{ content }}';
-            let source = '{{ source }}'; 
-            document.getElementById("message").textContent = message;
-            document.getElementById("content").textContent = content;
-            document.getElementById("source").textContent = source;
             const temp = window.location.href.split("/kitty")[0];
+            sendPostRequest([0,0],'feed');
             pageLink = temp + "/kitty/articles";
             window.location.href = pageLink;
         }
@@ -342,9 +337,18 @@
         let message = '{{ message }}';
         let content = '{{ content }}';
         let source = '{{ source }}'; 
-        document.getElementById("message").textContent = message;
-        document.getElementById("content").textContent = content;
-        document.getElementById("source").textContent = source;
+        document.getElementById("source").innerHTML = source;
+        if (message == "link") {
+            document.getElementById("link").innerHTML = content;
+            document.getElementById("link").href = content;
+            document.getElementById("content").style.display = "none";
+            document.getElementById("link").style.display = "block";
+            document.getElementById("link").style.color = "blue";
+        } else {
+            document.getElementById("content").innerHTML = content;
+            document.getElementById("link").style.display = "none";
+            document.getElementById("content").style.display = "block";
+        }
         if (message == '') {
             document.getElementById("bubble").style.display = "none";
         }

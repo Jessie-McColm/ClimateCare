@@ -2,14 +2,13 @@
 
 .container{
     height:500px;
-    width: 350px;
+    width: 420px;
     background-color: transparent;
     position: relative;
-    top: 100px;
+    top: 30px;
     bottom: 0;
-    left: 370px;
+    left: 270px;
     right: 0;
-    position: absolute;
     margin: auto;
 }
 .bubble{
@@ -17,7 +16,7 @@
     border-radius: 20px;
     background-color: #ececec;
     width: 200px;
-    height: 100px;
+    height: 200px;
 }
 .bubble2{
     top: 5px;
@@ -46,18 +45,12 @@
     bottom: 0; 
     right: 0;
 }
-.speech{
-    margin-top: 5px;
-    margin-left: 15px;
-    display: block;  
-    font-size: 15px;
-    color:#212121;
-}
 
 .speech1{
-    margin-top: 5px;
     margin-left: 15px;
+    margin-right: 15px;
     display: block; 
+    overflow-wrap: break-word;
     font-size: 13px;
     color:#212121;
 }
