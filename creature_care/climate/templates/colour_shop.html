@@ -129,58 +129,60 @@
 {% endblock %}
 
 {% block content %}
-<div class = "balance">
-    <a>Balance:&nbsp</a>
-    <a id = "balance">10</a>
-    {% load static %} 
-    <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
-</div>
-<div class = "colour-container">
-    <div class = "eye-colour" style = "background-color: #a2eb63; margin-top: 150px;" onclick="return changeEyeColour('#a2eb63');"></div>
-    <div class = "fur-colour" style = "background-color: #efdae9;" onclick="return changeColour('#efdae9', '#efdae9');"></div>
-    <div class = "eye-colour" style = "background-color: #95fdff;" onclick="return changeEyeColour('#95fdff');"></div>
-    <div class = "fur-colour" style = "background-color: #a95535;" onclick="return changeColour('#a95535', '#a95535');"></div>
-    <div class = "eye-colour" style = "background-color: #a96d48;" onclick="return changeEyeColour('#a96d48');"></div>
-    <div class = "fur-colour" style = "background-color: #ff8e3d;" onclick="return changeColour('#ff8e3d', '#ff8e3d');"></div>
-    <div class = "eye-colour" style = "background-color: #f7ff65;" onclick="return changeEyeColour('#f7ff65');"></div>
-    <div class = "fur-colour" style = "background-color: #696969;" onclick="return changeColour('#696969', '#696969');"></div>
-    <div class = "eye-colour" style = "background-color: #f1adff;" onclick="return changeEyeColour('#f1adff');"></div>
-    <div class = "fur-colour" style = "background-color: #33292b;" onclick="return changeColour('#33292b', '#33292b');"></div>
-    <div class = "eye-colour" style = "background-color: #ff0000;" onclick="return changeEyeColour('#ff0000');"></div>
-    <div class = "fur-colour" style = "background-color: #33292b;"><div class = "semicircle" style = "background-color: #efdae9;" onclick="return changeColour('#33292b', '#efdae9');"></div>
-</div>
-<div class="container-1">
-    <div class="cat">
-        <div class="face" id = "face">
-            <div class = "ear-l" id="ear-l"></div>
-            <div class = "ear-r" id="ear-r"></div>
-            <div class="inner-l"></div>
-            <div class="inner-r"></div>
-            <div class="eye-l" id = "eye-l">
-                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-            </div>
-            <div class="eye-r" id = "eye-r">
-                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-            </div>
-            <div class="nose">
-                <div class="l1"></div>
-                <div class="l2"></div>
-            </div>
-        </div>
-        <div class="body" id = "body">
-            <div class="paw-l" id = "paw-l"></div>
-            <div class="paw-r" id = "paw-r"></div>
-            <div class="tail" id = "tail"></div>
-        </div>
-        <div class="shadow"></div>
+<div class = page-container>
+    <div class = "balance">
+        <a>Balance:&nbsp</a>
+        <a id = "balance">10</a>
+        {% load static %} 
+        <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
     </div>
+    <div class = "colour-container">
+        <div class = "eye-colour" style = "background-color: #a2eb63; margin-top: 150px;" onclick="return changeEyeColour('#a2eb63');"></div>
+        <div class = "fur-colour" style = "background-color: #efdae9;" onclick="return changeColour('#efdae9', '#efdae9');"></div>
+        <div class = "eye-colour" style = "background-color: #95fdff;" onclick="return changeEyeColour('#95fdff');"></div>
+        <div class = "fur-colour" style = "background-color: #a95535;" onclick="return changeColour('#a95535', '#a95535');"></div>
+        <div class = "eye-colour" style = "background-color: #a96d48;" onclick="return changeEyeColour('#a96d48');"></div>
+        <div class = "fur-colour" style = "background-color: #ff8e3d;" onclick="return changeColour('#ff8e3d', '#ff8e3d');"></div>
+        <div class = "eye-colour" style = "background-color: #f7ff65;" onclick="return changeEyeColour('#f7ff65');"></div>
+        <div class = "fur-colour" style = "background-color: #696969;" onclick="return changeColour('#696969', '#696969');"></div>
+        <div class = "eye-colour" style = "background-color: #f1adff;" onclick="return changeEyeColour('#f1adff');"></div>
+        <div class = "fur-colour" style = "background-color: #33292b;" onclick="return changeColour('#33292b', '#33292b');"></div>
+        <div class = "eye-colour" style = "background-color: #ff0000;" onclick="return changeEyeColour('#ff0000');"></div>
+        <div class = "fur-colour" style = "background-color: #33292b;"><div class = "semicircle" style = "background-color: #efdae9;" onclick="return changeColour('#33292b', '#efdae9');"></div>
+    </div>
+    <div class="container-1">
+        <div class="cat">
+            <div class="face" id = "face">
+                <div class = "ear-l" id="ear-l"></div>
+                <div class = "ear-r" id="ear-r"></div>
+                <div class="inner-l"></div>
+                <div class="inner-r"></div>
+                <div class="eye-l" id = "eye-l">
+                    <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                </div>
+                <div class="eye-r" id = "eye-r">
+                    <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                </div>
+                <div class="nose">
+                    <div class="l1"></div>
+                    <div class="l2"></div>
+                </div>
+            </div>
+            <div class="body" id = "body">
+                <div class="paw-l" id = "paw-l"></div>
+                <div class="paw-r" id = "paw-r"></div>
+                <div class="tail" id = "tail"></div>
+            </div>
+            <div class="shadow"></div>
+        </div>
+    </div>
+    <div class = "coins"> 
+        <a id = "price">0</a>
+        {% load static %} 
+        <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
+    </div>
+    <button class = "buy" onclick = "return buyNow();">BUY NOW</button>
 </div>
-<div class = "coins"> 
-    <a id = "price">0</a>
-    {% load static %} 
-    <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
-</div>
-<button class = "buy" onclick = "return buyNow();">BUY NOW</button>
 
 
 <script>

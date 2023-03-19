@@ -145,64 +145,66 @@
 {% endblock %}
 
 {% block content %}
-<div class = "balance">
-    <a>Balance:&nbsp</a>
-    <a id = "balance">10</a>
-    {% load static %} 
-    <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
-</div>
-
-<div id = "hat-container" class="hat-container">
-    {% load static %} 
-    <img id = "hat" width = '220', height = '220' src = "{% static 'blank-hat.png' %}">
-</div>
-
-<button class = "unequip" onclick = "return unequip();">UNEQUIP</button>
-
-<div class="container-1">
-    <div class="cat">
-        <div class="face" id="face">
-            <div class = "ear-l" id="ear-l"></div>
-            <div class = "ear-r" id="ear-r"></div>
-            <div class="inner-l"></div>
-            <div class="inner-r"></div>
-            <div class="eye-l" id = "eye-l">
-                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-            </div>
-            <div class="eye-r" id = "eye-r">
-                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-            </div>
-            <div class="nose">
-                <div class="l1"></div>
-                <div class="l2"></div>
-            </div>
-        </div>
-        <div class="body" id="body">
-            <div class="paw-l" id="paw-l"></div>
-            <div class="paw-r" id="paw-r"></div>
-            <div class="tail" id="tail"></div>
-        </div>
-        <div class="shadow"></div>
+<div class = "page-container">
+    <div class = "balance">
+        <a>Balance:&nbsp</a>
+        <a id = "balance">10</a>
+        {% load static %} 
+        <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
     </div>
-</div>
-<div class = "coins"> 
-    <a id = "price">0</a>
-    {% load static %} 
-    <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
-</div>
-<div class = "warning" id = "warning">Warning: If you click 'Buy Now' without a hat equipped, you will lose the hat you're currently wearing.</div>
-<button class = "buy" onclick = "return buyNow();">BUY NOW</button>
-<div class="container-2">
-    {% load static %} 
-    <img id = "1" width = "100", height = "100", src="{% static '1.svg' %}" onclick = "return changeHat(1);"/>  
-</div>
-<div class="container-3">
-    {% load static %} 
-    <img id = "2" width = "100", height = "100", src="{% static '3.svg' %}" onclick = "return changeHat(2);"/>
-</div>
-<div class="container-4">
-    {% load static %} 
-    <img id = "3" width = "100", height = "100", src="{% static '2.svg' %}" onclick = "return changeHat(3);"/>
+
+    <div id = "hat-container" class="hat-container">
+        {% load static %} 
+        <img id = "hat" width = '220', height = '220' src = "{% static 'blank-hat.png' %}">
+    </div>
+
+    <button class = "unequip" onclick = "return unequip();">UNEQUIP</button>
+
+    <div class="container-1">
+        <div class="cat">
+            <div class="face" id="face">
+                <div class = "ear-l" id="ear-l"></div>
+                <div class = "ear-r" id="ear-r"></div>
+                <div class="inner-l"></div>
+                <div class="inner-r"></div>
+                <div class="eye-l" id = "eye-l">
+                    <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                </div>
+                <div class="eye-r" id = "eye-r">
+                    <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                </div>
+                <div class="nose">
+                    <div class="l1"></div>
+                    <div class="l2"></div>
+                </div>
+            </div>
+            <div class="body" id="body">
+                <div class="paw-l" id="paw-l"></div>
+                <div class="paw-r" id="paw-r"></div>
+                <div class="tail" id="tail"></div>
+            </div>
+            <div class="shadow"></div>
+        </div>
+    </div>
+    <div class = "coins"> 
+        <a id = "price">0</a>
+        {% load static %} 
+        <img width = "30", height = "30", src="{% static 'catcoin.svg' %}"/>
+    </div>
+    <div class = "warning" id = "warning">Warning: If you click 'Buy Now' without a hat equipped, you will lose the hat you're currently wearing.</div>
+    <button class = "buy" onclick = "return buyNow();">BUY NOW</button>
+    <div class="container-2">
+        {% load static %} 
+        <img id = "1" width = "100", height = "100", src="{% static '1.svg' %}" onclick = "return changeHat(1);"/>  
+    </div>
+    <div class="container-3">
+        {% load static %} 
+        <img id = "2" width = "100", height = "100", src="{% static '3.svg' %}" onclick = "return changeHat(2);"/>
+    </div>
+    <div class="container-4">
+        {% load static %} 
+        <img id = "3" width = "100", height = "100", src="{% static '2.svg' %}" onclick = "return changeHat(3);"/>
+    </div>
 </div>
 
 <script>
