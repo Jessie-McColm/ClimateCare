@@ -606,7 +606,7 @@ def friend(request, username="none"):
     if username == "none":
         # get a random user from the database
         profiles = list(Profile.objects.filter(private=False).exclude(access_level=3))
-        if not user_prof.private:
+        if not user_prof.private and user_prof.access_level != 3:
             profiles.remove(user_prof)
         if len(profiles) == 0:
             return render(request, 'friends.html', context)
@@ -851,10 +851,10 @@ def return_leaderboard():
     an entry in the leaderboards.
     '''
     leaderboard_output = [] #this is the ouput data, a list of dictionaries
-    max_items = len(list(Profile.objects.all()))
+    max_items = len(list(Profile.objects.exclude(access_level=3)))
     if max_items > 20: #ensures no more than 20 items are retrieved
         max_items = 20
-    top_profiles = list(Profile.objects.all())[0:max_items] #retrieves the
+    top_profiles = list(Profile.objects.exclude(access_level=3))[0:max_items] #retrieves the
     #first (up to or below) 20 objects of an already ordered database
     for i in top_profiles:
         username = (i.user).username
@@ -881,13 +881,15 @@ def return_ranking(username_required):
 
     Returns: the user's rank, starting at 1 and moving upwards.
     '''
-    all_profiles = list(Profile.objects.all())
+    all_profiles = list(Profile.objects.exclude(access_level=3))
     user_found = False
     search_count = 0
     while (user_found == False) and (search_count < len(all_profiles)):
         if all_profiles[search_count].user.username == username_required:
             user_found = True
         search_count = search_count + 1
+    if search_count == len(all_profiles) and user_found == False:
+        search_count = 0 #admin user's rank is zero
     return search_count
 
 

@@ -178,55 +178,6 @@ class KittyIndexTests(TestCase):
         self.assertEqual(profile.num_times_fed, 1)
         self.assertEqual(response.context['task'],"feed")
         self.assertEqual(response.status_code, 200)
-
-    '''
-    def test_post_articles_DB_update(self):
-        """
-        Test if database is updated correctly when a post request is sent to get articles/feed the kitty
-
-        Authors:
-            Jessie 
-        """
-        client = Client()
-        g1 = Group.objects.create(name='Player')
-        client.post(path='/users/register_user', data=
-        {
-            "username": "kittylover123",
-            "email": "kittylover@climatecare.com",
-            "password1": "i_secretly_hate_kitties",
-            "password2": "i_secretly_hate_kitties"
-        })
-        
-        new_advice = Advice(content="example advice", source ="example")
-        new_advice.save()
-        
-        
-        
-        pastTime=timezone.now()-timedelta(seconds=5)
-        setattr(cat_data, "last_food_refill", pastTime)
-        cat_data.save()
-        
-        
-        client.post(path='/users/login_user', data=
-        {
-            "username": "kittylover123",
-            "password": "i_secretly_hate_kitties"
-        })
-        sleep(5)
-        response=client.post(path='/climate/kitty', data=
-                             {"coordinates":"0,0",
-                              "task":"feed"})
-        user = User.objects.get(username='kittylover123')
-        user_prof = Profile.objects.get(user=user)
-        cat_data = user_prof.creature
-        current_time=timezone.now()
-        print(cat_data.last_food_refill)
-        print(current_time)
-        food_time_difference = current_time - cat_data.last_food_refill
-        food_time_difference_seconds = food_time_difference.total_seconds()
-        self.assertTrue(food_time_difference_seconds<4.0)
-        self.assertEqual(response.status_code, 200)
-    '''
         
     def test_post_not_articles(self):
         """
@@ -307,50 +258,6 @@ class KittyIndexTests(TestCase):
         self.assertEqual(profile.num_times_watered, 1)
         self.assertEqual(response.context['task'], "water")
         self.assertEqual(response.status_code, 200)
-    '''
-    def test_post_water_DB_update(self):
-        """
-        Test if database is updated correctly when a post request is sent to water the kitty
-
-        Author:
-            Jessie
-        """
-        client = Client()
-        g1 = Group.objects.create(name='Player')
-        print(timezone.now())
-        client.post(path='/users/register_user', data=
-        {
-            "username": "kittylover123",
-            "email": "kittylover@climatecare.com",
-            "password1": "i_secretly_hate_kitties",
-            "password2": "i_secretly_hate_kitties"
-        })
-        user = User.objects.get(username='kittylover123')
-        location = LocationFountain(longitude=0, latitude=0)
-        location.save()
-        user_prof = Profile.objects.get(user=user)
-        cat_data = user_prof.creature
-        pastTime=timezone.now()-timedelta(seconds=5)
-        setattr(cat_data, "last_thirst_refill", pastTime)
-        cat_data.save()
-        client.post(path='/users/login_user', data=
-        {
-            "username": "kittylover123",
-            "password": "i_secretly_hate_kitties"
-        })
-        print(timezone.now())
-        response=client.post(path='/climate/kitty', data=
-                             {"coordinates":"0,0",
-                              "task":"water"})
-        
-        print(cat_data2.last_thirst_refill)
-        current_time=timezone.now()
-        
-        water_time_difference = current_time - cat_data.last_thirst_refill
-        water_time_difference_seconds = water_time_difference.total_seconds()
-        self.assertTrue(water_time_difference_seconds<4)
-        self.assertEqual(response.status_code, 200)
-    '''
     
     def test_post_not_water(self):
         """
@@ -430,48 +337,6 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.context['task'],"clean")
         self.assertEqual(response.status_code, 200)
 
-    ''' #TODO remove this before submission!
-    def test_post_clean_DB_update(self):
-        """
-        Test if database is updated correctly when a post request is sent to clean the kitty
-
-        Authors:
-            Jessie 
-        """
-        client = Client()
-        g1 = Group.objects.create(name='Player')
-        client.post(path='/users/register_user', data=
-        {
-            "username": "kittylover123",
-            "email": "kittylover@climatecare.com",
-            "password1": "i_secretly_hate_kitties",
-            "password2": "i_secretly_hate_kitties"
-        })
-        user = User.objects.get(username='kittylover123')
-        location = LocationBin(longitude=0, latitude=0)
-        location.save()
-        user_prof = Profile.objects.get(user=user)
-        cat_data = user_prof.creature
-        pastTime=timezone.now()-timedelta(seconds=5)
-        setattr(cat_data, "last_litter_refill", pastTime)
-        cat_data.save()
-        client.post(path='/users/login_user', data=
-        {
-            "username": "kittylover123",
-            "password": "i_secretly_hate_kitties"
-        })
-
-        response=client.post(path='/climate/kitty', data=
-                             {"coordinates":"0,0",
-                              "task":"litter"})
-        current_time=timezone.now()
-        clean_time_difference = current_time - cat_data.last_litter_refill
-        clean_time_difference_seconds = clean_time_difference.total_seconds()
-        print(clean_time_difference_seconds)
-        self.assertEqual(response.context['task'],"clean")
-        self.assertTrue(clean_time_difference_seconds<4)
-        self.assertEqual(response.status_code, 200)
-    '''
     def test_post_not_clean(self):
         """
         Tests that sending a water task does not result in a clean task being performed
