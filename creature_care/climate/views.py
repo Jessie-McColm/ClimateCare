@@ -55,7 +55,7 @@ def kitty(request, type_of="none"):
 
     colours = cat_colours(cat_data)
 
-    time_limit = 3600
+    time_limit = 300
     # ----------------------------------------------------------------------------------
 
     # calculating the time difference to determine how stinky/thirsty/ etc the kitty is
@@ -673,7 +673,7 @@ def within_distance(user_loc, object_loc, m_dist):
         in_range (Bool): whether in range of not
     """
 
-    # using haversine distance not eulcidean
+    # using haversine distance not euclidean
 
     # To calculate distance in meters
     o_dist = hs.haversine(user_loc, object_loc, unit=Unit.METERS)
