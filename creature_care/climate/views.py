@@ -1,14 +1,12 @@
 """
 This is the django view for the main page, and handles user interaction with the Kitty
 """
-import random
 import re
-
+import random
 import haversine as hs
 from haversine import Unit
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
@@ -17,9 +15,6 @@ from django.contrib.auth import authenticate
 
 from users.decorators import game_master
 from .models import Profile, Advice, LocationBin, LocationFountain, Wearing, Item, Colour
-import random
-
-
 
 # this decorator means if not logged in sends back to login page
 # might want to change in future
@@ -54,7 +49,7 @@ def kitty(request, type_of="none"):
     cat_data = user_prof.creature
 
     colours = cat_colours(cat_data)
-    
+
     time_limit = 300
     # ----------------------------------------------------------------------------------
 
@@ -87,10 +82,10 @@ def kitty(request, type_of="none"):
         # will need testing
         coordinates = string_coord_convert(coordinates_string)
         if task == "water":
-            #check that a certain amount of time has passed since the user last tried to water
+            # check that a certain amount of time has passed since the user last tried to water
             water_time_difference = current_time - cat_data.last_thirst_refill
             water_time_difference_seconds = water_time_difference.total_seconds()
-            if water_time_difference_seconds >time_limit:
+            if water_time_difference_seconds > time_limit:
                 near_water = validate_location(coordinates, task)
                 if near_water:
                     info['task'] = 'water'
@@ -103,7 +98,7 @@ def kitty(request, type_of="none"):
         elif task == "litter":
             litter_time_difference = current_time - cat_data.last_litter_refill
             litter_time_difference_seconds = litter_time_difference.total_seconds()
-            if litter_time_difference_seconds >time_limit:
+            if litter_time_difference_seconds > time_limit:
                 near_bin = validate_location(coordinates, task)
                 if near_bin:
                     info['task'] = 'clean'
@@ -116,7 +111,7 @@ def kitty(request, type_of="none"):
         elif task == "feed":
             food_time_difference = current_time - cat_data.last_food_refill
             food_time_difference_seconds = food_time_difference.total_seconds()
-            if food_time_difference_seconds >time_limit:
+            if food_time_difference_seconds > time_limit:
                 cat_data.last_food_refill = current_time
                 cat_data.save()
                 user_prof.points = user_prof.points + 1
@@ -139,7 +134,7 @@ def kitty(request, type_of="none"):
     if type_of == "clean":
         info['cleaned'] = True
 
-    if user_prof.paused == True:
+    if user_prof.paused is True:
         current_time = user_prof.pause_time
     else:
         current_time = timezone.now()
@@ -160,7 +155,6 @@ def kitty(request, type_of="none"):
 
     elif food_time_difference_seconds > three_days:
         info['hungry'] = True
-    
 
     return render(request, 'cat.html', info)
 
@@ -177,10 +171,10 @@ def leaderboard_page(request):
         A http response.
     """
 
-    leaderboard_data = return_leaderboard() #returns a list of dictionaries for
-    #rendering the full leaderboard
+    leaderboard_data = return_leaderboard()  # returns a list of dictionaries for
+    # rendering the full leaderboard
     user_rank = return_ranking(request.user.username)
-    return render(request, 'leaderboard.html', {'data':leaderboard_data, 'rank':user_rank})
+    return render(request, 'leaderboard.html', {'data': leaderboard_data, 'rank': user_rank})
 
 
 @login_required(login_url='loginPage')
@@ -195,7 +189,7 @@ def my_stats_page(request):
         A http response.
     """
 
-    #obtain user data
+    # obtain user data
     user_obj = request.user
     user_prof = Profile.objects.get(user=user_obj)
     username = user_obj.get_username()
@@ -418,6 +412,10 @@ def colour_shop_page(request):
             else:
                 successful_purchase = "false"
 
+        user_obj = request.user
+        user_prof = Profile.objects.get(user=user_obj)
+        points_available = user_prof.points
+
         if request.POST.get('purchase_new_colour_eyes') == "true":
             print("purchase_new_colour_eyes == true...")
             attempted_purchase = "true"
@@ -472,18 +470,17 @@ def game_master_page(request):
     Returns:
         A http response.
     """
-    #may need to look into preventing XSS
+    # may need to look into preventing XSS
     if request.method == "POST":
-        link_or_content=request.POST.get('link_or_content')
-        if link_or_content=="link":
-            link=request.POST.get('content')
-            source=request.POST.get('source')
+        link_or_content = request.POST.get('link_or_content')
+        if link_or_content == "link":
+            link = request.POST.get('content')
+            source = request.POST.get('source')
             Advice.objects.create(link=link, source=source)
-        elif link_or_content=="content":
-            content=request.POST.get('content')
-            source=request.POST.get('source')
+        elif link_or_content == "content":
+            content = request.POST.get('content')
+            source = request.POST.get('source')
             Advice.objects.create(content=content, source=source)
-
 
     return render(request, 'temp_game_master.html')
 
@@ -523,7 +520,7 @@ def friend(request, username="none"):
     colours = cat_colours(cat_obj)
     
     context = {
-            "username": user_obj.get_username(),
+            'username': user_obj.get_username(),
             'fur_colour': colours["fur_colour"],
             'eye_colour': colours["eye_colour"],
             'cat_item': colours["cat_item"],
@@ -539,7 +536,6 @@ def friend(request, username="none"):
             'f_eye_colour': "#ff0000"
             }
 
-
     if username == "none":
         # get a random user from the database
         profiles = list(Profile.objects.filter(private=False).exclude(access_level=3))
@@ -548,11 +544,11 @@ def friend(request, username="none"):
         if len(profiles) == 0:
             return render(request, 'friends.html', context)
 
-        #exclude the current user from possibilities
+        # exclude the current user from possibilities
 
-        choice_range=len(profiles)-1
-        choice=random.randint(0, choice_range)
-        profile_choice=profiles[choice]
+        choice_range = len(profiles)-1
+        choice = random.randint(0, choice_range)
+        profile_choice = profiles[choice]
         username = profile_choice.user.username
 
     else:
@@ -561,11 +557,9 @@ def friend(request, username="none"):
         if profile_choice.private or profile_choice.access_level == 3:
             return redirect('friend')
 
-    
-    # get freind cat colours
+    # get friend cat colours
     f_cat_obj = profile_choice.creature
     f_colours = cat_colours(f_cat_obj)
-    
 
     context = {
         "username": user_obj.get_username(),
@@ -588,47 +582,54 @@ def friend(request, username="none"):
     
     return render(request, 'friends.html', context)
 
-
 @login_required(login_url='loginPage')
 def settings_page(request):
-    #in the request that the request.method is not a post, the button will have to be set to the right value
-    #(paused or unpaused)
+    """
+    Provides functionality for allowing the user to access the settings page and modify their
+    """
+    # in the request that the request.method is not a post, the button will have to be set to the right value
+    # (paused or unpaused)
     user_prof = Profile.objects.get(user=request.user)
     user_obj = request.user
     if request.method == "POST":
-        pause_data = request.POST.get('pause_data') #this should be the data retrieved from the post function
+        # this should be the data retrieved from the post function
+        pause_data = request.POST.get('pause_data')
         print(pause_data)
-        if pause_data == "False": #if the pause button is set to false
-            if user_prof.paused == True: #filters for the case where the pause button started at
-            #false and the user didn't touch it
-                end_pause(user_prof) #ends the pause if the user was previously paused
-        elif pause_data == "True": #in the case that pause_data is True, maybe adjust later
+        if pause_data == "False":  # if the pause button is set to false
+            # filters for the case where the pause button
+            # started at false and the user didn't touch it
+            if user_prof.paused is True:
+                # ends the pause if the user was previously paused
+                end_pause(user_prof)
+        elif pause_data == "True":
             start_pause(user_prof)
-        if request.POST.get('current_password') != "": #if the user has attempted to set a new password
+        # if the user has attempted to set a new password
+        if request.POST.get('current_password') != "":
             user = authenticate(username=user_obj.username, password=request.POST.get('current_password'))
             if user is not None:
-                 #if the user
-                #has successfully entered their current password
-                if (request.POST.get('new_password')==request.POST.get('new_password2')):
+                # if the user has successfully entered their current password
+                if request.POST.get('new_password') == request.POST.get('new_password2'):
                     user_obj.set_password(request.POST.get('new_password'))
                     user_obj.save()
                 else:
                     print("passwords don't match")
-            else: #if the user failed to enter their password successfully
+            else:  # if the user failed to enter their password successfully
                 print("Current password entered incorrectly")
-        if request.POST.get('current_username') != "": #if the user has set a new username
+        if request.POST.get('current_username') != "":  # if the user has set a new username
             user_obj.username = request.POST.get('current_username')
             user_obj.save()
         privacy_setting = request.POST.get('privacy_setting')
-        if privacy_setting=="True":
-             user_prof.private=True
-             user_prof.save()
+        if privacy_setting == "True":
+            user_prof.private = True
+            user_prof.save()
         else:
             user_prof.private=False
             user_prof.save()
 
-    context={"is_paused":user_prof.paused,"is_private":user_prof.private} #need to change once DB is updated
-    return render(request, 'settings.html',context)
+    context = {"is_paused": user_prof.paused,
+               "is_private": user_prof.private
+            }  # need to change once DB is updated
+    return render(request, 'settings.html', context)
 
 
 # ---------Below this are functions for views, not views ----------------
@@ -716,8 +717,6 @@ def validate_location(coordinates, location_type):
 
     Args:
         coordinates: The user's coordinates to be validated
-        cat_data: The cat object representing the user's cat in the database, through which
-                  datetime stamps will be updated
         location_type: A string specifying whether the user is near a bin or a water fountain
 
     Returns:
@@ -757,7 +756,7 @@ def validate_location(coordinates, location_type):
 
 
 def return_leaderboard():
-    '''
+    """
     Retrieves up to the top 20 players in terms of lifetime points
 
     Authors: Laurie
@@ -766,17 +765,16 @@ def return_leaderboard():
 
     Returns: a list of dictionaries, each dictionary represents
     an entry in the leaderboards.
-    '''
-    leaderboard_output = [] #this is the ouput data, a list of dictionaries
+    """
+    leaderboard_output = []  # this is the output data, a list of dictionaries
     max_items = len(list(Profile.objects.exclude(access_level=3)))
-    if max_items > 20: #ensures no more than 20 items are retrieved
-        max_items = 20
-    top_profiles = list(Profile.objects.exclude(access_level=3))[0:max_items] #retrieves the
-    #first (up to or below) 20 objects of an already ordered database
+    max_items = min(max_items, 20)  # ensures that no more than 20 items are retrieved
+    top_profiles = list(Profile.objects.exclude(access_level=3))[0:max_items]  # retrieves the
+    # first (up to or below) 20 objects of an already ordered database
     for i in top_profiles:
-        username = (i.user).username
+        username = i.user.username
         points = i.points
-        colour_data=cat_colours(i.creature)
+        colour_data = cat_colours(i.creature)
         creature_eye_colour = colour_data["eye_colour"]
         creature_fur_colour = colour_data["fur_colour"]
         temp_dictionary = {
@@ -788,9 +786,8 @@ def return_leaderboard():
         leaderboard_output.append(temp_dictionary)
     return leaderboard_output
 
-
 def return_ranking(username_required):
-    '''
+    """
     Simple linear search algorithm to find the user's place in the profile's database.
 
     Authors: Laurie
@@ -798,35 +795,35 @@ def return_ranking(username_required):
     Args: the User object of the user that has logged into the system
 
     Returns: the user's rank, starting at 1 and moving upwards.
-    '''
+    """
     all_profiles = list(Profile.objects.exclude(access_level=3))
     user_found = False
     search_count = 0
-    while (user_found == False) and (search_count < len(all_profiles)):
+    while (not user_found) and (search_count < len(all_profiles)):
         if all_profiles[search_count].user.username == username_required:
             user_found = True
         search_count = search_count + 1
-    if search_count == len(all_profiles) and user_found == False:
-        search_count = 0 #admin user's rank is zero
+    if search_count == len(all_profiles) and not user_found:
+        search_count = 0  # admin user's rank is zero
     return search_count
 
 
 def start_pause(user_prof):
-    '''
+    """
     A function to start a pause on a user. The function edits the database to reflect that the user
     has actually paused, and stores when the user paused.
 
     Authors: Laurie
 
     Args: the Profile object of the user that is sending the request to start the pause
-    '''
+    """
     user_prof.paused = True
     user_prof.pause_time = timezone.now()
     user_prof.save()
 
 
 def end_pause(user_prof):
-    '''
+    """
     A function to fairly return a user from pause to normal gameplay. This function uses the time
     the user paused and the last time they fed/watered/cleaned their kitty to update the kitty's
     data in a way that reflects how it was left.
@@ -834,7 +831,7 @@ def end_pause(user_prof):
     Authors: Laurie
 
     Args: the Profile object of the user that is sending the request to end the pause
-    '''
+    """
     user_prof.paused = False
     current_time = timezone.now()
     cat_data = user_prof.creature
@@ -854,24 +851,20 @@ def end_pause(user_prof):
 
 def cat_colours(cat_data):
     """ 
-    This function processes gettign the colours and items from a creature oject so we can pass to the front end 
-    
+    This function processes getting the colours and items from a creature object,
+    so we can pass to the front end.
+
     Authors:
-        Lucia
+        Lucia, Nevan
 
     Returns:
         A context dictionary
-    
     """
-    
-
-    
-
     eye_colour_obj = cat_data.eye_colour
     eye_colour = eye_colour_obj.colour_hex_val
 
     fur_colour_obj = cat_data.fur_colour
-    
+
     fur_colour = fur_colour_obj.colour_hex_val
     fur_colour += ","
     fur_colour += fur_colour_obj.colour_hex_val_patch
