@@ -20,6 +20,14 @@
             nav {
                 z-index: 3;
             }
+            .pull-right {
+                position: relative;
+                margin: 0;
+                max-width: max-content;
+            }
+            .pull-right:active {
+                background-color: transparent;
+            }
         </style>
 
         {% block head %}{% endblock %}
@@ -30,7 +38,7 @@
         {% block navbar %}
             <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
                 <span class="navbar-brand">ClimateCare</span>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <button class="navbar-toggler pull-right btn-dark" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="collapsibleNavbar">
