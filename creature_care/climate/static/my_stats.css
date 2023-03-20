@@ -6,13 +6,6 @@
 
 /* Fredoka One for numbers??*/
 
-.main_column{
-    text-align: center;
-    width: 70%;
-    margin: 0 auto;
-    
-}
-
 .card{
     /* control how items are displayed in the div using flex */
     display: flex; 
@@ -22,11 +15,10 @@
     position: relative;
     /*margin auto puts in middle of page */
     margin: auto;
-    /* scales with screen page - could check min height and width */
-    /*height: 20vh;
-    width: 35vw;*/
+
     height: 14em;
     width: 35em;
+    max-width: 70vw;
     
     padding: 2em;
 
@@ -47,10 +39,11 @@
     text-align: center;
     position: relative;
 
-    width: 30vw;
-    margin: 0 auto;
+    width: 20em;
+    max-width: 70vw;
+    margin: auto;
 
-    padding: 2em;
+    padding: 1em;
 
     margin-top: 3vh;
 
@@ -68,6 +61,7 @@ p{
 
     padding: 0.5em;
     width: 18vw;
+    width: 80%;
 
 }
 
@@ -91,7 +85,8 @@ p{
     top: 5em;
     padding:0em;
     text-align: center;
-    width: 80%;
+    width: 20em;
+    max-width: 70vw;
 }
 
 .num{
@@ -124,15 +119,14 @@ p{
     font-weight: 200;
     font-size: 2em;
     color: #353a3f;
-
-    /*border: 1px solid black; */
+    text-align: center;
 
 }
 
 .tupperware{
     transform: scale(0.7);
     /*left temp fix defo change */
-    left: 2em;
+    left: -1em;
     top: 0.5em;
 
     animation: tupper_move 3s infinite linear; 
@@ -144,7 +138,7 @@ p{
     transform: scale(0.4);
     /*top temp fix defo change */
     top: -8em;
-    left: 5.5em;
+    left: 0em;
 
     animation: bottle_move 3s infinite linear; 
 }
@@ -152,7 +146,7 @@ p{
 .recycling-bin{
     transform: scale(0.4);
 
-    left: 2.5em;
+    left: -1em;
     top: -6.5em;
 
     animation: bin_move 3s infinite linear; 
@@ -163,8 +157,6 @@ p{
 
     display: grid;
     place-items: center;
-
-    /*border: 1px solid black; */  
     
     height: 80%;
     width: 25%;

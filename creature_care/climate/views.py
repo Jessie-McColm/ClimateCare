@@ -776,8 +776,9 @@ def return_leaderboard():
     for i in top_profiles:
         username = (i.user).username
         points = i.points
-        creature_eye_colour = i.creature.eye_colour
-        creature_fur_colour = i.creature.fur_colour
+        colour_data=cat_colours(i.creature)
+        creature_eye_colour = colour_data["eye_colour"]
+        creature_fur_colour = colour_data["fur_colour"]
         temp_dictionary = {
             "username": username,
             "points": points,
