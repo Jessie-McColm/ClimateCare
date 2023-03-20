@@ -34,81 +34,83 @@
 
 {% block content %}
 
-<div class = 'main_column'>
-    <div class = 'text-box' id="title-box">
-        <p class = "title">MY STATS</p>
-        <p>Hey {{username}}! Here are your stats...</p>
-    </div>
-    <div class = 'card'>
-        <span class = 'num' data-val={{bottle_num}}>0</span>
-        <span class = 'c_text'>bottle refills</span>
-        <div class = 'icon'>
-            <div class="waterbottle">
-                <div class="bottle-cap">
-                    <div class = "cap-shine"></div>
-                    <div class = "cap-shine-2"></div>
-                    <div class ="cap-shadow"></div>
-                </div>
-                <div class="bottle-top"></div>
-                <div class="bottle-bottom"></div>
-            </div>
-        </div>
-    </div>
-    <div class = 'text-box'>
-        <p>Plastic bottles need up to 450 years to dissolve</p>
-        <p>A reusable bottle stops around 156 plastic ones being used anually</p>
-        <p>Try and hit that target!</p>
+<div class="container-fluid">
 
-    </div>
-    <div class = 'card'>
-        <span class = 'num' data-val={{article_num}}>0</span>
-        <span class = 'c_text'>articles read</span>
-        <div class = 'icon'>
-            <div class ="tupperware">
-                <div class="tup-cap"></div>
-                <div class="tup-box-top-line"></div>
-                <div class="tup-box"></div>
-                <div class="tup-box-bottom"></div>
-                <div class="tup-box-bottom-l"></div>
-                <div class="tup-box-bottom-r"></div>
-            </div>
-        </div>
-    </div>
-    <div class = 'text-box'>
-        <p>By staying aware and signing petitions we can have a huge impact!</p>
-        <p>For example this article on big companies vs consumers with greenhouse gases...</p>
-        <a id= "page-link" href="https://www.bbc.com/future/article/20220504-why-the-wrong-people-are-blamed-for-climate-change">How companies blame you for climate change </a>
 
-    </div>
-    <div class = 'card'>
-        <span class = 'num' data-val={{recycle_num}}>0</span>
-        <span class = 'c_text'>items recyled</span>
-        <div class = 'icon'>
-            
-            <div class ="recycling-bin">
-                <div class="cap-top"></div>
-                <div class="cap">
-                    <div class="hole"></div>
-                </div>
-                <div class="box-top-line"></div>
-                <div class="box">
-                    <span id = "symbol" class="recycling-symbol">&#9851;</span>
-                </div>
-                <div class="box-bottom-l"></div>
-                <div class="box-bottom-r"></div>
+<div class = 'text-box' id="title-box">
+    <p class = "title">MY STATS</p>
+    <p>Hey {{username}}! Here are your stats...</p>
+</div>
+<div class = 'card'>
+    <span class = 'num' data-val={{bottle_num}}>0</span>
+    <span class = 'c_text'>bottle refills</span>
+    <div class = 'icon'>
+        <div class="waterbottle">
+            <div class="bottle-cap">
+                <div class = "cap-shine"></div>
+                <div class = "cap-shine-2"></div>
+                <div class ="cap-shadow"></div>
             </div>
-            
+            <div class="bottle-top"></div>
+            <div class="bottle-bottom"></div>
         </div>
-    </div>
-    <div class = 'text-box'>
-        <p>Did you know? Recyling a single...</p>
-        <p>plastic bottle = energy savings to power a lightbulb for three+ hours</p>
-        <p>glass bottle = energy savings to power a laptop for half an hour</p>
-        <p>aluminium can = energy savings to power a TV for up to three hours</p>
-        <p>(that's a lot of energy)</p>
-
     </div>
 </div>
+<div class = 'text-box'>
+    <p>Plastic bottles need up to 450 years to dissolve</p>
+    <p>A reusable bottle stops around 156 plastic ones being used anually</p>
+    <p>Try and hit that target!</p>
+
+</div>
+<div class = 'card'>
+    <span class = 'num' data-val={{article_num}}>0</span>
+    <span class = 'c_text'>articles read</span>
+    <div class = 'icon'>
+        <div class ="tupperware">
+            <div class="tup-cap"></div>
+            <div class="tup-box-top-line"></div>
+            <div class="tup-box"></div>
+            <div class="tup-box-bottom"></div>
+            <div class="tup-box-bottom-l"></div>
+            <div class="tup-box-bottom-r"></div>
+        </div>
+    </div>
+</div>
+<div class = 'text-box'>
+    <p>By staying aware and signing petitions we can have a huge impact!</p>
+    <p>For example this article on big companies vs consumers with greenhouse gases...</p>
+    <a id= "page-link" href="https://www.bbc.com/future/article/20220504-why-the-wrong-people-are-blamed-for-climate-change">How companies blame you for climate change </a>
+
+</div>
+<div class = 'card'>
+    <span class = 'num' data-val={{recycle_num}}>0</span>
+    <span class = 'c_text'>items recyled</span>
+    <div class = 'icon'>
+        
+        <div class ="recycling-bin">
+            <div class="cap-top"></div>
+            <div class="cap">
+                <div class="hole"></div>
+            </div>
+            <div class="box-top-line"></div>
+            <div class="box">
+                <span id = "symbol" class="recycling-symbol">&#9851;</span>
+            </div>
+            <div class="box-bottom-l"></div>
+            <div class="box-bottom-r"></div>
+        </div>
+        
+    </div>
+</div>
+<div class = 'text-box'>
+    <p>Did you know? Recyling a single...</p>
+    <p>plastic bottle = energy savings to power a lightbulb for three+ hours</p>
+    <p>glass bottle = energy savings to power a laptop for half an hour</p>
+    <p>aluminium can = energy savings to power a TV for up to three hours</p>
+    <p>(that's a lot of energy)</p>
+
+</div>
+
 
 <div>
 <div id = "hat-container" class="hat-container" style = "height: 10px; position: relative; top: 110px; left: -1.5em; margin: auto;">
@@ -149,7 +151,7 @@
     <p class="source">https://www.recyclingbins.co.uk/recycling-facts/</p>
 </div>
 
-
+</div>
 
 <script>
     let valDisplays = document.querySelectorAll(".num");
