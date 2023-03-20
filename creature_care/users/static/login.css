@@ -56,7 +56,7 @@ body{
     right:0;
     top:0;
     bottom:0;
-    z-index: -1;
+    z-index: -2;
     box-shadow: 0 0 0 0.6em rgba(255,255,255,0.05), 0 0 0 1.2em rgba(255,255,255,0.05), 0 0 0 1.8em rgba(255,255,255,0.05);
 }
 
@@ -93,7 +93,7 @@ body{
     height: 5em;
     width: 5em;
     position: relative;
-    left: 2em;
+    left: 5em;
     top: 3em;
 }
 
@@ -116,7 +116,7 @@ body{
     width: 4em;
     display: inline-block;
     position: relative;
-    right: 7em;
+    right: 5em;
     top:-2em;
 }
 
@@ -144,9 +144,6 @@ body{
     top: -5em;
 }
 
-
-
-
 .orbit{
     /*height: 18.75em;
     width: 18.75em;*/
@@ -155,7 +152,7 @@ body{
     /* to see uncomment border: 1px solid white; */
     border-radius: 50%;
     position: absolute;
-    left:-10.5em;
+    right: -2em;
     bottom: -10.5em;
     animation: spin 8s infinite linear; 
 
@@ -168,9 +165,7 @@ body{
 }
 
 .cat{
-    transform: scale(0.7) rotate(-90deg);
-    /*border: 1px solid white; */
-    border-radius: 50%;
+    transform: scale(0.6) rotate(-90deg);
     /*increase these to bring closer to earth */
     position: relative;
     height:14em;
