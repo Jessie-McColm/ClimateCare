@@ -54,7 +54,7 @@ def kitty(request, type_of="none"):
     cat_data = user_prof.creature
 
     colours = cat_colours(cat_data)
-
+    
     time_limit = 300
     # ----------------------------------------------------------------------------------
 
@@ -862,12 +862,18 @@ def cat_colours(cat_data):
         A context dictionary
     
     """
+    
+
+    
 
     eye_colour_obj = cat_data.eye_colour
     eye_colour = eye_colour_obj.colour_hex_val
 
     fur_colour_obj = cat_data.fur_colour
+    
     fur_colour = fur_colour_obj.colour_hex_val
+    fur_colour += ","
+    fur_colour += fur_colour_obj.colour_hex_val_patch
 
     try:
         wearing = Wearing.objects.get(creature=cat_data)
