@@ -138,11 +138,6 @@
     <div class = "bubble3"></div>
 </div>
 
-<div id = "hat-container" class="hat-container">
-    {% load static %} 
-    <img id = "hat" width = '220', height = '220' src = "{% static 'blank-hat.png' %}">
-</div>
-
 <div class="container-1">
     <div class="cat">
         <div class="face" id="face">
@@ -181,7 +176,12 @@
         <div class="poop-2"></div>
         <div class="poop-3"></div>
     </div>
+    <div id = "hat-container" class="hat-container" style = "right: 30px; bottom: 290px;">
+        {% load static %} 
+        <img id = "hat" width = '220', height = '220' src = "{% static 'blank-hat.png' %}">
+    </div>
 </div>
+
 </div>
 
     <div class="fixed-bottom">
