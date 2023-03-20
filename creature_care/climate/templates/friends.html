@@ -44,10 +44,6 @@
     <div class="cat_section">
         <div class="cat_box">
             <div class="container-1">
-                <div id = "hat-container" class="hat-container" style = "top: 55px; left: 72px;">
-                    {% load static %} 
-                    <img id = "u_hat" width = '176', height = '176' src = "{% static 'blank-hat.png' %}">
-                </div>
                 <div class="cat" id="cat1">
                     <div class="face" id="u_face">
                         <div class="ear-l" id = "u_ear-l"></div>
@@ -73,15 +69,15 @@
                     </div>
                     <div class="shadow"></div>
                 </div>
+                <div id = "hat-container" class="hat-container" style = "bottom: 230px; left: 72px;">
+                    {% load static %} 
+                    <img id = "u_hat" width = '95', height = '95' src = "{% static 'blank-hat.png' %}" style = "transform: scale(0.8);">
+                </div>
             </div>
         </div>
         
         <div class="cat_box">
             <div class="container-1">
-                <div id = "hat-container" class="hat-container" style = "right: 40px; top: 55px;">
-                    {% load static %} 
-                    <img id = "f_hat" width = '176', height = '176' src = "{% static 'blank-hat.png' %}">
-                </div>
                 <div class="cat" id="cat2"> 
                     <div class="face" id="f_face">
                         <div class="ear-l" id = "f_ear-l"></div>
@@ -106,6 +102,10 @@
                         <div class="tail" id="f_tail"></div>
                     </div>
                     <div class="shadow"></div>
+                </div>
+                <div id = "hat-container" class="hat-container" style = "right: 40px; top: 55px;">
+                    {% load static %} 
+                    <img id = "f_hat" width = '176', height = '176' src = "{% static 'blank-hat.png' %}">
                 </div>
             </div>      
 
