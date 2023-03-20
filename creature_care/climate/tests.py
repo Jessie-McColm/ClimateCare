@@ -41,6 +41,12 @@ class UserModelTests(TestCase):
             colour_hex_val_patch="#95fdff",
             colour_cost=10
         )
+        Colour.objects.create(
+            colour_id="blueP",
+            colour_hex_val="#2196f3",
+            colour_hex_val_patch="#2196f3",
+            colour_cost=10
+        )
 
     def test_create_user(self):
         """
@@ -100,6 +106,12 @@ class KittyIndexTests(TestCase):
         Colour.objects.create(
             colour_id="blue",
             colour_hex_val="#2196f3",
+            colour_cost=10
+        )
+        Colour.objects.create(
+            colour_id="blueP",
+            colour_hex_val="#2196f3",
+            colour_hex_val_patch="#2196f3",
             colour_cost=10
         )
 
@@ -948,6 +960,12 @@ class leaderBoardTests(TestCase):
             colour_hex_val_patch="#95fdff",
             colour_cost=10
         )
+        Colour.objects.create(
+            colour_id="blueP",
+            colour_hex_val="#2196f3",
+            colour_hex_val_patch="#2196f3",
+            colour_cost=10
+        )
     
     def test_leaderboard(self):
         """
@@ -1117,6 +1135,12 @@ class ColourShopTests(TestCase):
             colour_hex_val="#2196f3",
             colour_cost=10
         )
+        Colour.objects.create(
+            colour_id="blueP",
+            colour_hex_val="#2196f3",
+            colour_hex_val_patch="#2196f3",
+            colour_cost=10
+        )
 
     def test_eye_colour_purchase_successful(self):
         client = Client()
@@ -1153,7 +1177,7 @@ class ColourShopTests(TestCase):
         client.post(path='/climate/colour_shop', data={
             'purchase_new_colour_eyes': 'true',
             'purchase_new_colour_fur': 'false',
-            'eye_colour': '#000000,#000000',
+            'eye_colour': '#000000',
             'fur_colour': ''
         })
 
@@ -1168,6 +1192,218 @@ class ColourShopTests(TestCase):
 
         self.assertNotEqual(former_eye_colour_name, new_eye_colour_name)
         self.assertEqual(former_player_balance - eye_colour_price, new_player_balance )
+
+    def test_fur_colour_purchase_successful(self):
+        client = Client()
+        players_group = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.num_times_watered = 0
+        user_prof.num_times_fed = 0
+        user_prof.num_times_litter_cleared = 0
+        user_prof.points = 10
+        user_obj.save()
+        user_prof.save()
+
+        former_player_balance = user_prof.points
+
+        kitty = user_prof.creature
+        fur_colour_obj = kitty.fur_colour
+        former_fur_colour = fur_colour_obj.colour_hex_val
+        former_fur_colour_patches= fur_colour_obj.colour_hex_val_patch
+        
+        
+
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        client.post(path='/climate/colour_shop', data={
+            'purchase_new_colour_eyes': 'false',
+            'purchase_new_colour_fur': 'true',
+            'eye_colour': '',
+            'fur_colour': '#2196f3,#2196f3'
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        kitty = user_prof.creature
+        
+        fur_colour_obj = kitty.fur_colour
+        new_fur_colour = fur_colour_obj.colour_hex_val
+        new_fur_colour_patches= fur_colour_obj.colour_hex_val_patch
+        
+        
+
+        new_player_balance = user_prof.points
+
+        self.assertNotEqual(new_fur_colour, former_fur_colour)
+        self.assertEqual(former_player_balance - 10, new_player_balance )
+
+    def test_eye_colour_purchase_fail(self):
+        client = Client()
+        players_group = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        
+
+        former_player_balance = user_prof.points
+
+        kitty = user_prof.creature
+        former_eye_colour = kitty.eye_colour
+        former_eye_colour_name = former_eye_colour.colour_id
+        
+
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        client.post(path='/climate/colour_shop', data={
+            'purchase_new_colour_eyes': 'true',
+            'purchase_new_colour_fur': 'false',
+            'eye_colour': '#000000',
+            'fur_colour': ''
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        kitty = user_prof.creature
+        new_eye_colour = kitty.eye_colour
+        new_eye_colour_name = new_eye_colour.colour_id
+        eye_colour_price = new_eye_colour.colour_cost
+
+        new_player_balance = user_prof.points
+
+        self.assertEqual(former_eye_colour_name, new_eye_colour_name)
+        self.assertEqual(former_player_balance , new_player_balance )
+
+    def test_fur_colour_purchase_fail(self):
+        client = Client()
+        players_group = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        
+
+        former_player_balance = user_prof.points
+
+        kitty = user_prof.creature
+        fur_colour_obj = kitty.fur_colour
+        former_fur_colour = fur_colour_obj.colour_hex_val
+        former_fur_colour_patches= fur_colour_obj.colour_hex_val_patch
+        
+        
+
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        client.post(path='/climate/colour_shop', data={
+            'purchase_new_colour_eyes': 'false',
+            'purchase_new_colour_fur': 'true',
+            'eye_colour': '',
+            'fur_colour': '#2196f3,#2196f3'
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        kitty = user_prof.creature
+        
+        fur_colour_obj = kitty.fur_colour
+        new_fur_colour = fur_colour_obj.colour_hex_val
+        new_fur_colour_patches= fur_colour_obj.colour_hex_val_patch
+        
+        
+
+        new_player_balance = user_prof.points
+
+        self.assertEqual(new_fur_colour, former_fur_colour)
+        self.assertEqual(former_player_balance, new_player_balance )
+
+    def test_both_colour_purchase(self):
+        client = Client()
+        players_group = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        
+        
+        user_prof.points = 20
+        user_obj.save()
+        user_prof.save()
+
+        former_player_balance = user_prof.points
+
+        kitty = user_prof.creature
+        fur_colour_obj = kitty.fur_colour
+        former_fur_colour = fur_colour_obj.colour_hex_val
+        former_fur_colour_patches= fur_colour_obj.colour_hex_val_patch
+        former_eye_colour = kitty.eye_colour
+        former_eye_colour_name = former_eye_colour.colour_id
+        
+
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        client.post(path='/climate/colour_shop', data={
+            'purchase_new_colour_eyes': 'true',
+            'purchase_new_colour_fur': 'true',
+            'eye_colour': '#000000',
+            'fur_colour': '#2196f3,#2196f3'
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        kitty = user_prof.creature
+        new_player_balance = user_prof.points
+        fur_colour_obj = kitty.fur_colour
+        new_fur_colour = fur_colour_obj.colour_hex_val
+        new_fur_colour_patches= fur_colour_obj.colour_hex_val_patch
+        new_eye_colour = kitty.eye_colour
+        new_eye_colour_name = new_eye_colour.colour_id
+        self.assertNotEqual(new_fur_colour, former_fur_colour)
+        self.assertNotEqual(new_eye_colour_name, former_eye_colour_name)
+        self.assertEqual(former_player_balance-20, new_player_balance )
+        
+
+        
+
+       
 
 
    
@@ -1194,6 +1430,12 @@ class SettingsTests(TestCase):
             colour_id="blue",
             colour_hex_val="#95fdff",
             colour_hex_val_patch="#95fdff",
+            colour_cost=10
+        )
+        Colour.objects.create(
+            colour_id="blueP",
+            colour_hex_val="#2196f3",
+            colour_hex_val_patch="#2196f3",
             colour_cost=10
         )
 
