@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="fixed the colour on the colour shop page not rendering&#10;&#10;- nevan" />
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="fixed the colour on the colour shop page not rendering&#10;&#10;- nevan">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
