@@ -55,7 +55,10 @@ def kitty(request, type_of="none"):
 
     # calculating the time difference to determine how stinky/thirsty/ etc the kitty is
     # better to calculate each time we send page cause changes depending on current time
-    current_time = timezone.now()
+    if user_prof.paused:
+        current_time = user_prof.pause_time
+    else:
+        current_time = timezone.now()
     three_days = 259200
     info = {
         'watered': False,
@@ -78,47 +81,47 @@ def kitty(request, type_of="none"):
         # set null coordinates for feeding
         task = request.POST.get('task')
         coordinates_string = request.POST.get('coordinates')
+        if request.method == "POST":
+            # will need testing
+            coordinates = string_coord_convert(coordinates_string)
+            if task == "water":
+                # check that a certain amount of time has passed since the user last tried to water
+                water_time_difference = current_time - cat_data.last_thirst_refill
+                water_time_difference_seconds = water_time_difference.total_seconds()
+                if water_time_difference_seconds > time_limit:
+                    near_water = validate_location(coordinates, task)
+                    if near_water:
+                        info['task'] = 'water'
+                        cat_data.last_thirst_refill = current_time
+                        cat_data.save()
+                        user_prof.points = user_prof.points + 5
+                        user_prof.num_times_watered = user_prof.num_times_watered + 1
+                        user_prof.save()
 
-        # will need testing
-        coordinates = string_coord_convert(coordinates_string)
-        if task == "water":
-            # check that a certain amount of time has passed since the user last tried to water
-            water_time_difference = current_time - cat_data.last_thirst_refill
-            water_time_difference_seconds = water_time_difference.total_seconds()
-            if water_time_difference_seconds > time_limit:
-                near_water = validate_location(coordinates, task)
-                if near_water:
-                    info['task'] = 'water'
-                    cat_data.last_thirst_refill = current_time
+            elif task == "litter":
+                litter_time_difference = current_time - cat_data.last_litter_refill
+                litter_time_difference_seconds = litter_time_difference.total_seconds()
+                if litter_time_difference_seconds > time_limit:
+                    near_bin = validate_location(coordinates, task)
+                    if near_bin:
+                        info['task'] = 'clean'
+                        cat_data.last_litter_refill = current_time
+                        cat_data.save()
+                        user_prof.points = user_prof.points + 3
+                        user_prof.num_times_litter_cleared = user_prof.num_times_litter_cleared + 1
+                        user_prof.save()
+
+            elif task == "feed":
+                food_time_difference = current_time - cat_data.last_food_refill
+                food_time_difference_seconds = food_time_difference.total_seconds()
+                if food_time_difference_seconds > time_limit:
+                    cat_data.last_food_refill = current_time
                     cat_data.save()
-                    user_prof.points = user_prof.points + 5
-                    user_prof.num_times_watered = user_prof.num_times_watered + 1
+                    user_prof.points = user_prof.points + 1
+                    user_prof.num_times_fed = user_prof.num_times_fed + 1
                     user_prof.save()
-
-        elif task == "litter":
-            litter_time_difference = current_time - cat_data.last_litter_refill
-            litter_time_difference_seconds = litter_time_difference.total_seconds()
-            if litter_time_difference_seconds > time_limit:
-                near_bin = validate_location(coordinates, task)
-                if near_bin:
-                    info['task'] = 'clean'
-                    cat_data.last_litter_refill = current_time
-                    cat_data.save()
-                    user_prof.points = user_prof.points + 3
-                    user_prof.num_times_litter_cleared = user_prof.num_times_litter_cleared + 1
-                    user_prof.save()
-
-        elif task == "feed":
-            food_time_difference = current_time - cat_data.last_food_refill
-            food_time_difference_seconds = food_time_difference.total_seconds()
-            if food_time_difference_seconds > time_limit:
-                cat_data.last_food_refill = current_time
-                cat_data.save()
-                user_prof.points = user_prof.points + 1
-                user_prof.num_times_fed = user_prof.num_times_fed + 1
-                user_prof.save()
-                # can we play a little animation?
-                info['task'] = 'feed'
+                    # can we play a little animation?
+                    info['task'] = 'feed'
 
     # always a get after a post so need to do this
     if type_of == "articles":
