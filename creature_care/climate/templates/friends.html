@@ -69,9 +69,9 @@
                     </div>
                     <div class="shadow"></div>
                 </div>
-                <div id = "hat-container" class="hat-container" style = "bottom: 230px; left: 72px;">
+                <div id = "hat-container" class="hat-container" style = "bottom: 110px; right: 75px;">
                     {% load static %} 
-                    <img id = "u_hat" width = '95', height = '95' src = "{% static 'blank-hat.png' %}" style = "transform: scale(0.8);">
+                    <img id = "u_hat" width = '200', height = '200' src = "{% static 'blank-hat.png' %}">
                 </div>
             </div>
         </div>
@@ -105,7 +105,7 @@
                 </div>
                 <div id = "hat-container" class="hat-container" style = "right: 40px; top: 55px;">
                     {% load static %} 
-                    <img id = "f_hat" width = '176', height = '176' src = "{% static 'blank-hat.png' %}">
+                    <img id = "f_hat" width = '200', height = '200' src = "{% static 'blank-hat.png' %}">
                 </div>
             </div>      
 
@@ -162,9 +162,6 @@
 </div> 
 
 <script>
-
-    var styleElem = document.head.appendChild(document.createElement("style"));
-    styleElem.innerHTML = ".face:before {right: 100px;}";
 
     let u_fur_colour = '{{ fur_colour }}'; 
     let u_eye_colour = '{{ eye_colour }}'; 
