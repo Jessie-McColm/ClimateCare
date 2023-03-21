@@ -74,7 +74,6 @@ def is_dev_or_gm(request):
 
         for group in groups:
             group_name = group.name
-            print(group_name)
 
             if ("Game_master" == group_name) or (("Developers" == group_name)) :
                 return True
