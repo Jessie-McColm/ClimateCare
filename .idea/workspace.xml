@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/README_technical.md" afterDir="false" />
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="wrote a draft of the technical readme markdown file&#10;&#10;-nevan">
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,21 +47,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last.edited.regexp": "\n",
-    "last_opened_file_path": "D:/Users/Nevan Masterson/Documents/.Uni/Group_Software_Engineering_Project/ClimateCare"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last.edited.regexp&quot;: &quot;\n&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Users/Nevan Masterson/Documents/.Uni/Group_Software_Engineering_Project/ClimateCare&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Users\Nevan Masterson\Documents\.Uni\Group_Software_Engineering_Project\ClimateCare" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Users\Nevan Masterson\Documents\.Uni\Group_Software_Engineering_Project\ClimateCare" />
       <recent name="D:\Users\Nevan Masterson\Documents\.Uni\Group_Software_Engineering_Project\Creature_Care\creature_care" />
       <recent name="D:\Users\Nevan Masterson\Documents\.Uni\Group_Software_Engineering_Project\Creature_Care\creature_care\users" />
     </key>
@@ -229,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679329005128</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="wrote a draft of the technical readme markdown file&#10;&#10;-nevan">
+      <created>1679417473016</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1679417473016</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -266,6 +274,7 @@
     <MESSAGE value="updated the item shop backend to facilitate users unequipping items&#10;&#10;-nevan" />
     <MESSAGE value="fixed the colour on the colour shop page not rendering&#10;&#10;- nevan" />
     <MESSAGE value="linted, and fixed a bug where user could buy two colours without having enough money for both" />
-    <option name="LAST_COMMIT_MESSAGE" value="linted, and fixed a bug where user could buy two colours without having enough money for both" />
+    <MESSAGE value="wrote a draft of the technical readme markdown file&#10;&#10;-nevan" />
+    <option name="LAST_COMMIT_MESSAGE" value="wrote a draft of the technical readme markdown file&#10;&#10;-nevan" />
   </component>
 </project>
