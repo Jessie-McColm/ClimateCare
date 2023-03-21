@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
-from climate.models import Creature, Profile, LocationFountain, LocationBin, Advice, Colour
+from climate.models import Creature, Profile, LocationFountain, LocationBin, Advice, Colour, Item, Wearing
 from django.test import Client
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
@@ -193,10 +193,10 @@ class KittyIndexTests(TestCase):
 
     def test_post_articles_when_paused(self):
         """
-        Test if valid response is given when a post request is sent to get articles/feed the kitty
+        Test if points aren't updated when user sends a request when paused
 
         Authors:
-            Jessie and Laurie
+            Jessie 
         """
         client = Client()
         g1 = Group.objects.create(name='Player')
@@ -316,10 +316,10 @@ class KittyIndexTests(TestCase):
         
     def test_post_water_when_paused(self):
         """
-        Test if valid response is given when a post request is sent to water the kitty
+        Test if points aren't updated when user sends a request when paused
 
         Author:
-            Jessie and Laurie
+            Jessie  
         """
         client = Client()
         g1 = Group.objects.create(name='Player')
@@ -441,10 +441,10 @@ class KittyIndexTests(TestCase):
 
     def test_post_clean_when_paused(self):
         """
-        Test if valid response is given when a post request is sent to clean the kitty
+        Test if points aren't updated when user sends a request when paused
 
         Authors:
-            Jessie and Laurie
+            Jessie 
         """
         client = Client()
         g1 = Group.objects.create(name='Player')
@@ -864,10 +864,10 @@ class GMTests(TestCase):
             colour_hex_val_patch="#95fdff",
             colour_cost=10
         )
-    '''   
+    
     def test_access_GM_page(self):
         client = Client()
-        g1 = Group.objects.create(name='Game_keepers')
+        g1 = Group.objects.create(name='Game_master')
         g2 = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
         {
@@ -877,41 +877,40 @@ class GMTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user_obj = User.objects.get(username="kittylover123")
-        g1.user_set.add(user_obj)
-        
-        
-        response=client.get(path='/climate/game_master_page')
-        
-        self.assertEqual(response.status_code, 200)
-    '''
-    '''
-    def test_post_GM_page(self):
-        client = Client()
-        g1 = Group.objects.create(name='Game_keepers')
-        g3=Group.objects.create(name='Game_masters')
-        g2 = Group.objects.create(name='Player')
-        client.post(path='/users/register_user', data=
-        {
-            "username": "kittylover123",
-            "email": "kittylover@climatecare.com",
-            "password1": "i_secretly_hate_kitties",
-            "password2": "i_secretly_hate_kitties"
-        })
-        user_obj = User.objects.get(username="kittylover123")
-        my_group = Group.objects.get(name='Game_keepers')
-        group2=Group.objects.get(name='Game_masters')
-        my_group.user_set.add(user_obj)
-        user_obj.groups.add(my_group)
-        user_obj.groups.add(g1)
-        
-        
+        group=Group.objects.get(name='Game_master')
+        user_obj.groups.add(group)
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
             "password": "i_secretly_hate_kitties"
         })
         
-        response=client.post(path='/users/login_user', data=
+        response=client.get(path='/climate/game_masters')
+        
+        self.assertEqual(response.status_code, 200)
+    
+    
+    def test_post_GM_page(self):
+        client = Client()
+        g1 = Group.objects.create(name='Game_master')
+        g2 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user_obj = User.objects.get(username="kittylover123")
+        group=Group.objects.get(name='Game_master')
+        user_obj.groups.add(group)
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        
+        response=client.post(path='/climate/game_masters', data=
         {
             "link_or_content": "link",
             "content": "test",
@@ -919,8 +918,14 @@ class GMTests(TestCase):
         })
         
         self.assertEqual(response.status_code, 200)
-    '''
+    
     def test_player_cannot_access_page(self):
+        """
+        Test that a player user can't access the GM page
+
+        Authors:
+            Jessie 
+        """
         client = Client()
         g1 = Group.objects.create(name='Game_masters')
         g2 = Group.objects.create(name='Player')
@@ -933,9 +938,9 @@ class GMTests(TestCase):
         })
         user_obj = User.objects.get(username="kittylover123")
         
-        response=client.get(path='/climate/game_master_page')
+        response=client.get(path='/climate/game_masters')
         
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
 
     
 
@@ -1296,7 +1301,212 @@ class leaderBoardTests(TestCase):
         response=client.get(path='/climate/leaderboard')
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/users/login_user?next=/climate/leaderboard")
+
+class ItemShopTests(TestCase):
+    """
+    Test block for the item shop view function.
+    """
+
+    def setUp(self):
+        """
+        Sets up the colour objects needed for foreign referencing when
+        creating new cats. These are the colours needed for the default
+        fields.
+
+        Author:
+            Nevan
+        """
+        Colour.objects.create(
+            colour_id="black",
+            colour_hex_val="#000000",
+            colour_hex_val_patch="#000000",
+            colour_cost=10
+        )
+        Colour.objects.create(
+            colour_id="blue",
+            colour_hex_val="#95fdff",
+            colour_hex_val_patch="#95fdff",
+            colour_cost=10
+        )
+        Colour.objects.create(
+            colour_id="blueP",
+            colour_hex_val="#2196f3",
+            colour_hex_val_patch="#2196f3",
+            colour_cost=10
+        )
+        Item.objects.create(
+            item_id=1,
+            item_name="leaf_hat",
+            item_cost=50,
+            item_class="hat",
+            scale=120
+            )
+        Item.objects.create(
+            item_id=2,
+            item_name="wizard_hat",
+            item_cost=120,
+            item_class="hat",
+            scale=240
+            )
+        Item.objects.create(
+            item_id=3,
+            item_name="top_hat",
+            item_cost=80,
+            item_class="hat",
+            scale=220
+            )
+
+    def test_buy_item(self):
+        """
+        Test that a wearing object is updated in the DB when a item is bought
+
+        Authors:
+            Jessie 
+        """
+        client = Client()
+        players_group = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.points = 200
+        user_prof.save()
+
+        former_player_balance = user_prof.points
+
+        
+        
+        
+
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        client.post(path='/climate/colour_shop', data={
+            'purchase_new_item':'true',
+            'item_id':1
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        kitty = user_prof.creature
+        wearing = Wearing.objects.get(creature=kitty)
+        wearing_item_obj = wearing.item
+        self.assertEqual(wearing_item_obj.item_id,1)
+        
+        
+
+        new_player_balance = user_prof.points
+
+        self.assertEqual(former_player_balance-50, new_player_balance )
+        
+    def test_buy_item_fail(self):
+        """
+        Test that a wearing object is not updated in the DB when a item is attempted to be bought but the user
+        doesn't have enough points
+
+        Authors:
+            Jessie 
+        """
+        client = Client()
+        players_group = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.points = 200
+        user_prof.save()
+
+        former_player_balance = user_prof.points
+
+        
+        
+        
+
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        client.post(path='/climate/colour_shop', data={
+            'purchase_new_item':'true',
+            'item_id':1
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        kitty = user_prof.creature
+        wearing = Wearing.objects.get(creature=kitty)
+        wearing_item_obj = wearing.item
+        self.assertEqual(wearing_item_obj.item_id,1)
+        
+        
+
+        new_player_balance = user_prof.points
+
+        self.assertEqual(former_player_balance-50, new_player_balance )
     
+    def test_view_shop_page(self):
+        """
+        Test that a wearing object is not updated in the DB when a item is attempted to be bought but the user
+        doesn't have enough points
+
+        Authors:
+            Jessie 
+        """
+        client = Client()
+        players_group = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.points = 200
+        user_prof.save()
+
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.get(path='/climate/colour_shop')
+        self.assertEqual(response['username'],"kittylover123")
+        self.assertEqual(response['points_available'],0)
+        self.assertEqual(response['fur_colour'],'#000000,#000000')
+        self.assertEqual(response['eye_colour'],'#2196f3')
+        self.assertEqual(response['cat_item'],'0')
+        self.assertEqual(response['cat_item_scale'],'0')
+        self.assertEqual(response['item_id_1'],1)
+        self.assertEqual(response['item_price_1'],50)
+        self.assertEqual(response['item_scale_1'],120)
+        self.assertEqual(response['item_id_2'],2)
+        self.assertEqual(response['item_price_2'],120)
+        self.assertEqual(response['item_scale_2'],240)
+        self.assertEqual(response['item_id_3'],3)
+        self.assertEqual(response['item_price_3'],80)
+        self.assertEqual(response['item_scale_3'],220)
+        self.assertEqual(response['attempted_purchase'],'false')
+        self.assertEqual(response['successful_purchase'],'false')
+        
+
     
 
 class ColourShopTests(TestCase):
@@ -1366,6 +1576,12 @@ class ColourShopTests(TestCase):
         )
 
     def test_eye_colour_purchase_successful(self):
+        """
+        Test that a kitty object is updated in the DB when a new eye colour is successfully purchased
+
+        Authors:
+            Jessie and Nevan
+        """
         client = Client()
         players_group = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -1417,6 +1633,12 @@ class ColourShopTests(TestCase):
         self.assertEqual(former_player_balance - eye_colour_price, new_player_balance )
 
     def test_fur_colour_purchase_successful(self):
+        """
+        Test that a kitty object is updated in the DB when a new fur colour is successfully purchased
+
+        Authors:
+            Jessie and Nevan
+        """
         client = Client()
         players_group = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -1473,6 +1695,12 @@ class ColourShopTests(TestCase):
         self.assertEqual(former_player_balance - 10, new_player_balance )
 
     def test_eye_colour_purchase_fail(self):
+        """
+        Test that a kitty object is not updated in the DB when a new eye colour purchase fails
+
+        Authors:
+            Jessie and Nevan
+        """
         client = Client()
         players_group = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -1519,6 +1747,12 @@ class ColourShopTests(TestCase):
         self.assertEqual(former_player_balance , new_player_balance )
 
     def test_fur_colour_purchase_fail(self):
+        """
+        Test that a kitty object is not updated in the DB when a new fur colour purchase fails
+
+        Authors:
+            Jessie and Nevan
+        """
         client = Client()
         players_group = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -1570,6 +1804,12 @@ class ColourShopTests(TestCase):
         self.assertEqual(former_player_balance, new_player_balance )
 
     def test_both_colour_purchase(self):
+        """
+        Test that a kitty object is  updated in the DB when a new fur and eye colour is purchased
+
+        Authors:
+            Jessie and Nevan
+        """
         client = Client()
         players_group = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
@@ -1624,6 +1864,13 @@ class ColourShopTests(TestCase):
         self.assertEqual(former_player_balance-20, new_player_balance )
 
     def test_both_colour_purchase_fail(self):
+        """
+        Test that a kitty object is updated correctly (with fur colour only) in the DB when a new fur and eye
+        colour is purchased but the user doesn't have enough points for both
+
+        Authors:
+            Jessie and Nevan
+        """
         client = Client()
         players_group = Group.objects.create(name='Player')
         client.post(path='/users/register_user', data=
