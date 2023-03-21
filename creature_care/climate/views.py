@@ -81,7 +81,7 @@ def kitty(request, type_of="none"):
         # set null coordinates for feeding
         task = request.POST.get('task')
         coordinates_string = request.POST.get('coordinates')
-        if request.method == "POST":
+        if user_prof.paused == False:
             # will need testing
             coordinates = string_coord_convert(coordinates_string)
             if task == "water":
