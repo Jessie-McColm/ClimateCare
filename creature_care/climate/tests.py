@@ -190,6 +190,49 @@ class KittyIndexTests(TestCase):
         self.assertEqual(profile.num_times_fed, 1)
         self.assertEqual(response.context['task'],"feed")
         self.assertEqual(response.status_code, 200)
+
+    def test_post_articles_when_paused(self):
+        """
+        Test if valid response is given when a post request is sent to get articles/feed the kitty
+
+        Authors:
+            Jessie and Laurie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user = User.objects.get(username='kittylover123')
+        new_advice = Advice(content="example advice", source ="example")
+        new_advice.save()
+        user_prof = Profile.objects.get(user=user)
+        user_prof.paused=True
+        user_prof.save()
+        cat_data = user_prof.creature
+        past_time = timezone.now()-timedelta(days=5)
+        setattr(cat_data, "last_food_refill", past_time)
+        cat_data.save()
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response = client.post(path='/climate/kitty', data=
+                             {"coordinates": "0,0",
+                              "task": "feed"})
+        profile = Profile.objects.get(user=user)
+        self.assertEqual(profile.points, 0)
+        self.assertEqual(profile.num_times_fed, 0)
+        self.assertEqual(response.context['task'],"none")
+        self.assertEqual(response.status_code, 200)
+
+
         
     def test_post_not_articles(self):
         """
@@ -270,6 +313,50 @@ class KittyIndexTests(TestCase):
         self.assertEqual(profile.num_times_watered, 1)
         self.assertEqual(response.context['task'], "water")
         self.assertEqual(response.status_code, 200)
+        
+    def test_post_water_when_paused(self):
+        """
+        Test if valid response is given when a post request is sent to water the kitty
+
+        Author:
+            Jessie and Laurie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user = User.objects.get(username='kittylover123')
+        
+        location = LocationFountain(longitude=0, latitude=0)
+        location.save()
+        user_prof = Profile.objects.get(user=user)
+        user_prof.paused=True
+        user_prof.save()
+        
+        cat_data = user_prof.creature
+        past_time = timezone.now()-timedelta(days=5)
+        setattr(cat_data, "last_thirst_refill", past_time)
+        cat_data.save()
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response = client.post(path='/climate/kitty', data=
+                             {
+                                 "coordinates": "0,0",
+                                 "task": "water"
+                             })
+        profile = Profile.objects.get(user=user)
+        self.assertEqual(profile.points, 0)
+        self.assertEqual(profile.num_times_watered, 0)
+        self.assertEqual(response.context['task'], "none")
+        self.assertEqual(response.status_code, 200)
     
     def test_post_not_water(self):
         """
@@ -291,6 +378,9 @@ class KittyIndexTests(TestCase):
         location = LocationFountain(longitude=1000, latitude=1000)
         location.save()
         user_prof = Profile.objects.get(user=user)
+        user_prof.paused=True
+        user_prof.save()
+
         cat_data = user_prof.creature
         past_time = timezone.now()-timedelta(days=5)
         setattr(cat_data, "last_thirst_refill", past_time)
@@ -347,6 +437,47 @@ class KittyIndexTests(TestCase):
         self.assertEqual(profile.points, 3)
         self.assertEqual(profile.num_times_litter_cleared, 1)
         self.assertEqual(response.context['task'],"clean")
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_clean_when_paused(self):
+        """
+        Test if valid response is given when a post request is sent to clean the kitty
+
+        Authors:
+            Jessie and Laurie
+        """
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user = User.objects.get(username='kittylover123')
+        location = LocationBin(longitude=0, latitude=0)
+        location.save()
+        user_prof = Profile.objects.get(user=user)
+        user_prof.paused=True
+        user_prof.save()
+        cat_data = user_prof.creature
+        past_time = timezone.now()-timedelta(days=5)
+        setattr(cat_data, "last_litter_refill", past_time)
+        cat_data.save()
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.post(path='/climate/kitty', data=
+                             {"coordinates":"0,0",
+                              "task":"litter"})
+        profile = Profile.objects.get(user=user)
+        self.assertEqual(profile.points, 0)
+        self.assertEqual(profile.num_times_litter_cleared, 0)
+        self.assertEqual(response.context['task'],"none")
         self.assertEqual(response.status_code, 200)
 
     def test_post_not_clean(self):
@@ -711,8 +842,100 @@ class KittyIndexTests(TestCase):
     
 
     
+class GMTests(TestCase):
+    def setUp(self):
+        """
+        Sets up the colour objects needed for foreign referencing when
+        creating new cats. These are the colours needed for the default
+        fields.
 
-    
+        Author:
+            Nevan
+        """
+        Colour.objects.create(
+            colour_id="black",
+            colour_hex_val="#000000",
+            colour_hex_val_patch="#000000",
+            colour_cost=10
+        )
+        Colour.objects.create(
+            colour_id="blue",
+            colour_hex_val="#95fdff",
+            colour_hex_val_patch="#95fdff",
+            colour_cost=10
+        )
+    '''   
+    def test_access_GM_page(self):
+        client = Client()
+        g1 = Group.objects.create(name='Game_keepers')
+        g2 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user_obj = User.objects.get(username="kittylover123")
+        g1.user_set.add(user_obj)
+        
+        
+        response=client.get(path='/climate/game_master_page')
+        
+        self.assertEqual(response.status_code, 200)
+    '''
+    '''
+    def test_post_GM_page(self):
+        client = Client()
+        g1 = Group.objects.create(name='Game_keepers')
+        g3=Group.objects.create(name='Game_masters')
+        g2 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user_obj = User.objects.get(username="kittylover123")
+        my_group = Group.objects.get(name='Game_keepers')
+        group2=Group.objects.get(name='Game_masters')
+        my_group.user_set.add(user_obj)
+        user_obj.groups.add(my_group)
+        user_obj.groups.add(g1)
+        
+        
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        
+        response=client.post(path='/users/login_user', data=
+        {
+            "link_or_content": "link",
+            "content": "test",
+            "source":"test"
+        })
+        
+        self.assertEqual(response.status_code, 200)
+    '''
+    def test_player_cannot_access_page(self):
+        client = Client()
+        g1 = Group.objects.create(name='Game_masters')
+        g2 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        user_obj = User.objects.get(username="kittylover123")
+        
+        response=client.get(path='/climate/game_master_page')
+        
+        self.assertEqual(response.status_code, 404)
 
     
 
@@ -1399,6 +1622,60 @@ class ColourShopTests(TestCase):
         self.assertNotEqual(new_fur_colour, former_fur_colour)
         self.assertNotEqual(new_eye_colour_name, former_eye_colour_name)
         self.assertEqual(former_player_balance-20, new_player_balance )
+
+    def test_both_colour_purchase_fail(self):
+        client = Client()
+        players_group = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        
+        
+        user_prof.points = 10
+        user_obj.save()
+        user_prof.save()
+
+        former_player_balance = user_prof.points
+
+        kitty = user_prof.creature
+        fur_colour_obj = kitty.fur_colour
+        former_fur_colour = fur_colour_obj.colour_hex_val
+        former_fur_colour_patches= fur_colour_obj.colour_hex_val_patch
+        former_eye_colour = kitty.eye_colour
+        former_eye_colour_name = former_eye_colour.colour_id
+        
+
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        client.post(path='/climate/colour_shop', data={
+            'purchase_new_colour_eyes': 'true',
+            'purchase_new_colour_fur': 'true',
+            'eye_colour': '#000000',
+            'fur_colour': '#2196f3,#2196f3'
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        kitty = user_prof.creature
+        new_player_balance = user_prof.points
+        fur_colour_obj = kitty.fur_colour
+        new_fur_colour = fur_colour_obj.colour_hex_val
+        new_fur_colour_patches= fur_colour_obj.colour_hex_val_patch
+        new_eye_colour = kitty.eye_colour
+        new_eye_colour_name = new_eye_colour.colour_id
+        self.assertNotEqual(new_fur_colour, former_fur_colour)
+        self.assertEqual(new_eye_colour_name, former_eye_colour_name)
+        self.assertEqual(former_player_balance-10, new_player_balance )
         
 
         
