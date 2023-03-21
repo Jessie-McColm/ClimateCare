@@ -19,12 +19,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'waterbottle.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'advice.css' %}">
 
-    <style>                                     
+    <style>                                   
         body {
             background-color: #649756;
-        }
-        div.row {
-            height: 25%;
         }
         .pop-up {
             height: 150px;
@@ -103,15 +100,13 @@
             animation-delay: 0.55s;
         }
 
-        
-
     </style>
 {% endblock %}
 
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="page-container">
+        <div class="page-container" style="position: fixed;">
             <div id = "pop-up" class = "pop-up">
                 <h3 class="locating">
                     <span>l</span>
@@ -190,7 +185,7 @@
             <div class="col-2">
                 <div class="d-inline-block">
                     <a id="water" onclick="return geoLocate('water');">
-                        <div class="container-3">
+                        <div class="container-3" style="margin-left: 10%;">
                             <div class="waterbottle">
                                 <div class="bottle-cap">
                                     <div class = "cap-shine"></div>
@@ -204,10 +199,10 @@
                     </a>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-6">
                 <div class="d-inline-block">
                     <a id = "tupperware" onclick="return getArticle();">
-                        <div class="container-2" >
+                        <div class="container-2" style="margin-left: 6%;">
                             <div class ="tupperware">
                                 <div class="tup-cap"></div>
                                 <div class="tup-box-top-line"></div>
@@ -220,10 +215,10 @@
                     </a>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 <div class="d-inline-block">
                     <a id="litter" onclick="return geoLocate('litter');">
-                        <div class="container-4" style="margin-right: 25%;">
+                        <div class="container-4" style="margin-right: 0%;">
                             <div class ="recycling-bin">
                                 <div class="cap-top"></div>
                                 <div class="cap">

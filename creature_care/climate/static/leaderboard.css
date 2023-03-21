@@ -2,6 +2,7 @@
 
 :root {
     --fc: #33292b;
+    --pc: #33292b;
     --ec: #95fdff;
 }
 * {
@@ -158,18 +159,18 @@ tr:first-child {
     border-radius: 50px;
     position: relative;
 }
-.face:before, .face:after {
+.ear-l, .ear-r {
     position: absolute;
     content: "";
     width: 0;
     height: 0;
     border-bottom: 50px solid #33292b;
-    border-color: var(--fc); /* Cat fur colour is customisable for each user */
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     z-index: -2;
 }
-.face:before {
+.ear-l {
+    border-bottom-color: var(--fc);
     bottom: 70px;
     left: 1px; /* Correctly positions the black part of the left ear */
     transform: rotate(-30deg);
@@ -193,7 +194,8 @@ tr:first-child {
         transform-origin: 50% 70%;
     }
 }
-.face:after {
+.ear-r {
+    border-bottom-color: var(--pc);
     bottom: 70px;
     left: 100px;
     transform: rotate(30deg);
@@ -233,11 +235,11 @@ tr:first-child {
     height: 0;
     border-bottom: 50px solid #d36149;
     border-left: 25px solid transparent;
-    position:relative;
+    position: relative;
     z-index: -1;
 }
-.eye-l,.eye-r {
-    background-color: #95fdff; /* Cat eye colour is customisable for each user */
+.eye-l, .eye-r {
+    background-color: #95fdff;
     height: 40px;
     width: 40px;
     border-radius: 50%;

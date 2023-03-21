@@ -67,37 +67,24 @@
 }
 
 .container-1{
-    background-color: transparent;
-}
-
-.cat_box{
-
     display: flex; 
     flex-direction: column;
     justify-content: space-evenly;
-
     position: relative;
-    /*margin auto puts in middle of page */
-    margin: auto;
-
-    height: 100%;
-    width: 100%;
-
-    margin-top: 5vh;
-
+    margin: 0 0 50% 20%;
+    height: 50%;
+    width: 50%;
 }
 
+
 .cat{
-    /* change border size as otherwsie huge */
-    height:14em;
-    width:14em;
+    /* change border size as otherwise huge */
+    height:7em;
+    width:7em;
 }
 
 #cat1{
-    transform: scaleX(-1) scale(0.8) ;
-}
-#cat2{
-    transform: scale(0.8) ;
+    transform: scaleX(-1);
 }
 
 .cat_section{
@@ -128,13 +115,13 @@
    
     position: relative;
     /*margin auto puts in middle of page */
-    margin: auto;
+    margin: 0 10% 0 10%;
     /* scales with screen page - could check min height and width */
     /*height: 20vh;
     width: 35vw;*/
     height: 50em;
-    width: 20em;
-    min-width: 15em;
+    width: 25em;
+    min-width: 18em;
     
     padding: 2em;
 
