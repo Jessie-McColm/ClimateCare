@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="wrote a draft of the technical readme markdown file&#10;&#10;-nevan">
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="requirements txt&#10;&#10;-nevan">
+      <change beforePath="$PROJECT_DIR$/creature_care/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/users/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/users/decorators.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +237,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679417473016</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="requirements txt&#10;&#10;-nevan">
+      <created>1679424010352</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1679424010352</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -275,6 +282,7 @@
     <MESSAGE value="fixed the colour on the colour shop page not rendering&#10;&#10;- nevan" />
     <MESSAGE value="linted, and fixed a bug where user could buy two colours without having enough money for both" />
     <MESSAGE value="wrote a draft of the technical readme markdown file&#10;&#10;-nevan" />
-    <option name="LAST_COMMIT_MESSAGE" value="wrote a draft of the technical readme markdown file&#10;&#10;-nevan" />
+    <MESSAGE value="requirements txt&#10;&#10;-nevan" />
+    <option name="LAST_COMMIT_MESSAGE" value="requirements txt&#10;&#10;-nevan" />
   </component>
 </project>
