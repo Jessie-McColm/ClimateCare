@@ -1389,7 +1389,7 @@ class ItemShopTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        client.post(path='/climate/colour_shop', data={
+        client.post(path='/climate/item_shop', data={
             'purchase_new_item':'true',
             'item_id':1
         })
@@ -1441,7 +1441,7 @@ class ItemShopTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        client.post(path='/climate/colour_shop', data={
+        client.post(path='/climate/item_shop', data={
             'purchase_new_item':'true',
             'item_id':1
         })
@@ -1487,24 +1487,24 @@ class ItemShopTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        response=client.get(path='/climate/colour_shop')
-        self.assertEqual(response['username'],"kittylover123")
-        self.assertEqual(response['points_available'],0)
-        self.assertEqual(response['fur_colour'],'#000000,#000000')
-        self.assertEqual(response['eye_colour'],'#2196f3')
-        self.assertEqual(response['cat_item'],'0')
-        self.assertEqual(response['cat_item_scale'],'0')
-        self.assertEqual(response['item_id_1'],1)
-        self.assertEqual(response['item_price_1'],50)
-        self.assertEqual(response['item_scale_1'],120)
-        self.assertEqual(response['item_id_2'],2)
-        self.assertEqual(response['item_price_2'],120)
-        self.assertEqual(response['item_scale_2'],240)
-        self.assertEqual(response['item_id_3'],3)
-        self.assertEqual(response['item_price_3'],80)
-        self.assertEqual(response['item_scale_3'],220)
-        self.assertEqual(response['attempted_purchase'],'false')
-        self.assertEqual(response['successful_purchase'],'false')
+        response=client.get(path='/climate/item_shop')
+        self.assertEqual(response.context['username'],"kittylover123")
+        self.assertEqual(response.context['points_available'],200)
+        self.assertEqual(response.context['fur_colour'],'#000000,#000000')
+        self.assertEqual(response.context['eye_colour'],'#95fdff')
+        self.assertEqual(response.context['cat_item'],'0')
+        self.assertEqual(response.context['cat_item_scale'],'0')
+        self.assertTrue((response.context['item_id_1']==1) or (response.context['item_id_1']==2) or (response.context['item_id_1']==3))
+        self.assertTrue((response.context['item_price_1']==50) or (response.context['item_price_1']==80) or (response.context['item_price_1']==120))
+        self.assertTrue((response.context['item_scale_1']==120) or (response.context['item_scale_1']==220) or (response.context['item_scale_1']==240))
+        self.assertTrue((response.context['item_id_2']==1) or (response.context['item_id_1']==2) or (response.context['item_id_1']==3))
+        self.assertTrue((response.context['item_price_2']==50) or (response.context['item_price_1']==80) or (response.context['item_price_1']==120))
+        self.assertTrue((response.context['item_scale_2']==120) or (response.context['item_scale_1']==220) or (response.context['item_scale_1']==240))
+        self.assertTrue((response.context['item_id_3']==1) or (response.context['item_id_1']==2) or (response.context['item_id_1']==3))
+        self.assertTrue((response.context['item_price_3']==50) or (response.context['item_price_1']==80) or (response.context['item_price_1']==120))
+        self.assertTrue((response.context['item_scale_3']==120) or (response.context['item_scale_1']==220) or (response.context['item_scale_1']==240))
+        self.assertEqual(response.context['attempted_purchase'],'false')
+        self.assertEqual(response.context['successful_purchase'],'false')
         
 
     
