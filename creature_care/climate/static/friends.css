@@ -8,13 +8,15 @@
 
 .container-fluid{
     transform: scale(0.53);
+    margin-top: -50vh;
 }
 
 .title{
     font-size: 3em;
     text-decoration: overline;
-    width: 100%;   
-    margin-top: -60vh;
+    width: 120%;   
+    text-align: center;
+    margin-left: -0.5em;
 }
 
 .speech1{
@@ -94,9 +96,6 @@
     width: 35vw;*/
     height: 15em;
     width: 80%;
-    
-    margin-top: -20vh;
-    
 
 }
 
