@@ -157,6 +157,8 @@ class KittyIndexTests(TestCase):
 
         response=client.get(path='/climate/kitty')
         self.assertTrue(response.context['user'].is_authenticated)
+        self.assertEqual(response.context['fur_colour'],'#000000,')
+        self.assertEqual(response.context['eye_colour'],'#2196f3')
         self.assertEqual(response.status_code, 200)
 
     def test_post_articles(self):
@@ -858,7 +860,7 @@ class GMTests(TestCase):
         )
     
     def test_access_GM_page(self):
-         """
+        """
         Test that a GM user can access the GM page
 
         Authors:
@@ -889,7 +891,7 @@ class GMTests(TestCase):
     
     
     def test_post_GM_page(self):
-         """
+        """
         Test that a GM user can add advice to the database
 
         Authors:
@@ -1901,7 +1903,42 @@ class ColourShopTests(TestCase):
         self.assertNotEqual(new_fur_colour, former_fur_colour)
         self.assertEqual(new_eye_colour_name, former_eye_colour_name)
         self.assertEqual(former_player_balance-10, new_player_balance )
-        
+
+    def test_view_colour_shop_page(self):
+        """
+        Test that a wearing object is not updated in the DB when a item is attempted to be bought but the user
+        doesn't have enough points
+
+        Authors:
+            Jessie 
+        """
+        client = Client()
+        players_group = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.points = 200
+        user_prof.save()
+
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.get(path='/climate/colour_shop')
+        self.assertEqual(response.context['username'],"kittylover123")
+        self.assertEqual(response.context['points_available'],200)
+        self.assertEqual(response.context['fur_colour'],'#000000,')
+        self.assertEqual(response.context['eye_colour'],'#2196f3')
+        self.assertEqual(response.context['attempted_purchase'],'false')
+        self.assertEqual(response.context['successful_purchase'],'false')    
 
         
 
