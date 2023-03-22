@@ -16,6 +16,7 @@ from django.contrib.auth import authenticate
 from users.decorators import game_master
 from .models import Profile, Advice, LocationBin, LocationFountain, Wearing, Item, Colour
 
+
 # this decorator means if not logged in sends back to login page
 # might want to change in future
 @login_required(login_url='loginPage')
@@ -81,8 +82,7 @@ def kitty(request, type_of="none"):
         # set null coordinates for feeding
         task = request.POST.get('task')
         coordinates_string = request.POST.get('coordinates')
-        if user_prof.paused == False:
-            # will need testing
+        if user_prof.paused is False:
             coordinates = string_coord_convert(coordinates_string)
             if task == "water":
                 # check that a certain amount of time has passed since the user last tried to water
@@ -120,7 +120,6 @@ def kitty(request, type_of="none"):
                     user_prof.points = user_prof.points + 1
                     user_prof.num_times_fed = user_prof.num_times_fed + 1
                     user_prof.save()
-                    # can we play a little animation?
                     info['task'] = 'feed'
 
     # always a get after a post so need to do this
@@ -218,6 +217,7 @@ def my_stats_page(request):
     }
 
     return render(request, 'my_stats.html', info)
+
 
 @login_required(login_url='loginPage')
 def item_shop_page(request):
@@ -345,6 +345,7 @@ def item_shop_page(request):
 
     return render(request, 'item_shop.html', info)
 
+
 @login_required(login_url='loginPage')
 def colour_shop_page(request):
     """
@@ -438,7 +439,6 @@ def colour_shop_page(request):
 
 
 @login_required(login_url='loginPage')
-# @allowed_users(allowed_roles=['Developers','Game_masters','Player'])
 @game_master
 def game_master_page(request):
     """
@@ -450,7 +450,6 @@ def game_master_page(request):
     Returns:
         A http response.
     """
-    # may need to look into preventing XSS
     if request.method == "POST":
         link_or_content = request.POST.get('link_or_content')
         if link_or_content == "link":
@@ -479,6 +478,7 @@ def page_not_found_view(request, exception):
     """
     return render(request, 'notFound.html', status=404)
 
+
 @login_required(login_url='loginPage')
 def friend(request, username="none"):
     """
@@ -498,23 +498,23 @@ def friend(request, username="none"):
     cat_obj = user_prof.creature
 
     colours = cat_colours(cat_obj)
-    
+
     context = {
-            'username': user_obj.get_username(),
-            'fur_colour': colours["fur_colour"],
-            'eye_colour': colours["eye_colour"],
-            'cat_item': colours["cat_item"],
-            'cat_item_scale': colours['cat_item_scale'],
-            "bottle_num": user_prof.num_times_watered,
-            "article_num": user_prof.num_times_fed,
-            "recycle_num": user_prof.num_times_litter_cleared,
-            "friend_username": None,
-            "friend_bottle_num": 0,
-            "friend_article_num": 0,
-            "friend_recycle_num": 0,
-            'f_fur_colour': "#ff0000",
-            'f_eye_colour': "#ff0000"
-            }
+        'username': user_obj.get_username(),
+        'fur_colour': colours["fur_colour"],
+        'eye_colour': colours["eye_colour"],
+        'cat_item': colours["cat_item"],
+        'cat_item_scale': colours['cat_item_scale'],
+        "bottle_num": user_prof.num_times_watered,
+        "article_num": user_prof.num_times_fed,
+        "recycle_num": user_prof.num_times_litter_cleared,
+        "friend_username": None,
+        "friend_bottle_num": 0,
+        "friend_article_num": 0,
+        "friend_recycle_num": 0,
+        'f_fur_colour': "#ff0000",
+        'f_eye_colour': "#ff0000"
+    }
 
     if username == "none":
         # get a random user from the database
@@ -526,14 +526,14 @@ def friend(request, username="none"):
 
         # exclude the current user from possibilities
 
-        choice_range = len(profiles)-1
+        choice_range = len(profiles) - 1
         choice = random.randint(0, choice_range)
         profile_choice = profiles[choice]
         username = profile_choice.user.username
 
     else:
         user_choice = User.objects.get(username=username)
-        profile_choice=Profile.objects.get(user=user_choice)
+        profile_choice = Profile.objects.get(user=user_choice)
         if profile_choice.private or profile_choice.access_level == 3:
             return redirect('friend')
 
@@ -559,8 +559,9 @@ def friend(request, username="none"):
         'f_cat_item': f_colours["cat_item"],
         'f_cat_item_scale': f_colours['cat_item_scale'],
     }
-    
+
     return render(request, 'friends.html', context)
+
 
 @login_required(login_url='loginPage')
 def settings_page(request):
@@ -603,12 +604,12 @@ def settings_page(request):
             user_prof.private = True
             user_prof.save()
         else:
-            user_prof.private=False
+            user_prof.private = False
             user_prof.save()
 
     context = {"is_paused": user_prof.paused,
                "is_private": user_prof.private
-            }  # need to change once DB is updated
+               }  # need to change once DB is updated
     return render(request, 'settings.html', context)
 
 
@@ -732,7 +733,7 @@ def validate_location(coordinates, location_type):
         print(coordinates, location_type)
         return True
     print("not within distance")
-    return False  # if no valid location is found, this is returned (may need error display)
+    return False  # if no valid location is found, this is returned
 
 
 def return_leaderboard():
@@ -749,8 +750,8 @@ def return_leaderboard():
     leaderboard_output = []  # this is the output data, a list of dictionaries
     max_items = len(list(Profile.objects.exclude(access_level=3)))
     max_items = min(max_items, 20)  # ensures that no more than 20 items are retrieved
-    top_profiles = list(Profile.objects.exclude(access_level=3))[0:max_items]  # retrieves the
-    # first (up to or below) 20 objects of an already ordered database
+    top_profiles = list(Profile.objects.exclude(access_level=3))[0:max_items]
+    # retrieves the first (up to or below) 20 objects of an already ordered database
     for i in top_profiles:
         username = i.user.username
         points = i.points
@@ -765,6 +766,7 @@ def return_leaderboard():
         }
         leaderboard_output.append(temp_dictionary)
     return leaderboard_output
+
 
 def return_ranking(username_required):
     """
@@ -784,7 +786,7 @@ def return_ranking(username_required):
             user_found = True
         search_count = search_count + 1
     if search_count == len(all_profiles) and not user_found:
-        search_count = 0  # admin user's rank is zero
+        search_count = 0  # admin user's rank is zero and does not display
     return search_count
 
 
