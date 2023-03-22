@@ -1,10 +1,13 @@
+"""
+The testing file for ClimateCare. This file can be run with `py manage.py test` and should pass all tests
+"""
+
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from climate.models import Creature, Profile, LocationFountain, LocationBin, Advice, Colour, Item, Wearing
 from django.test import Client
 from django.contrib.auth import authenticate
-from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from datetime import timedelta
 from time import sleep
@@ -117,6 +120,10 @@ class KittyIndexTests(TestCase):
 
 
     def test_unauthorised_user(self):
+        """
+        Test to check that a user that has not logged in is redirected to the login page
+        when attempting to access the home page
+        """
         client = Client()
         response = client.get(path='/climate/kitty')
         self.assertEqual(response.status_code, 302)
@@ -150,6 +157,8 @@ class KittyIndexTests(TestCase):
 
         response=client.get(path='/climate/kitty')
         self.assertTrue(response.context['user'].is_authenticated)
+        self.assertEqual(response.context['fur_colour'],'#000000,')
+        self.assertEqual(response.context['eye_colour'],'#2196f3')
         self.assertEqual(response.status_code, 200)
 
     def test_post_articles(self):
@@ -290,7 +299,6 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
-        
         location = LocationFountain(longitude=0, latitude=0)
         location.save()
         user_prof = Profile.objects.get(user=user)
@@ -520,13 +528,17 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
     
     def test_advice_creation(self):
+        """
+        Tests that advice can be created within the database.
+        """
         advice1 = Advice.objects.create(link="https://example.com", source="admin")
         advice2 = Advice.objects.create(content="this is some advice!", source="admin")
         self.assertEqual(len(list(Advice.objects.all())), 2)
 
     def test_advice_url(self):
         """
-        Testing if advice data is sent back correctly when a request is made to climate/kitty/articles
+        Testing if advice data is sent back correctly when a request is
+        made to climate/kitty/articles
 
         Author:
             Jessie
@@ -542,13 +554,11 @@ class KittyIndexTests(TestCase):
         })
         user = User.objects.get(username='kittylover123')
         advice1 = Advice.objects.create(link="https://example.com", source="admin")
-        
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
             "password": "i_secretly_hate_kitties"
         })
-
         response = client.get(path='/climate/kitty/articles')
         self.assertEqual(response.context['fed'],True)
         self.assertNotEqual(response.context['message'], "")
@@ -574,14 +584,11 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
-     
-        
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
             "password": "i_secretly_hate_kitties"
         })
-
         response = client.get(path='/climate/kitty/water')
         self.assertEqual(response.context['watered'],True)
         self.assertEqual(response.status_code, 200)
@@ -604,8 +611,6 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user = User.objects.get(username='kittylover123')
-       
-        
         client.post(
             path='/users/login_user', data=
             {
@@ -613,7 +618,6 @@ class KittyIndexTests(TestCase):
                 "password": "i_secretly_hate_kitties"
             }
         )
-
         response = client.get(path='/climate/kitty/clean')
         self.assertEqual(response.context['cleaned'],True)
         self.assertEqual(response.status_code, 200)
@@ -637,7 +641,6 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user_obj = User.objects.get(username='kittylover123')
-     
         user_prof = Profile.objects.get(user=user_obj)
         cat_data = user_prof.creature
         cat_data.last_litter_refill = past_time
@@ -668,20 +671,19 @@ class KittyIndexTests(TestCase):
             "password1": "i_secretly_hate_kitties",
             "password2": "i_secretly_hate_kitties"
         })
-      
         client.post(path='/users/login_user', data=
         {
             "username": "kittylover123",
             "password": "i_secretly_hate_kitties"
         })
-        
         response = client.get(path='/climate/kitty')
         self.assertEqual(response.context['stinky'],False)
         self.assertEqual(response.status_code, 200)
 
     def test_thirsty_cat_is_thirsty(self):
         """
-        Sets up a creature object that has not been watered in over 3 days, so should be judged as "thirsty"
+        Sets up a creature object that has not been watered in over 
+        3 days, so should be judged as "thirsty"
 
         Author:
             Jessie
@@ -699,7 +701,6 @@ class KittyIndexTests(TestCase):
             "password2": "i_secretly_hate_kitties"
         })
         user_obj = User.objects.get(username='kittylover123')
-     
         user_prof = Profile.objects.get(user=user_obj)
         cat_data = user_prof.creature
         cat_data.last_thirst_refill = past_time
@@ -716,7 +717,8 @@ class KittyIndexTests(TestCase):
 
     def test_non_thirsty_cat_is_not_thirsty(self):
         """
-        Sets up a creature object that has been watered recently, so should not be judged as "thirsty"
+        Sets up a creature object that has been watered recently, 
+        so should not be judged as "thirsty"
 
         Author:
             Jessie
@@ -735,7 +737,6 @@ class KittyIndexTests(TestCase):
             "username": "kittylover123",
             "password": "i_secretly_hate_kitties"
         })
-        
         response = client.get(path='/climate/kitty')
         self.assertEqual(response.context['thirsty'],False)
         self.assertEqual(response.status_code, 200)
@@ -800,9 +801,6 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.context['hungry'],False)
         self.assertEqual(response.status_code, 200)
 
-    
-    
-
     def test_stats_page(self):
         """
         Checks that the stats page returns the correct amount of points
@@ -838,10 +836,6 @@ class KittyIndexTests(TestCase):
         self.assertEqual(response.context['recycle_num'],13)
         self.assertEqual(response.status_code, 200)
 
-
-    
-
-    
 class GMTests(TestCase):
     def setUp(self):
         """
@@ -866,6 +860,12 @@ class GMTests(TestCase):
         )
     
     def test_access_GM_page(self):
+        """
+        Test that a GM user can access the GM page
+
+        Authors:
+            Jessie 
+        """
         client = Client()
         g1 = Group.objects.create(name='Game_master')
         g2 = Group.objects.create(name='Player')
@@ -891,6 +891,12 @@ class GMTests(TestCase):
     
     
     def test_post_GM_page(self):
+        """
+        Test that a GM user can add advice to the database
+
+        Authors:
+            Jessie 
+        """
         client = Client()
         g1 = Group.objects.create(name='Game_master')
         g2 = Group.objects.create(name='Player')
@@ -916,7 +922,8 @@ class GMTests(TestCase):
             "content": "test",
             "source":"test"
         })
-        
+        advice=Advice.objects.get(source="test")
+        self.assertEqual(advice.link,"test")
         self.assertEqual(response.status_code, 200)
     
     def test_player_cannot_access_page(self):
@@ -941,6 +948,14 @@ class GMTests(TestCase):
         response=client.get(path='/climate/game_masters')
         
         self.assertEqual(response.status_code, 302)
+
+    
+
+    
+
+    
+
+    
 
     
 
@@ -1389,7 +1404,7 @@ class ItemShopTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        client.post(path='/climate/colour_shop', data={
+        client.post(path='/climate/item_shop', data={
             'purchase_new_item':'true',
             'item_id':1
         })
@@ -1441,7 +1456,7 @@ class ItemShopTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        client.post(path='/climate/colour_shop', data={
+        client.post(path='/climate/item_shop', data={
             'purchase_new_item':'true',
             'item_id':1
         })
@@ -1487,24 +1502,24 @@ class ItemShopTests(TestCase):
             "password": "i_secretly_hate_kitties"
         })
 
-        response=client.get(path='/climate/colour_shop')
-        self.assertEqual(response['username'],"kittylover123")
-        self.assertEqual(response['points_available'],0)
-        self.assertEqual(response['fur_colour'],'#000000,#000000')
-        self.assertEqual(response['eye_colour'],'#2196f3')
-        self.assertEqual(response['cat_item'],'0')
-        self.assertEqual(response['cat_item_scale'],'0')
-        self.assertEqual(response['item_id_1'],1)
-        self.assertEqual(response['item_price_1'],50)
-        self.assertEqual(response['item_scale_1'],120)
-        self.assertEqual(response['item_id_2'],2)
-        self.assertEqual(response['item_price_2'],120)
-        self.assertEqual(response['item_scale_2'],240)
-        self.assertEqual(response['item_id_3'],3)
-        self.assertEqual(response['item_price_3'],80)
-        self.assertEqual(response['item_scale_3'],220)
-        self.assertEqual(response['attempted_purchase'],'false')
-        self.assertEqual(response['successful_purchase'],'false')
+        response=client.get(path='/climate/item_shop')
+        self.assertEqual(response.context['username'],"kittylover123")
+        self.assertEqual(response.context['points_available'],200)
+        self.assertEqual(response.context['fur_colour'],'#000000,#000000')
+        self.assertEqual(response.context['eye_colour'],'#95fdff')
+        self.assertEqual(response.context['cat_item'],'0')
+        self.assertEqual(response.context['cat_item_scale'],'0')
+        self.assertTrue(((response.context['item_id_1']==1) or (response.context['item_id_1']==2) or (response.context['item_id_1']==3)))
+        self.assertTrue(((response.context['item_price_1']==50) or (response.context['item_price_1']==80) or (response.context['item_price_1']==120)))
+        self.assertTrue(((response.context['item_scale_1']==120) or (response.context['item_scale_1']==220) or (response.context['item_scale_1']==240)))
+        self.assertTrue(((response.context['item_id_2']==1) or (response.context['item_id_2']==2) or (response.context['item_id_2']==3)))
+        self.assertTrue(((response.context['item_price_2']==50) or (response.context['item_price_2']==80) or (response.context['item_price_2']==120)))
+        self.assertTrue(((response.context['item_scale_2']==120) or (response.context['item_scale_2']==220) or (response.context['item_scale_2']==240)))
+        self.assertTrue(((response.context['item_id_3']==1) or (response.context['item_id_3']==2) or (response.context['item_id_3']==3)))
+        self.assertTrue(((response.context['item_price_3']==50) or (response.context['item_price_3']==80) or (response.context['item_price_3']==120)))
+        self.assertTrue(((response.context['item_scale_3']==120) or (response.context['item_scale_3']==220) or (response.context['item_scale_3']==240)))
+        self.assertEqual(response.context['attempted_purchase'],'false')
+        self.assertEqual(response.context['successful_purchase'],'false')
         
 
     
@@ -1519,42 +1534,7 @@ class ColourShopTests(TestCase):
         Sets up the colour objects needed for foreign referencing when
         creating new cats. These are the colours needed for the default
         fields.
-    def test_end_pause_functionality(self):
-        '''
-        Checks that a user successfully adjusts their data
-        when they attempt to end the pause on their game.
-
-        Authors: Laurie
-        '''
-        client = Client()
-        g1 = Group.objects.create(name='Player')
-        client.post(path='/users/register_user', data=
-        {
-            "username": "kittylover123",
-            "email": "kittylover@climatecare.com",
-            "password1": "i_secretly_hate_kitties",
-            "password2": "i_secretly_hate_kitties"
-        })
-        client.post(path='/users/login_user', data=
-        {
-            "username": "kittylover123",
-            "password": "i_secretly_hate_kitties"
-        })
-        user_obj=User.objects.get(username="kittylover123")
-        user_prof = Profile.objects.get(user=user_obj)
-        user_prof.paused = True
-        user_prof.save()
-        client.post(path='/climate/settings', data={
-             "pause_data":"False",
-             "current_username": "",
-             "current_password":"",
-             "privacy_setting":"False"
-        })
-        user_prof = Profile.objects.get(user=user_obj)
-        self.assertEqual(user_prof.paused, False)
-        response = client.get(path='/climate/settings')
-        self.assertEqual(response.context["is_paused"],False)
-
+    
         Author:
             Nevan
         """
@@ -1923,7 +1903,42 @@ class ColourShopTests(TestCase):
         self.assertNotEqual(new_fur_colour, former_fur_colour)
         self.assertEqual(new_eye_colour_name, former_eye_colour_name)
         self.assertEqual(former_player_balance-10, new_player_balance )
-        
+
+    def test_view_colour_shop_page(self):
+        """
+        Test that a wearing object is not updated in the DB when a item is attempted to be bought but the user
+        doesn't have enough points
+
+        Authors:
+            Jessie 
+        """
+        client = Client()
+        players_group = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+
+        user_obj = User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.points = 200
+        user_prof.save()
+
+        client.post(path='/users/login_user', data={
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+
+        response=client.get(path='/climate/colour_shop')
+        self.assertEqual(response.context['username'],"kittylover123")
+        self.assertEqual(response.context['points_available'],200)
+        self.assertEqual(response.context['fur_colour'],'#000000,')
+        self.assertEqual(response.context['eye_colour'],'#2196f3')
+        self.assertEqual(response.context['attempted_purchase'],'false')
+        self.assertEqual(response.context['successful_purchase'],'false')    
 
         
 
@@ -1998,6 +2013,42 @@ class SettingsTests(TestCase):
         response = client.get(path='/climate/settings')
         self.assertEqual(response.context["is_paused"],True)
     
+    def test_end_pause_functionality(self):
+        '''
+        Checks that a user successfully adjusts their data
+        when they attempt to end the pause on their game.
+
+        Authors: Laurie
+        '''
+        client = Client()
+        g1 = Group.objects.create(name='Player')
+        client.post(path='/users/register_user', data=
+        {
+            "username": "kittylover123",
+            "email": "kittylover@climatecare.com",
+            "password1": "i_secretly_hate_kitties",
+            "password2": "i_secretly_hate_kitties"
+        })
+        client.post(path='/users/login_user', data=
+        {
+            "username": "kittylover123",
+            "password": "i_secretly_hate_kitties"
+        })
+        user_obj=User.objects.get(username="kittylover123")
+        user_prof = Profile.objects.get(user=user_obj)
+        user_prof.paused = True
+        user_prof.save()
+        client.post(path='/climate/settings', data={
+             "pause_data":"False",
+             "current_username": "",
+             "current_password":"",
+             "privacy_setting":"False"
+        })
+        user_prof = Profile.objects.get(user=user_obj)
+        self.assertEqual(user_prof.paused, False)
+        response = client.get(path='/climate/settings')
+        self.assertEqual(response.context["is_paused"],False)
+
     def test_make_public(self):
         '''
         Checks that a user successfully adjusts their data

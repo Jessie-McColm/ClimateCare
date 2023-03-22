@@ -97,6 +97,8 @@ def kitty(request, type_of="none"):
                         user_prof.points = user_prof.points + 5
                         user_prof.num_times_watered = user_prof.num_times_watered + 1
                         user_prof.save()
+                    else:
+                        info['task']='fail'
 
             elif task == "litter":
                 litter_time_difference = current_time - cat_data.last_litter_refill
@@ -110,6 +112,8 @@ def kitty(request, type_of="none"):
                         user_prof.points = user_prof.points + 3
                         user_prof.num_times_litter_cleared = user_prof.num_times_litter_cleared + 1
                         user_prof.save()
+                    else:
+                        info['task']='fail'
 
             elif task == "feed":
                 food_time_difference = current_time - cat_data.last_food_refill
