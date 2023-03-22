@@ -5,23 +5,18 @@
 
 /* Fredoka One for numbers??*/
 
-.main_column{
 
-    display: flex; 
-    flex-direction: column;
-    justify-content: space-evenly;
-    position: relative;
+.container-fluid{
     transform: scale(0.53);
-    text-align: center;
-    width: 100%;
-    margin: auto;
-
+    margin-top: -50vh;
 }
 
 .title{
     font-size: 3em;
     text-decoration: overline;
-    width: 100%;   
+    width: 120%;   
+    text-align: center;
+    margin-left: -0.5em;
 }
 
 .speech1{
@@ -101,9 +96,6 @@
     width: 35vw;*/
     height: 15em;
     width: 80%;
-    
-    margin-top: 1vh;
-    
 
 }
 

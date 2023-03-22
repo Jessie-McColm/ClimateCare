@@ -648,7 +648,7 @@ def within_distance(user_loc, object_loc, m_dist):
     Args:
         user_loc (tuple): tuple of user location (lattitude, longitude)
         object_loc (tuple): tuple of object location (lattitude, longitude)
-        m_dist (float CHECK): maximum desired distance between objects
+        m_dist (float CHECK): maximum desired distance between objects, measured in meters.
 
     Returns:
         in_range (Bool): whether in range of not
@@ -713,7 +713,7 @@ def validate_location(coordinates, location_type):
             success = within_distance(
                 (coordinates[0], coordinates[1]),
                 (current_bin.latitude, current_bin.longitude),
-                200
+                10
             )
             location_counter = location_counter + 1
 
@@ -725,7 +725,7 @@ def validate_location(coordinates, location_type):
             success = within_distance(
                 (coordinates[0], coordinates[1]),
                 (current_fountain.latitude, current_fountain.longitude),
-                100
+                10
             )
             location_counter = location_counter + 1
     if success:  # if a valid location is found, this condition is chosen

@@ -2,15 +2,11 @@
 The testing file for ClimateCare. This file can be run with `py manage.py test` and should pass all tests
 """
 
-from django.test import TestCase
-from django.urls import reverse
+from django.test import TestCase, Client
 from django.contrib.auth.models import User, Group
 from climate.models import Creature, Profile, LocationFountain, LocationBin, Advice, Colour, Item, Wearing
-from django.test import Client
-from django.contrib.auth import authenticate
 from django.utils import timezone
 from datetime import timedelta
-from time import sleep
 
 from .views import within_distance
 
@@ -22,7 +18,6 @@ class UserModelTests(TestCase):
     Authors:
         Jessie, Laurie, Lucia, and Nevan
     """
-
     def setUp(self):
         """
         Sets up the colour objects needed for foreign referencing when
@@ -1509,15 +1504,15 @@ class ItemShopTests(TestCase):
         self.assertEqual(response.context['eye_colour'],'#95fdff')
         self.assertEqual(response.context['cat_item'],'0')
         self.assertEqual(response.context['cat_item_scale'],'0')
-        self.assertTrue((response.context['item_id_1']==1) or (response.context['item_id_1']==2) or (response.context['item_id_1']==3))
-        self.assertTrue((response.context['item_price_1']==50) or (response.context['item_price_1']==80) or (response.context['item_price_1']==120))
-        self.assertTrue((response.context['item_scale_1']==120) or (response.context['item_scale_1']==220) or (response.context['item_scale_1']==240))
-        self.assertTrue((response.context['item_id_2']==1) or (response.context['item_id_1']==2) or (response.context['item_id_1']==3))
-        self.assertTrue((response.context['item_price_2']==50) or (response.context['item_price_1']==80) or (response.context['item_price_1']==120))
-        self.assertTrue((response.context['item_scale_2']==120) or (response.context['item_scale_1']==220) or (response.context['item_scale_1']==240))
-        self.assertTrue((response.context['item_id_3']==1) or (response.context['item_id_1']==2) or (response.context['item_id_1']==3))
-        self.assertTrue((response.context['item_price_3']==50) or (response.context['item_price_1']==80) or (response.context['item_price_1']==120))
-        self.assertTrue((response.context['item_scale_3']==120) or (response.context['item_scale_1']==220) or (response.context['item_scale_1']==240))
+        self.assertTrue(((response.context['item_id_1']==1) or (response.context['item_id_1']==2) or (response.context['item_id_1']==3)))
+        self.assertTrue(((response.context['item_price_1']==50) or (response.context['item_price_1']==80) or (response.context['item_price_1']==120)))
+        self.assertTrue(((response.context['item_scale_1']==120) or (response.context['item_scale_1']==220) or (response.context['item_scale_1']==240)))
+        self.assertTrue(((response.context['item_id_2']==1) or (response.context['item_id_2']==2) or (response.context['item_id_2']==3)))
+        self.assertTrue(((response.context['item_price_2']==50) or (response.context['item_price_2']==80) or (response.context['item_price_2']==120)))
+        self.assertTrue(((response.context['item_scale_2']==120) or (response.context['item_scale_2']==220) or (response.context['item_scale_2']==240)))
+        self.assertTrue(((response.context['item_id_3']==1) or (response.context['item_id_3']==2) or (response.context['item_id_3']==3)))
+        self.assertTrue(((response.context['item_price_3']==50) or (response.context['item_price_3']==80) or (response.context['item_price_3']==120)))
+        self.assertTrue(((response.context['item_scale_3']==120) or (response.context['item_scale_3']==220) or (response.context['item_scale_3']==240)))
         self.assertEqual(response.context['attempted_purchase'],'false')
         self.assertEqual(response.context['successful_purchase'],'false')
         
