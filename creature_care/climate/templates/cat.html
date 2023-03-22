@@ -258,6 +258,10 @@
             var coordinates = new Array(2);
             coordinates = [latitude, longitude];
             sendPostRequest(coordinates, task);
+            task = "{{ task }}";
+            if (task == "fail") {
+                    alert("You are not close enough to a bin/fountain.")
+            }
             window.location.href = pageLink;
         }
         
