@@ -1,6 +1,9 @@
 """
 This is the django view for the user registration, login, and logout functionality stemming from
 /users/.
+
+Authors:
+    Lucia
 """
 
 
@@ -37,17 +40,13 @@ def register_user(request):
         redirect('loginPage'): redirects the user to the login page after they have
         successfully created a new account
     """
-    # gets form I have put in forms.py which we can customise later
 
     form = CreateUserForm()
 
     if request.method == "POST":
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            # makes user :))
             user = form.save()
-            # can get these messages to show up on page later
-            # also way of accessing data
             username = form.cleaned_data.get('username')
             messages.success(request, "Account was created for " + username)
 
@@ -89,26 +88,19 @@ def login_user(request):
         will display the login page to the user if a request other than POST is sent to the page
         and allows them to enter their details into a html form
     """
-    # if user already logged in, redirect to the home kitty page
-    # if you go to page and actually do something
+    
     if request.method == "POST":
         # name passing in from the html name field
-        # username = request.POST['username'] changed to below
         username = request.POST.get('username')
         password = request.POST.get('password')
-        # error here as need to look into the users we have and these argguments etc
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
             return redirect('kitty')
 
-            # request.session['username'] = user.username
-            # return redirect('climate')
-
         # will display this message in html
         messages.info(request, "Username OR password is incorrect")
-        # messages.success(request, ("There was an error logging in. Please try again"))
         return redirect('loginPage')
 
     return render(request, 'authenticate/login.html', {})
@@ -128,7 +120,6 @@ def logout_user(request):
         redirect('loginPage'): redirects the user to the login page after they have successfully
          logged out
     """
-    # will need to have this in html as a link to logout page, so we can log out - note the name is
-    # 'logoutPage' for link and can display username with {{request.user}}
+    
     logout(request)
     return redirect('loginPage')

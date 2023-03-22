@@ -4,15 +4,17 @@ from django.shortcuts import redirect
 
 def unauthenticated_user(view_func):
     """
-Writing decorators for authentication to use in views
+    Decorator for pages that only accept unauthentiacted users like login and register
 
-Authors:
-    Lucia
-"""
+    Authors:
+        Lucia
+    """
     def wrapper_func(request, *args, **kwargs):
+        # if already authenticated redirect to home page
         if request.user.is_authenticated:
             return redirect('kitty')
         else:
+            # if not authenticated allow through
             return view_func(request, *args, **kwargs)
 
     return wrapper_func
@@ -21,13 +23,14 @@ Authors:
 
 def allowed_users(allowed_roles=[]):
     """
-Authors:
-    Lucia
-"""
+    Decorator for pages that only accept authentiacted users 
+
+    Authors:
+        Lucia
+    """
     def decorator(view_func):
         def wrapper_func(request, *args, **kwargs):
 
-            #print("working")
             group = None
             if request.user.groups.exists():
                 group = request.user.groups.all()[0].name
@@ -45,10 +48,11 @@ Authors:
 
 def game_master(view_func):
     """
+    Allows access to a page if the user is in the admin or game master group
 
-Authors:
-    Lucia
-"""   
+    Authors:
+        Lucia
+    """   
     def wrapper_func(request, *args, **kwargs):
         
         if is_dev_or_gm(request):
@@ -63,9 +67,9 @@ Authors:
 def is_dev_or_gm(request):
     """
 
-Authors:
-    Lucia
-"""
+    Authors:
+        Lucia
+    """
     group = None
 
     if request.user.groups.exists():

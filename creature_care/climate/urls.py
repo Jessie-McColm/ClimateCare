@@ -15,6 +15,5 @@ urlpatterns = [
     path('settings', views.settings_page, name='settings'),
 ]
 
-# path('articles',views.articles,name='articles') <-- to be added later if needed
 
 handler404="climate.views.page_not_found_view"

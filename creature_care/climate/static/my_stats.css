@@ -9,8 +9,6 @@
     margin-top: -35vh;
 }
 
-/* Fredoka One for numbers??*/
-
 .card{
     /* control how items are displayed in the div using flex */
     display: flex; 
@@ -18,7 +16,6 @@
     justify-content: space-evenly;
    
     position: relative;
-    /*margin auto puts in middle of page */
     margin: auto;
 
     height: 14em;
@@ -98,12 +95,8 @@ p{
     display: grid;
     place-items: center;
     
-    /* box position within div - don't need position as in flex box*/
     height: 80%;
     width: 25%;
-    /*border: 1px solid black; */
-    
-    /*took away height */
 
     font-weight: 800;
     font-size: 5em;
@@ -129,18 +122,15 @@ p{
 
 .tupperware{
     transform: scale(0.5);
-    /*left temp fix defo change */
     left: -2em;
     top: 0.5em;
 
     animation: tupper_move 3s infinite linear; 
-    /*border: 1px solid black; */
     
 }
 
 .waterbottle{
     transform: scale(0.3);
-    /*top temp fix defo change */
     top: -9em;
     left: 0em;
 
@@ -150,7 +140,7 @@ p{
 .recycling-bin{
     transform: scale(0.3);
 
-    left: -1em;
+    left: -2em;
     top: -8em;
 
     animation: bin_move 3s infinite linear; 
@@ -171,7 +161,7 @@ p{
     margin: auto;
     position: relative;
     
-    /* change border size as otherwsie huge */
+    /* change border size as otherwise huge */
     height:14em;
     width:14em;
 
