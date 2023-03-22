@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="did a final linting and proofreading of user and climate views&#10;&#10;-nevan">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/users/templates/authenticate/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/users/templates/authenticate/register.html" afterDir="false" />
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="register (approved by sanchi)&#10;&#10;-nevan">
+      <change beforePath="$PROJECT_DIR$/creature_care/climate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creature_care/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/users/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -309,7 +308,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679498667546</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="register (approved by sanchi)&#10;&#10;-nevan">
+      <created>1679504793083</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1679504793083</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -325,7 +331,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="extremely minor formatting changes in climate/views.py, hardly worth committing but we stay silly :3&#10;&#10;-n" />
     <MESSAGE value="rolling back corrupted database with old version (thanks jessie)&#10;&#10;- nevan" />
     <MESSAGE value="pushing some test coordinates to the db&#10;&#10;-n" />
     <MESSAGE value="linted climate/views.py and users/views.py" />
@@ -350,6 +355,7 @@
     <MESSAGE value="appended developer access info to the technical readme&#10;&#10;-nevan" />
     <MESSAGE value="changed range for bins from 200 meters to 10" />
     <MESSAGE value="did a final linting and proofreading of user and climate views&#10;&#10;-nevan" />
-    <option name="LAST_COMMIT_MESSAGE" value="did a final linting and proofreading of user and climate views&#10;&#10;-nevan" />
+    <MESSAGE value="register (approved by sanchi)&#10;&#10;-nevan" />
+    <option name="LAST_COMMIT_MESSAGE" value="register (approved by sanchi)&#10;&#10;-nevan" />
   </component>
 </project>

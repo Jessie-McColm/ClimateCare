@@ -76,6 +76,9 @@ directory
 - Execute the command `py manage.py runserver` for Windows, or `python manage.py runserver`
 for Linux/MacOS.
 
+Once the server is running on your machine's localhost, navigate to
+'127.0.0.1:8000/climate/kitty'.
+
 ## Modifying the Database
 
 In order for developers and game masters to add items to the database, either

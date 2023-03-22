@@ -96,7 +96,7 @@ def login_user(request):
         # username = request.POST['username'] changed to below
         username = request.POST.get('username')
         password = request.POST.get('password')
-        # error here as need to look into the users we have and these argguments etc
+        # error here as need to look into the users we have and these arguments etc
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
