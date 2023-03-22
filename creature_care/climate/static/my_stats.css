@@ -4,6 +4,11 @@
     font-family: "Montserrat", sans-serif;
 }
 
+.container-fluid{
+    transform: scale(0.8);
+    margin-top: -35vh;
+}
+
 /* Fredoka One for numbers??*/
 
 .card{
@@ -40,7 +45,7 @@
     position: relative;
 
     width: 20em;
-    max-width: 70vw;
+    max-width: 100%;
     margin: auto;
 
     padding: 1em;
@@ -61,7 +66,7 @@ p{
 
     padding: 0.5em;
     width: 18vw;
-    width: 80%;
+    width: 100%;
 
 }
 
@@ -85,8 +90,7 @@ p{
     top: 5em;
     padding:0em;
     text-align: center;
-    width: 20em;
-    max-width: 70vw;
+    margin:auto;
 }
 
 .num{
@@ -124,9 +128,9 @@ p{
 }
 
 .tupperware{
-    transform: scale(0.7);
+    transform: scale(0.5);
     /*left temp fix defo change */
-    left: -1em;
+    left: -2em;
     top: 0.5em;
 
     animation: tupper_move 3s infinite linear; 
@@ -135,19 +139,19 @@ p{
 }
 
 .waterbottle{
-    transform: scale(0.4);
+    transform: scale(0.3);
     /*top temp fix defo change */
-    top: -8em;
+    top: -9em;
     left: 0em;
 
     animation: bottle_move 3s infinite linear; 
 }
 
 .recycling-bin{
-    transform: scale(0.4);
+    transform: scale(0.3);
 
     left: -1em;
-    top: -6.5em;
+    top: -8em;
 
     animation: bin_move 3s infinite linear; 
 
@@ -174,42 +178,44 @@ p{
     /*align the cat */
     left: 1em;
 
+    margin-bottom: 3em;
+
 }
 
 
 
 @keyframes tupper_move {
 	0% {
-		transform: rotate(0) scale(0.7);
+		transform: rotate(0) scale(0.5);
 	}
     50%{
-        transform: rotate(-10deg) scale(0.7);
+        transform: rotate(-10deg) scale(0.5);
     }
 	100% {
-		transform: rotate(0deg) scale(0.7);
+		transform: rotate(0deg) scale(0.5);
 	}
 }
 
 @keyframes bottle_move {
 	0% {
-		transform: rotate(0) scale(0.4);
+		transform: rotate(0) scale(0.3);
 	}
     50%{
-        transform: rotate(10deg) scale(0.4);
+        transform: rotate(10deg) scale(0.3);
     }
 	100% {
-		transform: rotate(0deg) scale(0.4);
+		transform: rotate(0deg) scale(0.3);
 	}
 }
 
 @keyframes bin_move {
 	0% {
-		transform: rotate(0) scale(0.4);
+		transform: rotate(0) scale(0.3);
 	}
     50%{
-        transform: rotate(10deg) scale(0.4);
+        transform: rotate(10deg) scale(0.3);
     }
 	100% {
-		transform: rotate(0deg) scale(0.4);
+		transform: rotate(0deg) scale(0.3);
 	}
 }
