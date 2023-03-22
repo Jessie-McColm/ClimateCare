@@ -3,57 +3,125 @@
 {% load static %}
 
 {% block title %}
-Settings
+    Settings
 {% endblock %}
 
 {% block head %}
-  <!-- Placeholder favicon -->
-  <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
+    <!-- Placeholder favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
 
-  <style>                                     
-      body {
-          background-color: #649756;
-      }
-      div.row {
-          height: 25%;
-      }
-      form {
-        margin: 0 auto; 
-        width:250px;
-      }
-
-      #advice {
-  text-align: center;
-  width: 30em;
-  margin: 0 auto;
-  padding: 3em;
-  z-index: 1;
-}
-      
-  </style>
+    <style>
+        *, body {
+            font-family: "Montserrat", sans-serif;
+            color: #f0f0f0;
+        }
+        body {
+            background-color: #649756;
+        }
+        .title {
+            font-size: 2.5rem;
+            text-decoration: overline;
+            color: #f0f0f0;
+            text-align: center;
+            width: 100%;
+        }
+        form {
+            margin: auto; 
+            width: fit-content;
+            height: 100%;
+            font-size: 1.25rem;
+        }
+        #Unpause, #Public {
+            float: right;
+            margin-top: 4%;
+            margin-left: 2%;
+        }
+        .right-label {
+            float: right;
+        }
+        #Pause, #Private {
+            float: left;
+            margin-top: 4%;
+            margin-right: 2%;
+        }
+        #submit-btn:hover {
+            background-color: white;
+            color: #649756;
+        }
+        #submit-btn {
+            background-color: #649756;
+            border-radius: 7%;
+            border: 3px solid white;
+            color: white;
+            cursor: pointer;
+            width: max-content;
+            margin: auto;
+        }
+        .submit {
+            width: max-content;
+            margin: auto;
+        }
+    </style>
 {% endblock %}
+
 {% block content %}
-<div id="settings" class="col-6"></div>
-<form method="POST" action="">
-{% csrf_token %}
-<label for="current_username" class="form-label">New Username</label><br>
-<input id="current_username" name="current_username" ></input> <br>
-<label for="current_password" class="form-label">Current password</label><br>
-<input id="current_password" name="current_password" ></input> <br>
-<label for="new_password" class="form-label">New password</label><br>
-<input id="new_password" name="new_password" ></input> <br>
-<input id="new_password2" name="new_password2" ></input> <br>
-<input type="radio" id="Pause" name="pause_data" value="True">
-<label for="pause_data" class="form-label">Pause</label>
-<input type="radio" id="Unpause" name="pause_data" value="False">
-<label for="pause_data" class="form-label">Unpause</label><br>
-<input type="radio" id="Private" name="privacy_setting" value="True">
-<label for="privacy_setting" class="form-label">Private</label>
-<input type="radio" id="Public" name="privacy_setting" value="False">
-<label for="privacy_setting" class="form-label">Public</label><br>
-<input type="submit" value="Submit">
-</form> 
+<div class="container-fluid">
+    <br><br>
+    <p class="title">SETTINGS</p>
+    <br>
+    <div id="settings" class="col-12">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="current_username" class="form-label">New Username</label>
+                <br>
+                <input id="current_username" name="current_username" class="form-control"></input>
+            </div>
+
+            <div class="form-group">
+                <label for="current_password" class="form-label">Current password</label>
+                <br>
+                <input id="current_password" name="current_password" class="form-control"></input>
+            </div>
+
+            <div class="form-group">
+                <label for="new_password" class="form-label">New password</label>
+                <br>
+                <input id="new_password" name="new_password" class="form-control"></input>
+            </div>
+
+            <div class="form-group">
+                <label for="new_password2" class="form-label">Confirm password</label>
+                <br>
+                <input id="new_password2" name="new_password2" class="form-control"></input>
+            </div>
+            
+            <div class="form-group">
+                <input type="radio" id="Pause" name="pause_data" value="True">
+                <label for="pause_data" class="form-label">Pause</label>
+                <input type="radio" id="Unpause" name="pause_data" value="False">
+                <div class="right-label">
+                    <label for="pause_data" class="form-label">Unpause</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <input type="radio" id="Private" name="privacy_setting" value="True">
+                <label for="privacy_setting" class="form-label">Private</label>
+                <input type="radio" id="Public" name="privacy_setting" value="False">
+                <div class="right-label">
+                    <label for="privacy_setting" class="form-label">Public</label>
+                </div>
+            </div>
+            <br>
+            <div class="submit">
+                <input type="submit" value="Submit" id="submit-btn">
+            </div>
+        </form> 
+        <br>
+    </div>
 </div>
+
 <script>
     let is_paused = '{{ is_paused }}'; 
     if (is_paused=="True"){
@@ -70,5 +138,4 @@ Settings
         document.getElementById("Public").click();
     }
 </script>
-
 {% endblock %}

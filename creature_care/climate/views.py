@@ -81,7 +81,7 @@ def kitty(request, type_of="none"):
         # set null coordinates for feeding
         task = request.POST.get('task')
         coordinates_string = request.POST.get('coordinates')
-        if request.method == "POST":
+        if user_prof.paused == False:
             # will need testing
             coordinates = string_coord_convert(coordinates_string)
             if task == "water":
@@ -97,6 +97,8 @@ def kitty(request, type_of="none"):
                         user_prof.points = user_prof.points + 5
                         user_prof.num_times_watered = user_prof.num_times_watered + 1
                         user_prof.save()
+                    else:
+                        info['task']='fail'
 
             elif task == "litter":
                 litter_time_difference = current_time - cat_data.last_litter_refill
@@ -110,6 +112,8 @@ def kitty(request, type_of="none"):
                         user_prof.points = user_prof.points + 3
                         user_prof.num_times_litter_cleared = user_prof.num_times_litter_cleared + 1
                         user_prof.save()
+                    else:
+                        info['task']='fail'
 
             elif task == "feed":
                 food_time_difference = current_time - cat_data.last_food_refill
@@ -264,8 +268,6 @@ def item_shop_page(request):
     item_id_2 = rand_item_2.item_id
     item_id_3 = rand_item_3.item_id
 
-    print("Item IDs: " + str(item_id_1) + ", " + str(item_id_2) + ", " + str(item_id_3))
-
     item_price_1 = rand_item_1.item_cost
     item_price_2 = rand_item_2.item_cost
     item_price_3 = rand_item_3.item_cost
@@ -380,37 +382,22 @@ def colour_shop_page(request):
         'successful_purchase': successful_purchase
     }
 
-    print(request.method)
-
     if request.method == "POST":
-
-        print("Method is POST...")
-        print("purchase_new_colour_eyes == " + request.POST.get('purchase_new_colour_eyes'))
-        print("purchase_new_colour_fur == " + request.POST.get('purchase_new_colour_fur'))
 
         if request.POST.get('purchase_new_colour_fur') == "true":
             attempted_purchase = "true"
             if points_available >= 10:
                 successful_purchase = "true"
-                print("purchase_new_fur_colour == true...")
                 colour_hex_str = request.POST.get('fur_colour')
-                print("fur_colour retrieved...")
                 colour_hexs = colour_hex_str.split(",")
-                print("colour_hex_val is " + colour_hexs[0] + "...")
-                if colour_hexs[1] == "":
-                    print("colour_hex_val_patch is empty...")
-                else:
-                    print("colour_hex_val_patch is " + colour_hexs[1] + "...")
                 colour_obj = Colour.objects.get(
                     colour_hex_val=colour_hexs[0],
                     colour_hex_val_patch=colour_hexs[1]
                 )
                 cat_obj.fur_colour = colour_obj
                 cat_obj.save(update_fields=['fur_colour'])
-                print("Fur colour saved!")
                 user_prof.points -= 10
                 user_prof.save(update_fields=['points'])
-                print("Points updated!")
 
             else:
                 successful_purchase = "false"
@@ -420,24 +407,18 @@ def colour_shop_page(request):
         points_available = user_prof.points
 
         if request.POST.get('purchase_new_colour_eyes') == "true":
-            print("purchase_new_colour_eyes == true...")
             attempted_purchase = "true"
             if points_available >= 10:
                 successful_purchase = "true"
-                print("purchase_new_colour_eyes == true...")
                 colour_hex_str = request.POST.get('eye_colour')
-                print("eye_colour retrieved...")
                 colour_hexs = colour_hex_str.split(",")
-                print("colour_hex_val is " + colour_hexs[0] + "...")
                 colour_obj = Colour.objects.get(
                     colour_hex_val=colour_hexs[0]
                 )
                 cat_obj.eye_colour = colour_obj
                 cat_obj.save(update_fields=['eye_colour'])
-                print("Eye colour saved!")
                 user_prof.points -= 10
                 user_prof.save(update_fields=['points'])
-                print("Points updated!")
 
             else:
                 successful_purchase = "false"

@@ -60,12 +60,14 @@
                         {% endif %}
                         <div class="cat-icon">
                             <div class="face" id="face{{ forloop.counter }}" data-fur-colour="{{ row.creature_fur_colour }}">
+                                <div class="ear-l" id="ear-l{{ forloop.counter }}"></div>
+                                <div class="ear-r" id="ear-r{{ forloop.counter }}"></div>
                                 <div class="inner-l"></div>
                                 <div class="inner-r"></div>
-                                <div class="eye-l" id="eye-l-{{ forloop.counter }}" data-eye-colour="{{ row.creature_eye_colour }}">
+                                <div class="eye-l" id="eye-l{{ forloop.counter }}" data-eye-colour="{{ row.creature_eye_colour }}">
                                     <div class="eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
                                 </div>
-                                <div class="eye-r" id="eye-r-{{ forloop.counter }}">
+                                <div class="eye-r" id="eye-r{{ forloop.counter }}">
                                     <div class="eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
                                 </div>
                                 <div class="nose">
@@ -91,26 +93,36 @@
 </div>
 
 <script>
+
     var rows = document.getElementById("leaderboard").rows.length - 1; // Excludes header row
+    
     // Displays each user's cat on the leaderboard
     for (var i=1; i<=rows; i++) {
-        // Get the user's cat's colours
-        var currentCatFace = document.getElementById("face"+i);
-        var furColour = currentCatFace.dataset.furColour;
 
-        var currentCatEyeL = document.getElementById("eye-l-"+i);
-        var currentCatEyeR = document.getElementById("eye-r-"+i);
+        // Get the user's cat's fur, patch, and eye colours
+        var currentCatFace = document.getElementById("face"+i);
+        
+        var furColour = currentCatFace.dataset.furColour.split(",")[0];
+        var patchColour = currentCatFace.dataset.furColour.split(",")[1];
+
+        var currentCatEyeL = document.getElementById("eye-l"+i);
         var eyeColour = currentCatEyeL.dataset.eyeColour;
 
-        // Set the user's cat's fur and eye colours
+        // Set the user's cat's fur, patch, and eye colours
         currentCatFace.style.backgroundColor = furColour;
         currentCatFace.style.setProperty('--fc', furColour);
 
+        var currentCatEarL = document.getElementById("ear-l"+i);
+        currentCatEarL.style.setProperty('--fc', furColour);
+        var currentCatEarR = document.getElementById("ear-r"+i);
+        currentCatEarR.style.setProperty('--pc', patchColour);
+
         currentCatEyeL.style.backgroundColor = eyeColour;
+        var currentCatEyeR = document.getElementById("eye-r"+i);
         currentCatEyeR.style.backgroundColor = eyeColour;
-        currentCatFace.style.setProperty('--ec', eyeColour);
         currentCatFace.style.setProperty('--ec', eyeColour);
 
     }
+
 </script>
 {% endblock %}
