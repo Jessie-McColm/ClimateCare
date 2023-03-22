@@ -1,11 +1,10 @@
-'''
+"""
 This is the django view for the user registration, login, and logout functionality stemming from
 /users/.
-'''
+"""
 
 
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm  # this will be needed in the future
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -15,9 +14,6 @@ from climate.models import Profile, Creature
 from .forms import CreateUserForm
 from .decorators import unauthenticated_user
 
-# Create your views here.
-
-# only lets you access if not logged in
 @unauthenticated_user
 def register_user(request):
     """
@@ -69,7 +65,7 @@ def register_user(request):
 
             return redirect('loginPage')
 
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'authenticate/register.html', context)
 
 @unauthenticated_user
@@ -132,7 +128,7 @@ def logout_user(request):
         redirect('loginPage'): redirects the user to the login page after they have successfully
          logged out
     """
-    # will need to have this in html as a link to logout page so we can logout - note the name is
-    # 'logoutPage' for link and can dipslay username with {{request.user}}
+    # will need to have this in html as a link to logout page, so we can log out - note the name is
+    # 'logoutPage' for link and can display username with {{request.user}}
     logout(request)
     return redirect('loginPage')
