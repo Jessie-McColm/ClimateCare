@@ -858,6 +858,12 @@ class GMTests(TestCase):
         )
     
     def test_access_GM_page(self):
+         """
+        Test that a GM user can access the GM page
+
+        Authors:
+            Jessie 
+        """
         client = Client()
         g1 = Group.objects.create(name='Game_master')
         g2 = Group.objects.create(name='Player')
@@ -883,6 +889,12 @@ class GMTests(TestCase):
     
     
     def test_post_GM_page(self):
+         """
+        Test that a GM user can add advice to the database
+
+        Authors:
+            Jessie 
+        """
         client = Client()
         g1 = Group.objects.create(name='Game_master')
         g2 = Group.objects.create(name='Player')
@@ -908,7 +920,8 @@ class GMTests(TestCase):
             "content": "test",
             "source":"test"
         })
-        
+        advice=Advice.objects.get(source="test")
+        self.assertEqual(advice.link,"test")
         self.assertEqual(response.status_code, 200)
     
     def test_player_cannot_access_page(self):
