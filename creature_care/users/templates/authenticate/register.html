@@ -10,6 +10,7 @@
 {% block head %}
     <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
 
+    <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'register.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet"/>
@@ -40,44 +41,43 @@
         </div>
     </div>
 
-        <div class="container">
-            <div class="earth">
-                <div class="orbit">
-                    <div class="sun"></div>
-                    <!-- put in the cat -->
-                    <div class="cat">
-                        
-                        <div class="face">
-                            <div class = "ear-l"></div>
-                            <div class = "ear-r"></div>
-                            <div class="inner-l"></div>
-                            <div class="inner-r"></div>
-                            <div class="eye-l">
-                                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-                            </div>
-                            <div class="eye-r">
-                                <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
-                            </div>
-                            <div class="nose">
-                                <div class="l1"></div>
-                                <div class="l2"></div>
-                            </div>
-                        </div>
-                        <div class="body">
-                            <div class="paw-l"></div>
-                            <div class="paw-r"></div>
-                            <div class="tail"></div>
-                        </div>
-                        <div class="shadow"></div>
-                        <div class="blob1"></div>
-                        <div class="blob2"></div>
-                        <div class="blob6"></div>
-                        <div class="blob4"></div>
-                        <div class="blob5"></div>
-                        <div class="blob3"></div>
-                        
+    <div class="container">
+        <div class="orbit">
+            <div class="sun"></div>
+            <!-- put in the cat -->
+            <div class="cat">    
+                <div class="face">
+                    <div class = "ear-l"></div>
+                    <div class = "ear-r"></div>
+                    <div class="inner-l"></div>
+                    <div class="inner-r"></div>
+                    <div class="eye-l">
+                        <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                    </div>
+                    <div class="eye-r">
+                        <div class = "eyeball"><div class="eyeshine"><div class="eyeshine2"></div></div></div>
+                    </div>
+                    <div class="nose">
+                        <div class="l1"></div>
+                        <div class="l2"></div>
+                    </div>
                 </div>
+                <div class="body">
+                    <div class="paw-l"></div>
+                    <div class="paw-r"></div>
+                    <div class="tail"></div>
+                </div>
+                <div class="shadow"></div>
+                <div class="blob1"></div>
+                <div class="blob2"></div>
+                <div class="blob6"></div>
+                <div class="blob4"></div>
+                <div class="blob5"></div>
+                <div class="blob3"></div>
+                
             </div>
+            <div class="earth"></div>
         </div>
+</div>
     </div>
 {% endblock %}
