@@ -86,3 +86,37 @@ page.
 If you're logged in as an admin user, you should be
 prompted with a page that allows you to add, remove, and modify
 database items.
+
+## Developer Access
+
+Developers will be tasked with implementing this software to all locations and
+to all user bases, which is made very simple by our Django database integration
+and app design. All the application needs to be integrated is for location data
+to be provided for all the water fountains and recycling bins on each campus,
+and maybe for a selection of items to be added.
+
+All of this can be done by accessing https://climatecare.pythonanywhere.com/admin
+and logging into the system using the username “developer” and password “g6Yk9rtrT4gh”.
+This will take the developer to the typical Django admin page, which they can use to
+monitor all the available data and models. This page can be used for creation and
+editing of objects at a developer’s pleasure. 
+
+Location data for both water fountains and recycling bins requires only the
+latitude and longitude of each location once in their respective databases.
+When adding images, be sure to note the ID of each item so each item can be
+linked to a static file (.svg) of the same name in the “static” folder of the
+project – this will allow your items to be visible. For converting image files
+to svg files, we used https://www.freeconvert.com/png-to-svg.
+
+Developers can freely log into the system by creating a profile for themselves
+and dummy kitty in the database and then logging in using these details
+(setting their level of access to 3 and adding them to the Developer and Game
+Master groups). This will take them into the system with their own kitty where
+they can test the functionality of their implementation. Note that the
+developer’s rank when accessing the leaderboard is permanently #0 and is not
+displayed.
+
+Any further questions from developers will be answered in the technical README
+provided within our project files. Our project files also include a Privacy
+Policy that should be provided to users or system organisers before the system
+is fully implemented.
