@@ -3,6 +3,8 @@
 {% load static %}
 
 {% block head %}
+    <link rel="icon" type="image/x-icon" href="{% static 'cat-face.png' %}">
+    
     <!-- stylesheet -->
     <link rel="stylesheet" href="{% static 'login.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'cat_animation.css' %}">
@@ -15,8 +17,8 @@
 {% block navbar %}{% endblock %}
 
 {%block content %}
-    <div class="main-column"></div>
-        <div id="login" class="col-6">
+    <div class="container-fluid">
+        <div id="login" class="col-12">
             <h1>Login</h1>
             <br>
             <form action="" method=POST>
@@ -45,8 +47,9 @@
                 </a>
             </div>
 
-        </div> 
-        
+        </div>
+    </div>
+
         <div class="container">
                 <div class="orbit">
                     <div class="sun"></div>
@@ -85,5 +88,4 @@
                     <div class="earth"></div>
                 </div>
         </div>
-    </div>
 {% endblock %}

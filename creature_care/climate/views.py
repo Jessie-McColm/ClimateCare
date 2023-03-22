@@ -462,7 +462,7 @@ def game_master_page(request):
             source = request.POST.get('source')
             Advice.objects.create(content=content, source=source)
 
-    return render(request, 'temp_game_master.html')
+    return render(request, 'game_master.html')
 
 
 def page_not_found_view(request, exception):
