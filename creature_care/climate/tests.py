@@ -18,7 +18,6 @@ class UserModelTests(TestCase):
     Authors:
         Jessie, Laurie, Lucia, and Nevan
     """
-
     def setUp(self):
         """
         Sets up the colour objects needed for foreign referencing when
