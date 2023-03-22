@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="refactored readme files names">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="9afbddf7-0319-40e4-adf6-46ec8c387737" name="Changes" comment="appended developer access info to the technical readme&#10;&#10;-nevan">
       <change beforePath="$PROJECT_DIR$/creature_care/climate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/climate/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/creature_care/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/creature_care/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -288,7 +285,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679494035883</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="appended developer access info to the technical readme&#10;&#10;-nevan">
+      <created>1679497179524</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1679497179524</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -304,7 +308,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="we figured out how to use django's test environment (finally), and we've verified that the user login system does indeed accept valid username/password combos.&#10;&#10;further tests to do are&#10;- check that valid usernames with wrong passwords are denied&#10;- check that invalid usernames are denied&#10;- check that valid usernames are not compatible with other user's passwords&#10;&#10;:)" />
     <MESSAGE value="made start on README.md&#10;&#10;- nevan" />
     <MESSAGE value="finished the README.md file :)&#10;&#10;- nevan" />
     <MESSAGE value="extremely minor formatting changes in climate/views.py, hardly worth committing but we stay silly :3&#10;&#10;-n" />
@@ -329,6 +332,7 @@
     <MESSAGE value="modified python actions&#10;&#10;-nevan" />
     <MESSAGE value="added some coords to the database&#10;&#10;-nevan" />
     <MESSAGE value="refactored readme files names" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored readme files names" />
+    <MESSAGE value="appended developer access info to the technical readme&#10;&#10;-nevan" />
+    <option name="LAST_COMMIT_MESSAGE" value="appended developer access info to the technical readme&#10;&#10;-nevan" />
   </component>
 </project>

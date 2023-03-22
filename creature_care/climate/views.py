@@ -717,7 +717,7 @@ def validate_location(coordinates, location_type):
             success = within_distance(
                 (coordinates[0], coordinates[1]),
                 (current_bin.latitude, current_bin.longitude),
-                200
+                10
             )
             location_counter = location_counter + 1
 
