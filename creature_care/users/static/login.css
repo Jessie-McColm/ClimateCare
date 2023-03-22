@@ -1,4 +1,5 @@
 /* CSS by Lucia */
+/* Edits made by Des */
 *{
     padding : 0;
     margin: 0;
@@ -10,12 +11,6 @@
 
 body{
     background-color: #393946 ;
-}
-
-.main_column{
-    text-align: center;
-    width: 100%;
-    margin: 0 auto;
 }
 
 #login {
@@ -37,7 +32,6 @@ body{
 
     height: 31.25em;
     width: 31.25em;
-    /* uncomment to see border: 1px solid white; */
     position: relative;
     transform: translate(-50%,-50%);
     top: 70%;
@@ -75,7 +69,6 @@ body{
 .blob1{
     background-color:#409843 ;
     display: inline-block;
-    /*border-radius: 20% 80% 33% 67% / 69% 69% 31% 31%;*/
     border-radius: 57% 43% 44% 56% / 28% 43% 57% 72%;
     height: 6em;
     width: 8em;
@@ -145,11 +138,8 @@ body{
 }
 
 .orbit{
-    /*height: 18.75em;
-    width: 18.75em;*/
     height:35em;
     width:35em;
-    /* to see uncomment border: 1px solid white; */
     border-radius: 50%;
     position: absolute;
     right: -2em;
@@ -166,7 +156,6 @@ body{
 
 .cat{
     transform: scale(0.6) rotate(-90deg);
-    /*increase these to bring closer to earth */
     position: relative;
     height:14em;
     width:14em;
