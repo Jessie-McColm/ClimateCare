@@ -2,15 +2,11 @@
 The testing file for ClimateCare. This file can be run with `py manage.py test` and should pass all tests
 """
 
-from django.test import TestCase
-from django.urls import reverse
+from django.test import TestCase, Client
 from django.contrib.auth.models import User, Group
 from climate.models import Creature, Profile, LocationFountain, LocationBin, Advice, Colour, Item, Wearing
-from django.test import Client
-from django.contrib.auth import authenticate
 from django.utils import timezone
 from datetime import timedelta
-from time import sleep
 
 from .views import within_distance
 
