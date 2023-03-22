@@ -81,7 +81,7 @@ def kitty(request, type_of="none"):
         # set null coordinates for feeding
         task = request.POST.get('task')
         coordinates_string = request.POST.get('coordinates')
-        if user_prof.paused is False:
+        if user_prof.paused == False:
             # will need testing
             coordinates = string_coord_convert(coordinates_string)
             if task == "water":
@@ -97,8 +97,6 @@ def kitty(request, type_of="none"):
                         user_prof.points = user_prof.points + 5
                         user_prof.num_times_watered = user_prof.num_times_watered + 1
                         user_prof.save()
-                    else:
-                        info['task'] = 'fail'
 
             elif task == "litter":
                 litter_time_difference = current_time - cat_data.last_litter_refill
@@ -112,8 +110,6 @@ def kitty(request, type_of="none"):
                         user_prof.points = user_prof.points + 3
                         user_prof.num_times_litter_cleared = user_prof.num_times_litter_cleared + 1
                         user_prof.save()
-                    else:
-                        info['task'] = 'fail'
 
             elif task == "feed":
                 food_time_difference = current_time - cat_data.last_food_refill
@@ -235,6 +231,7 @@ def item_shop_page(request):
     Returns:
         A http response.
     """
+
     user_obj = request.user
     username = user_obj.get_username()
     user_prof = Profile.objects.get(user=user_obj)
@@ -360,6 +357,7 @@ def colour_shop_page(request):
     Returns:
         A http response.
     """
+
     user_obj = request.user
     username = user_obj.get_username()
 
@@ -476,8 +474,6 @@ def page_not_found_view(request, exception):
 
     Args:
         request(HTTP request): the http request send by a front end client viewing the url
-        exception: a required argument, as this function needs to have this signature. However, in
-                   our implementation, we have no use for it.
     Returns:
         render(request, 'notFound.html', status=404) renders the template 'cat.html'
     """
@@ -486,8 +482,7 @@ def page_not_found_view(request, exception):
 @login_required(login_url='loginPage')
 def friend(request, username="none"):
     """
-    Shows a random user's kitty if no username is provided in the URL. If a username
-    is provided in the URL, it will show that user's kitty on the page instead.
+    Shows a random user's kitty if no username is provided in the URL. If a username is provided in the URL, shows that user's kitty
 
     Authors:
         Jessie, Lucia
@@ -538,7 +533,7 @@ def friend(request, username="none"):
 
     else:
         user_choice = User.objects.get(username=username)
-        profile_choice = Profile.objects.get(user=user_choice)
+        profile_choice=Profile.objects.get(user=user_choice)
         if profile_choice.private or profile_choice.access_level == 3:
             return redirect('friend')
 
@@ -608,12 +603,12 @@ def settings_page(request):
             user_prof.private = True
             user_prof.save()
         else:
-            user_prof.private = False
+            user_prof.private=False
             user_prof.save()
 
     context = {"is_paused": user_prof.paused,
                "is_private": user_prof.private
-               }  # need to change once DB is updated
+            }  # need to change once DB is updated
     return render(request, 'settings.html', context)
 
 
